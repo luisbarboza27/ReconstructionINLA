@@ -23,7 +23,7 @@
 \newcommand{\nns}{\boldsymbol}
 \newcommand{\Hcal}{\mathcal H}
 
-
+\newcommand{\fv}[1]{\color{ForestGreen}\textbf{[FV: #1]}\normalcolor}
 \newcommand{\lb}[1]{\color{MidnightBlue}\textbf{[LB: #1]}\normalcolor}
 
 %\addbibresource{biblioteca.bib}
@@ -76,7 +76,7 @@ difference between the predictive ability of both approaches.
 
 \section{Introduction.}
 \label{sec:intro}
- 
+
 Paleoclimate reconstructions represent statistical simplifications of more
 complex processes at the climatic level and they allow us to understand the past
 behavior of temperatures over a specific area, and also the future trend of
@@ -125,68 +125,6 @@ Approximation), with which we were able to adjust Bayesian models with much
 greater complexity than \cite{Barboza2014} in a much shorter period of time. 
 
 The article is organized as follows...
-
- 
-The INLA approach uses a general specification where the mean of a sequence of
-observations is a function of the linear structure:
-\begin{align}\label{eq:meanINLA}
-  \eta_i = \alpha +\sum_{m-=1}^M\beta_mx_{mi}+\sum_{l=1}^Lf_l(z_{li})
-\end{align}
-where $\alpha$ represents an intercept; the coefficients
-$\mathbf{\beta} = (\beta_1,\ldots,\beta_M)$ are related to $M$ covariates
-$(x_1,\ldots,x_M)$ and $f = \{f_1(\cdot),\ldots,f_L(\cdot)\}$ is a collection of
-random effects defined on a set of $L$ covariates $(z_1,\ldots,z_L)$ (see
-\cite{Rue2009} and \cite{Blangiardo2013}). Denote the set of random parameters as
-$\theta = (\alpha,\beta,f)$ with $K$ hyperparameters $\psi =
-\{\psi_1,\ldots,\psi_K\}$. If $y=(y_1,\ldots,y_n)$ denotes the observations, we
-can assume conditional independence in the following way:
-\begin{align*}
-  p(y|\theta,\psi)=\prod_{i=1}^np(y_i|\theta_i,\psi),
-\end{align*}
-The INLA approach assumes that (1) the vector $\theta$ .is multivariate normal with
-some precision matrix depending on the hyperparameters $\psi$, and (2) this vector
-$\theta$ is conditionally independent given the hyperparameters. These two
-assumptions specifies $\theta$ as a Gaussian Markov random field.
-
-The main objectives of the bayesian estimation in this case are to compute the
-marginal posterior distribution of each parameter in $\theta$:
-\begin{align*}
-  p(\theta_i|y) = \int p(\theta_i,\psi|y)d \psi = \int p(\theta_i|\psi,y)p(\psi|y)d \psi
-\end{align*}
-and the marginal posterior distribution of each hyperparameter:
-\begin{align*}
-  p(\psi_k|y)=\int p(\psi|y) d\psi_{-k}.
-\end{align*}
-In order to compute the above, we need to approximate the components $p(\psi|y)$
-and $p(\theta_i|\psi,y)$. The first component can be approximated using a
-Laplace Approximation (see \cite{Tierney1986}):
-\begin{align*}
-  p(\psi|y)&=\frac{p(\theta,\psi|y)}{p(\theta|\psi,y)}\propto \frac{p(\psi)p(\theta|\psi)p(y|\theta)}{p(\theta|\psi,y)}\\
-           & \approx  \frac{p(\psi)p(\theta|\psi)p(y|\theta)}{\tilde p(\theta|\psi,y)} \Biggm |_{\theta=\theta^*(\psi)} := \tilde p(\psi|y)
-\end{align*}
-where $\tilde p(\theta|\psi,y)$ is the Gaussian approximation of
-$p(\theta|\psi,y)$ and $\theta^*(\psi)$ is its mode (see \cite{Rue2009}). The
-second component can be approximated in a similar way:
-\begin{align}\label{eq:second}
-  p(\theta_i|\psi,y)&=\frac{p((\theta_i,\theta_{-i})|\psi,y)}{p(\theta_{-i}|\theta_i,\psi,y)} \notag \\
-  &\approx \frac{p((\theta_i,\theta_{-i})|\psi,y)}{\tilde p(\theta_{-i}|\theta_i,\psi,y)} \Biggm |_{\theta_{-i}=\theta_{-i}^*(\theta_i,\psi)}:=\tilde p(\theta_i|\psi,y)
-\end{align}
-and $\tilde p(\theta_{-i}|\theta_i,\psi,y)$ is the gaussian approximation of
-$p(\theta_{-i}|\theta_i,\psi,y)$. In this case $\theta=(\theta_i,\theta_{-i})$.
-This last approximation has good precision, but it is quite complex because it
-requires to recompute the above term for each value of $\theta$ and $\psi$. A
-more efficient approach is the use the simplified Laplace Approximation which is
-based on a Taylor's expansion of $\tilde p(\theta_i|\psi,y)$ in equation
-\eqref{eq:second}. As mentioned in \cite{Rue2009} and \cite{Blangiardo2013},
-INLA first explores the marginal joint posterior for the hyperparameters $\tilde
-p(\psi | y)$ in order to locate the mode and then a grid search is performed to
-produce a set of ``relevant'' points $\{\psi^*\}$ together with a set of weights
-$w_{\psi^*}$ as an approximation of this marginal distribution. The marginals
-$p(\psi^*|y)$ are refined by using interpolation methods. Finally the marginals
-$\tilde p(\theta_i|y)$ are obtained as follows:
-\begin{align*}
-  \tilde p(\theta_i|y) \approx \sum_{\psi^*}\tilde p(\theta_i|\psi^*,y)\tilde p(\psi^*|y)w_{\psi^*}.
-\end{align*}
 
 \section{Datasets.}
 \label{sec:data}
@@ -248,11 +186,13 @@ The forcing data consists of (see Figure \ref{fig:forcings} in the Appendix):
   from 1940AD onwards. Hence, the data prior to 1939AD was interpolated using splines and after 1940AD, an annual mean is computed. For consistence of resolution of the data, annual data from 1640AD to 2000AD is also spline interpolated.
 \end{itemize}
 \textbf{Julien: Can you please include more details on this section?}
-\section{Hierarchical Bayesian Model.}
-\label{sec:model}
 
-\subsection{Reduced Proxy.}
+\section{Data reduction, modeling and computation}\label{sec:model}
+\subsection{Data reduction methods}
 \label{sec:rp}
+
+The proxy data is massive due to the large number of proxies and their in-homogeneous temporal resolution and availability. The calibration period is however short compared to the number of proxies, therefore a typical large $p$ and small $n$ issue arises in the reconstruction. A data reduction is necessary and helpful in such situation. We will explore a few common data reduction methods.    
+
 Following \cite{Barboza2014}, we reduce the dimension of the proxy dataset
 through the notion of a Reduced Proxy ($RP$). First of all, we centered and
 scaled the 257 proxy variables. Then we remove proxy series whose proportion of lost
@@ -291,7 +231,7 @@ dimensionality problems in the use of classical linear models. Due to the above
 reasons we adjusted five reduction techniques with the aim of adjusting
 a linear model between the observed anomalies and the corresponding proxies in
 Table \ref{tab:distdate} as covariates, all during the calibration
-period. We used the following methods mainly because of their popularity:
+period. There are many different data reductions methods, we choose five popular ones to compare (Description of the five methods including the basic idea, the unique feature, the pros and cons of the method)
 \begin{description}
 \item[Lasso Regression (LR)]
 We used a 10-fold Lasso regression where the smoothing parameter was selected
@@ -321,6 +261,8 @@ through a cross validation criteria (see \cite{Tibshirani1996} and \cite{Friedma
   considerable number of noisy covariates (see \cite{Chun2010} and \cite{Chung2013}). The
   thresholding parameter of this method is found using a 10-fold cross-validation criteria.    
 \item[Sliced Inverse Regression (SIR) with CSS selection method]
+This one can capture the nonlinear relationship between X and Y, right?
+
   This procedure allows us to select reduced models which are similar to the
   complete model in terms of the linear correlation among SIR-QZ indices (see
   \cite{Coudret2014} and \cite{Coudret2017}). In general, the SIR methods (\cite{Li1991},
@@ -352,9 +294,16 @@ shown in the Figure \ref{fig:RPs} in the Appendix. Also note that
 the obtained reduced proxies are highly correlated among methods, but the PCR
 method shows a lower level of correlation compared with the rest of the methods,
 as we can see in Figure \ref{fig:CorrRPs}.  
+%Pba
+%Pba2
+%\section{Integrated Nested Laplace Approximation (INLA).}
+%\label{sec:inla}
 
 \subsection{Model Specification}
 \label{sec:modelspec}
+The most popular model is to integrate all information using Bayesian hierarchical models. We will adopt this modeling framework for this research as well. In the second hierarchy of the BHM, forcings are often included to improve the reconstruction. However, reconstruction without forcings involved is more desirable when we try to use proxy data to evaluate the cliamte models, becuase the forcings will introduce circularity issue. We explore the model that replaces forcings by a smooth function as a linear combination of spline bases.
+
+
 
 Our models are based on the one presented in \cite{Barboza2014}. Now we define
 some notation, assuming that all the variables are set at time $t$.
@@ -414,8 +363,82 @@ found that the greatest impact on the predictive capacity of these hierarchical
 models is obtained when the forcings are added and not so much when the error
 structures are more complex.
 
+
+\subsection{Sampling with INLA}
+
+The computation is slow for even a global reconstruction, let alone a space-time reconstruction in our mind. We now introduce INLA to our reconstruction by adapting our model to the general specification of  the INLA framework. Now it is fast and we plan to extend this to space-time reconstruction. 
+
+The INLA approach uses a general specification where the mean of a sequence of
+observations is a function of the linear structure:
+\begin{align}\label{eq:meanINLA}
+  \eta_i = \alpha +\sum_{m-=1}^M\beta_mx_{mi}+\sum_{l=1}^Lf_l(z_{li})
+\end{align}
+where $\alpha$ represents an intercept; the coefficients
+$\mathbf{\beta} = (\beta_1,\ldots,\beta_M)$ are related to $M$ covariates
+$(x_1,\ldots,x_M)$ and $f = \{f_1(\cdot),\ldots,f_L(\cdot)\}$ is a collection of
+random effects defined on a set of $L$ covariates $(z_1,\ldots,z_L)$ (see
+\cite{Rue2009} and \cite{Blangiardo2013}). Denote the set of random parameters as
+$\theta = (\alpha,\beta,f)$ with $K$ hyperparameters $\psi =
+\{\psi_1,\ldots,\psi_K\}$. If $y=(y_1,\ldots,y_n)$ denotes the observations, we
+can assume conditional independence in the following way:
+\begin{align*}
+  p(y|\theta,\psi)=\prod_{i=1}^np(y_i|\theta_i,\psi),
+\end{align*}
+The INLA approach assumes that (1) the vector $\theta$ .is multivariate normal with
+some precision matrix depending on the hyperparameters $\psi$, and (2) this vector
+$\theta$ is conditionally independent given the hyperparameters. These two
+assumptions specifies $\theta$ as a Gaussian Markov random field.
+
+The main objectives of the bayesian estimation in this case are to compute the
+marginal posterior distribution of each parameter in $\theta$:
+\begin{align*}
+  p(\theta_i|y) = \int p(\theta_i,\psi|y)d \psi = \int p(\theta_i|\psi,y)p(\psi|y)d \psi
+\end{align*}
+and the marginal posterior distribution of each hyperparameter:
+\begin{align*}
+  p(\psi_k|y)=\int p(\psi|y) d\psi_{-k}.
+\end{align*}
+In order to compute the above, we need to approximate the components $p(\psi|y)$
+and $p(\theta_i|\psi,y)$. The first component can be approximated using a
+Laplace Approximation (see \cite{Tierney1986}):
+\begin{align*}
+  p(\psi|y)&=\frac{p(\theta,\psi|y)}{p(\theta|\psi,y)}\propto \frac{p(\psi)p(\theta|\psi)p(y|\theta)}{p(\theta|\psi,y)}\\
+           & \approx  \frac{p(\psi)p(\theta|\psi)p(y|\theta)}{\tilde p(\theta|\psi,y)} \Biggm |_{\theta=\theta^*(\psi)} := \tilde p(\psi|y)
+\end{align*}
+where $\tilde p(\theta|\psi,y)$ is the Gaussian approximation of
+$p(\theta|\psi,y)$ and $\theta^*(\psi)$ is its mode (see \cite{Rue2009}). The
+second component can be approximated in a similar way:
+\begin{align}\label{eq:second}
+  p(\theta_i|\psi,y)&=\frac{p((\theta_i,\theta_{-i})|\psi,y)}{p(\theta_{-i}|\theta_i,\psi,y)} \notag \\
+  &\approx \frac{p((\theta_i,\theta_{-i})|\psi,y)}{\tilde p(\theta_{-i}|\theta_i,\psi,y)} \Biggm |_{\theta_{-i}=\theta_{-i}^*(\theta_i,\psi)}:=\tilde p(\theta_i|\psi,y)
+\end{align}
+and $\tilde p(\theta_{-i}|\theta_i,\psi,y)$ is the gaussian approximation of
+$p(\theta_{-i}|\theta_i,\psi,y)$. In this case $\theta=(\theta_i,\theta_{-i})$.
+This last approximation has good precision, but it is quite complex because it
+requires to recompute the above term for each value of $\theta$ and $\psi$. A
+more efficient approach is the use the simplified Laplace Approximation which is
+based on a Taylor's expansion of $\tilde p(\theta_i|\psi,y)$ in equation
+\eqref{eq:second}. As mentioned in \cite{Rue2009} and \cite{Blangiardo2013},
+INLA first explores the marginal joint posterior for the hyperparameters $\tilde
+p(\psi | y)$ in order to locate the mode and then a grid search is performed to
+produce a set of ``relevant'' points $\{\psi^*\}$ together with a set of weights
+$w_{\psi^*}$ as an approximation of this marginal distribution. The marginals
+$p(\psi^*|y)$ are refined by using interpolation methods. Finally the marginals
+$\tilde p(\theta_i|y)$ are obtained as follows:
+\begin{align*}
+  \tilde p(\theta_i|y) \approx \sum_{\psi^*}\tilde p(\theta_i|\psi^*,y)\tilde p(\psi^*|y)w_{\psi^*}.
+\end{align*}
+
 \section{Results.}
 \label{sec:results}
+Give some subsection titles to divide the long text into a few sections. For exampe, we can have three subsection as the following:
+
+1 Comparison between different data reduction methods
+
+2 Can a smooth function replace forcings?
+
+3 Computation efficiency with INLA
+
 
 The models proposed in equations \eqref{eq:ssnf} and \eqref{eq:sswf} were
 implemented using the R package \textbf{r-inla}\footnote{www.r-inla.org}. The
@@ -719,6 +742,11 @@ was performed on an Ubuntu 16.04 server with Intel Xeon E5-2630 (8-cores,
 
 \section{Conclusions.}
 \label{sec:conclusions}
+
+A brief summary of what this paper did and what are the conclusions. 
+
+Discuss about using INLA for space-time reconstruction......
+
 
 %\printbibliography
 
