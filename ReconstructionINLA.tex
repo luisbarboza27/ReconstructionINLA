@@ -23,7 +23,7 @@
 \newcommand{\nns}{\boldsymbol}
 \newcommand{\Hcal}{\mathcal H}
 
-\newcommand{\fv}[1]{\color{ForestGreen}\textbf{[FV: #1]}\normalcolor}
+
 \newcommand{\lb}[1]{\color{MidnightBlue}\textbf{[LB: #1]}\normalcolor}
 
 %\addbibresource{biblioteca.bib}
@@ -76,22 +76,57 @@ difference between the predictive ability of both approaches.
 
 \section{Introduction.}
 \label{sec:intro}
+ 
+Paleoclimate reconstructions represent statistical simplifications of more
+complex processes at the climatic level and they allow us to understand the past
+behavior of temperatures over a specific area, and also the future trend of
+observed temperatures. \lb{Julien: Can you help me to add more details about the
+importance of paleoclimate reconstructions from the physical point of view?}
 
-\begin{itemize}
-\item PAGES2k dataset.
-  
-\item Reduction methods.
-  
-\item External forcings.
-  
-\item INLA efficiency.
-\end{itemize}
+Many methods have been developed to reconstruct the past climate:
+Expectation-Maximimation algorithm (\cite{mann2005testing},
+\cite{mann2007robust}, \cite{rutherford2003climate}, \cite{bradley2005proxy},
+\cite{steig2009}), principal component regression
+(\cite{luterbacher2004european}, \cite{Wahl2012}), canonical
+correlation analysis (\cite{smerdon2010pseudoproxy}), pairwise comparison
+(\cite{Hanhijarvi2013}, \cite{Gergis2016}), data assimilation (\cite{Hakim2016}) among
+others. We put special emphasis on the hierarchical Bayesian method, since it is
+a method that from the point of view of paleoclimatic reconstruction has the
+advantage of uniting different sources of uncertainty in a natural way, in
+particular this method joins the variability of the temperature series as a
+latent process as well as the variability of those climatic and biological
+variables that serve as approximations of this process. Many studies have been
+conducted under this type of Bayesian models: \cite{boli1}, \cite{tingley1},
+\cite{tingley2}, \cite{tingley2013_Ext}, \cite{werner2012pseudoproxy},
+\cite{Barboza2014} among others. Some of these studies have used space-state
+schemes to linearly relate information that comes from biological and historial
+proxies together with information from external climatic forcings, for example
+greenhouse gases, volcanism and solar radiation. Two problems arise in this
+type of models: proxy dataset reduction and the complexity of the model vs its execution time.
 
-%Pba
-%Pba2
-%\section{Integrated Nested Laplace Approximation (INLA).}
-%\label{sec:inla}
+In this article we will work with a set of open-access data (PAGES2k dataset)
+that provides a set of organized time-series of climate proxies with different
+temporal resolution. This ensures that our calculations are completely
+reproducible and that they can be updated regularly as the dataset changes over
+time. In order to deal with the reduction of the proxy dataset, we compared five
+popular dimension reduction techniques that allow us to compute reduced proxies
+under different temporal horizons and we were able to compare them through their
+predictive capacity during a validation period. We also considered the model
+developed in \cite{Barboza2014}, and we explored to make it more complex by
+including more information from the proxy dataset, as well as by extending the
+reconstruction period by 1000 years. The participation of external forces in the
+hierarchical Bayesian model was tested by comparing its ability to describe the
+average behavior of temperature anomalies with respect to a linear combination
+of BSplines. Of course, this adds more complexity to the hierarchical model and
+it becomes more necessary to solve the slow behavior of the adjustment process
+when we employ MCMC techniques. This second challenge was successfully solved by
+approximating the adjustment with INLA (Integrated Nested Laplace
+Approximation), with which we were able to adjust Bayesian models with much
+greater complexity than \cite{Barboza2014} in a much shorter period of time. 
 
+The article is organized as follows...
+
+ 
 The INLA approach uses a general specification where the mean of a sequence of
 observations is a function of the linear structure:
 \begin{align}\label{eq:meanINLA}
