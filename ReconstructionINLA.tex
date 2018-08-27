@@ -45,7 +45,6 @@ San Jos\'e, Costa Rica}
 }
 \email{julieneg@usc.edu}
 
-\author{Wan He}
 
 \author{Bo Li}
 \address{Department of Statistics \\
@@ -54,6 +53,7 @@ San Jos\'e, Costa Rica}
 }
 \email{libo@illinois.edu}
 
+\author{Wan He}
 
 
 \date{\today}
@@ -185,7 +185,7 @@ The forcing data consists of (see Figure \ref{fig:forcings} in the Appendix):
   recorded on a decadal basis from 9495BC - 1939AD and then on a daily basis
   from 1940AD onwards. Hence, the data prior to 1939AD was interpolated using splines and after 1940AD, an annual mean is computed. For consistence of resolution of the data, annual data from 1640AD to 2000AD is also spline interpolated.
 \end{itemize}
-\textbf{Julien: Can you please include more details on this section?}
+\lb{Julien: Can you please include more details on this section?}
 
 \section{Data reduction, modeling and computation}\label{sec:model}
 \subsection{Data reduction methods}
@@ -234,58 +234,73 @@ Table \ref{tab:distdate} as covariates, all during the calibration
 period. There are many different data reductions methods, we choose five popular ones to compare (Description of the five methods including the basic idea, the unique feature, the pros and cons of the method)
 \begin{description}
 \item[Lasso Regression (LR)]
-We used a 10-fold Lasso regression where the smoothing parameter was selected
-through a cross validation criteria (see \cite{Tibshirani1996} and \cite{Friedman2010} for more details). % In this case, the Lasso
-% regression was fitted using the temperature anomalies observed within the
-% calibration period as the dependent
-% variable and the corresponding standardized proxies in each of the groups
-% defined in Table \ref{tab:distdate} as covariates.
- The Lasso regression penalizes the usual sum of squares with an argument
+  The Lasso regression penalizes the usual sum of squares with an argument
  containing the sum of the absolute values of each coefficient in the classical
- linear regression model, multiplied by an additional parameter (see \cite{Tibshirani1996}). Due
+ linear regression model, multiplied by an additional smoothing parameter (see \cite{Tibshirani1996}). Due
  to the geometric nature of the term of penalization, the search of estimators
  tends to assign values very close to zero to variables that have almost null
- effects with respect to the dependent variable. Clearly, this is its main advantage
- over other methods.
-% In this case, the Lasso
-% regression was fitted using the temperature anomalies observed within the
-% calibration period as the dependent
-% variable and the corresponding standardized proxies in each of the groups
-% defined in Table \ref{tab:distdate} as covariates. 
+ effects with respect to the dependent variable, which makes the resulting
+ models easily interpretable. The main disadvantages of this method are: the
+ LASSO regression tends to select models with an excess of complexity, that is,
+ it tends to show "false positives" in the variable selection process (see
+ \cite{Fan2010}) and this method tends to have inconsistency issues when the
+ variables are highly correlated \cite{Zou2005}. For this particular problem, we used a 10-fold Lasso regression where the smoothing parameter was selected
+through a cross validation criteria (see \cite{Tibshirani1996} and \cite{Friedman2010} for more details). 
 \item[Sparse Partial Least Squares (sPLS)] 
   Partial least squares seeks to reduce the dimension of the design matrix in
   linear regression models with high-dimensionality issues through a latent matrix
   whose components maximize the linear correlation with respect to the
   dependent variable together with its variance. The sPLS method has the advantage to include sparseness in the partial least squares
   estimators, in order to avoid inconsistency problems when there are a
-  considerable number of noisy covariates (see \cite{Chun2010} and \cite{Chung2013}). The
+  considerable number of noisy covariates (see \cite{Chun2010} and
+  \cite{Chung2013}). The main drawback of this method is the the inability to
+  measure the statistical significance that the parameters associated to certain
+  variables are effectively zero \cite{OlsonHunt2014}. In our case, the
   thresholding parameter of this method is found using a 10-fold cross-validation criteria.    
 \item[Sliced Inverse Regression (SIR) with CSS selection method]
-This one can capture the nonlinear relationship between X and Y, right?
-
-  This procedure allows us to select reduced models which are similar to the
-  complete model in terms of the linear correlation among SIR-QZ indices (see
-  \cite{Coudret2014} and \cite{Coudret2017}). In general, the SIR methods (\cite{Li1991},
+  In general, the SIR methods (\cite{Li1991},
   \cite{Duan1991}, \cite{Zhong2005}, \cite{Li2008}, \cite{Coudret2014}, \cite{Weisberg2002} among
-  others) reduce the dimension excess in non-parametric problems through the
-  estimation of the linear space spanned by the coefficients of the covariables.
+  others) reduce the excess of dimension in non-parametric problems through the
+  estimation of the linear space spanned by the coefficients of the covariables
+  (also kwown as \textit{dimension reduction space}).
+  This space is obtained by solving an eigenvalue decomposition problem that
+  involves the estimation of the covariance matrices of the design matrix and
+  the conditional expectation of the design matrix given the response. The
+  estimation of this last covariance matrix requires a partition of the dependent variable into subgroups, called \textit{slices}.
+  The main advantage of this particular method is its non-parametric nature,
+  since it can capture linear or nonlinear associations among the response and
+  covariates. Some of its drawbacks are: the estimation of the dimension
+  reduction space does not lead to a variable selection procedure and the
+  covariance estimation relies heavily on the homogeneity of the response within
+  each slice \cite{Wu2010}. Due to the first drawback, we opt to combine the CSS
+  selection method with SIR-QZ method (see
+  \cite{Coudret2014} and \cite{Coudret2017}). This procedure allows us to select
+  reduced models which are closed to a complete model (and possibly with excess
+  of dimension) in terms of the linear correlation among their SIR-QZ indices. 
   We studied the association between proxies and temperatures
   through a linear regression among the chosen EDR directions using marginal
-  dimension tests and the anomalies observed
+  dimension tests (see \cite{Cook2004}) and the anomalies observed
   during the calibration period. 
 \item[Principal Component Regression (PCR)]
 We fitted a regression model between the temperature in the calibration period and the PCs
 as covariates. We selected the number of principal components needed in each of
 the eight regressions as the minimum number that attains, for the first time, an adjusted
-$R^2$ of at least 70\% in each case. 
-\item[Supervised Principal Components (sPCR)]
-The PCR technique has been criticized in previous articles, see for example
-\cite{Jolliffe1982} and \cite{Tibshirani1996} because the principal components
+$R^2$ of at least 70\% in each case. The main advantage of this method is that
+it is possible to apply a multiple linear regression when the covariates are
+highly-correlated or even when the number of covariates is larger than the
+available observations. The main drawback is that principal components
 with a small contribution of variance are not necessarily the ones that
-associate least with the dependent variable in a linear regression model.
-Because of this, \cite{Bair2006} defines a technique where PCR is applied only
+associate least with the dependent variable in a linear regression model (see
+\cite{Jolliffe1982} and \cite{Tibshirani1996}). 
+\item[Supervised Principal Components (sPCR)]
+Because of the above PCR's drawbacks, \cite{Bair2006} defines a technique where PCR is applied only
 on a certain subset of covariates that have a considerable degree of association
-with respect to the dependent variable, and this level is chosen through cross-validation.
+with respect to the dependent variable, and this level is chosen through
+cross-validation. Its main advantage is that it allows a dimensionality
+reduction on the covariates space taking into account the association between
+them and the dependent variable. In general its performance is quite similar to
+sPLS method (see \cite{Chung2013}). \lb{To be honest, I didn't find a drawback of
+  sPCR in the literature. I will continue looking for more papers ...} 
 \end{description}
 Finally, we computed the reduced proxies by predicting the anomalies in the
 reconstruction period under any of the above methods and any of the groups in
