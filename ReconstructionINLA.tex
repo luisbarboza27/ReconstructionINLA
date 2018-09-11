@@ -23,7 +23,7 @@
 \newcommand{\nns}{\boldsymbol}
 \newcommand{\Hcal}{\mathcal H}
 
-\newcommand{\fv}[1]{\color{ForestGreen}\textbf{[FV: #1]}\normalcolor}
+\newcommand{\bl}[1]{\color{ForestGreen}\textbf{[Bo: #1]}\normalcolor}
 \newcommand{\lb}[1]{\color{MidnightBlue}\textbf{[LB: #1]}\normalcolor}
 
 %\addbibresource{biblioteca.bib}
@@ -221,12 +221,11 @@ horizon, this creates 8 groups with the distribution shown in Table \ref{tab:dis
   \caption{Distribution of proxies according to their temporal availability.}
   \label{tab:distdate}
 \end{table}
-Two important aspects that we can notice from the distribution of Table
-\ref{tab:distdate} are: (1) in the last two intervals the number of proxies is greater than
-{\bf the number of available observations} in the calibration period defined as
+An important aspect that we can notice from the distribution of Table
+\ref{tab:distdate} is that the number of proxies is greater or at least very
+closed to the number of available observations in the calibration period defined as
 1900-2000CE \footnote{The choice of the calibration period is based on the
-  arguments shown in \cite{Barboza2014}} (101 observations)\lb{what is the problem of this?} and (2) the number of proxies is very close to the
-{\bf number of available observations}\lb{Are these two number of available observations the same thing?}, which can cause overfitting issues or
+  arguments shown in \cite{Barboza2014}} (101 observations), which can cause overfitting issues or
 dimensionality problems in the use of classical linear models. Due to the above
 reasons we investigated various data reduction techniques with the aim of establishing 
 a reliable linear model between the observed anomalies and the corresponding proxies in
@@ -247,39 +246,54 @@ period. Many different data reduction methods have been developed. We will focus
  variables are highly correlated \cite{Zou2005}.
  We used 10-fold cross validation to select the smoothing parameter when we carried out Lasso regression (see \cite{Tibshirani1996} and \cite{Friedman2010} for more details). 
 \item[Sparse Partial Least Squares (sPLS)] 
-  Partial least squares seeks to reduce the dimension of the design matrix in the 
-  linear regression models that suffer from high-dimensionality issues through a latent matrix
-  whose components maximize the linear correlation \lb{with respect to the
-  dependent variable together with its variance. Not sure what is the linear correlation with respect to...  } The sPLS method introduces sparseness to the partial least squares
-  estimators, in order to avoid inconsistency problems when there are a
+  Partial least squares seeks to reduce the high-dimensionality issues of the
+  design matrix in  
+  linear regression models through a latent matrix whose columns maximize the
+  product of its linear correlation with respect to the response and its
+  variance. The sPLS method introduces sparseness to the partial least squares
+  estimators by means of a $L_1$-penalty with a thresholding parameter, in order to avoid inconsistency problems when there are a
   considerable number of noisy covariates (see \cite{Chun2010} and
   \cite{Chung2013}). However, this method is inefficient in
   measuring the statistical significance of whether the parameters associated to certain
   variables are effectively zero \cite{OlsonHunt2014}. In our case, the
-  thresholding parameter\lb{suddenly there is a thresholding parameters, needs to be introduced eariler how this is used in the sPLS } of this method is found using a 10-fold cross-validation criteria.    
+  thresholding parameter of this method is found using a 10-fold cross-validation criteria.    
 \item[Sliced Inverse Regression (SIR) with CSS selection method]
   In general, the SIR methods (\cite{Li1991},
   \cite{Duan1991}, \cite{Zhong2005}, \cite{Li2008}, \cite{Coudret2014}, \cite{Weisberg2002} among
   others) reduce the excess of dimension in non-parametric problems through the
-  estimation of the linear space spanned by the coefficients of the covariables
-  (also kwown as \textit{dimension reduction space})\lb{If it is nonparametric, why the covariables has coefficients, sounds like a linear model?}.
-  This space is obtained by solving an eigenvalue decomposition problem that
+  estimation of the linear space spanned by the coefficients of the covariables,
+  also known as \textit{effective dimension reduction} (EDR) subspace. \bl{If it is nonparametric,
+    why the covariables has coefficients, sounds like a linear model?}\lb{It is
+    nonparametric because the main model has the form
+    $y=f(\beta_1x,\beta_2x,\ldots,\beta_kx,\epsilon)$ where $f$ is unknown, but the
+  vector $x$ is p-dimensional (p covariates) and the $\beta$'s are parameters.}
+  This subspace is obtained by solving an eigenvalue decomposition problem that
   involves the estimation of the covariance matrices of the design matrix and
-  the conditional expectation of the design matrix given the response\lb{Solve an eigenvalue decomposition problem or directly do the eigenvalue decomposition? covariance matrix of the desiagn matrix? }. The
+  the conditional expectation of the explanatory variables given the
+  response\bl{Solve an eigenvalue decomposition problem or directly do the
+    eigenvalue decomposition?}\lb{The eigenvalue decomposition can't be
+    performed directly, so it is solved in an approximate way}. The
   estimation of the covariance matrix requires to partition the dependent variable into subgroups, called \textit{slices}.
-  The SIR method can capture both linear and nonlinear \lb{linear or nonliear, or both linear and nonlinear} associations between the response and
+  The SIR method can capture both linear or nonlinear associations between the response and
   covariates. However, the estimation of the dimension
   reduction space does not actually lead to a variable selection procedure and the
   covariance estimation relies heavily on the homogeneity of the response within
-  each slice \cite{Wu2010}. Because of this, we opt to incorporate the CSS \lb{spell out CSS and QZ} variable 
-  selection procedure into the SIR-QZ method (see
-  \cite{Coudret2014} and \cite{Coudret2017}). This compound method allows us to select
-  reduced models that are close to the complete model (possibly with excess
-  of dimension) in capturing the linear correlation among their SIR-QZ indices \lb{what are SIR-QZ indices? why need to get the linear correlation among indices?}. 
-  We studied the association between proxies and temperatures
-  through a linear regression among the chosen EDR directions \lb{what is EDR direction? what is a linear regression among directions?} using marginal
-  dimension tests (see \cite{Cook2004}) and the anomalies observed
-  during the calibration period\lb{Why suddenly talk about marginal test and the anomalies? Your description of a method is not smooth to follow. Often some terminology pops up without any earlier introduction}. 
+  each slice \cite{Wu2010}. Because of this, we opt to incorporate the CSS
+  (\textit{Closest submodel selection}) variable 
+  selection procedure into the SIR method and, in case of a larger number of
+  covariates than observations, we employ the SIR-QZ method \footnote{The SIR-QZ
+    method is based on the generalized Shur decomposition and it aims to solve
+    the eigenvalue problem of SIR for undetermined cases.} instead  (see
+  \cite{Coudret2014} and \cite{Coudret2017}).
+  %This compound method allows us to select
+  %reduced models that are close to the complete model (possibly with excess
+  %of dimension) in terms of their eigenvalue decompositions. 
+  In our case, we studied the association between proxies and temperatures
+  through a linear regression among a certain number \footnote{The number of EDR
+  directions is determined by means of marginal
+  dimension tests (see \cite{Cook2004}). } of EDR directions (orthogonal basis
+  of the EDR subspace) and the anomalies observed
+  during the calibration period. 
 \item[Principal Component Regression (PCR)]
 We fitted a regression model between the temperature and PCs of covariates in the calibration period. We selected the number of PCs in each of
 the eight regressions as the minimum number that attains, for the first time, an adjusted
@@ -298,7 +312,11 @@ reduction on the covariates space while taking the association between
 the covariates and the dependent variable into account. In general, its performance is quite similar to
 sPLS method (see \cite{Chung2013}).  
 \end{description}
-Finally, we computed the reduced proxies by predicting\lb{compute the reduced proxies by prediction? should it be the reverse order?} the anomalies in the
+Finally, we computed the reduced proxies by predicting\bl{compute the reduced
+  proxies by prediction? should it be the reverse order?}\lb{No, the reduced
+  proxies are the predictions of the linear model between anomalies
+  and the proxies after the application of the reduction methods, as we did in
+  AOAS, 14.} the anomalies in the
 reconstruction period under any of the above methods and any of the groups in
 Table \ref{tab:distdate}. The eight reduced proxies for each methodology are
 shown in Figure \ref{fig:RPs} in the Appendix. Also note that
@@ -312,7 +330,15 @@ as we can see in Figure \ref{fig:CorrRPs}.
 
 \subsection{Model Specification}
 \label{sec:modelspec}
-The most popular model is to integrate all information using Bayesian hierarchical models. We will adopt this modeling framework for this research as well. In the second hierarchy of the BHM, forcings are often included to improve the reconstruction. However, reconstruction without forcings involved is more desirable when we try to use proxy data to evaluate the cliamte models, becuase the forcings will introduce circularity issue. We explore the model that replaces forcings by a smooth function as a linear combination of spline bases.
+As we emphasized in the introduction, Bayesian hierarchical models represent an interesting modeling option for this class of problems.
+%The most popular model is to integrate all information using Bayesian
+%hierarchical models.
+We will adopt this modeling framework for this research as
+well. In the second hierarchy of the BHM, forcings are often included to improve
+the reconstruction. However, reconstruction without forcings involved is more
+desirable when we try to use proxy data to evaluate the climate models, because
+the forcings will introduce circularity issue. We explore the model that
+replaces forcings by a smooth function defined as a linear combination of spline basis.
 
 
 
