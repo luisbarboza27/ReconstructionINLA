@@ -194,7 +194,7 @@ The forcing data consists of (see Figure \ref{fig:forcings} in the Appendix):
 The proxy data is massive due to the large number of proxies and their in-homogeneous temporal resolution and availability. The calibration period is however short compared to the number of proxies, therefore a typical large $p$ and small $n$ issue arises in the reconstruction. A data reduction is necessary and helpful in such situation. We will explore a few common data reduction methods.    
 
 Following \cite{Barboza2014}, we reduce the dimension of the proxy dataset
-through the notion of a Reduced Proxy ($RP$). First of all, we centered and
+through the notion of Reduced Proxy ($RP$). First of all, we centered and
 scaled the 257 proxy variables. Then we remove proxy series whose proportion of lost
 annual 
 observations is larger than 5\%. Due to the diversity of start
@@ -206,7 +206,7 @@ horizon, this creates 8 groups with the distribution shown in Table \ref{tab:dis
   \centering
   \begin{tabular}{c|c|c}
     \toprule
-    Group & Interval (year AD) & Number \\
+    Group & Interval (year AD) & Number of Proxies\\
     \midrule
     1 & 1-250 & 19 \\
     2 & 251-500 & 25 \\
@@ -221,8 +221,8 @@ horizon, this creates 8 groups with the distribution shown in Table \ref{tab:dis
   \caption{Distribution of proxies according to their temporal availability.}
   \label{tab:distdate}
 \end{table}
-An important aspect that we can notice from the distribution of Table
-\ref{tab:distdate} is that the number of proxies is greater or at least very
+An important aspect we notice from the distribution of Table
+\ref{tab:distdate} is that the number of proxies can be greater or at least very
 closed to the number of available observations in the calibration period defined as
 1900-2000CE \footnote{The choice of the calibration period is based on the
   arguments shown in \cite{Barboza2014}} (101 observations), which can cause overfitting issues or
@@ -230,99 +230,79 @@ dimensionality problems in the use of classical linear models. Due to the above
 reasons we investigated various data reduction techniques with the aim of establishing 
 a reliable linear model between the observed anomalies and the corresponding proxies in
 Table \ref{tab:distdate}, based on the data in the calibration
-period. Many different data reduction methods have been developed. We will focus on five popular ones below:  
+period. Many different data reduction methods have been developed. We will focus on below five popular ones:  
 %(Description of the five methods including the basic idea, the unique feature, the pros and cons of the method)
 \begin{description}
 \item[Lasso Regression (LR)]
   The Lasso regression penalizes the usual sum of squares with an argument
  containing the sum of the absolute values of each coefficient in the classical
- linear regression model, multiplied by an additional smoothing parameter (see \cite{Tibshirani1996}). Due
+ linear regression model, multiplied by an additional smoothing parameter  (\cite{Tibshirani1996}). Due
  to the geometric nature of the term of penalization, the search of estimators
  tends to assign values very close to zero to variables that have almost null
  effects with respect to the dependent variable, which makes the resulting
  models easily interpretable. This method is very common to data reduction and easy to implement, but it often tends to select models with an excess of complexity, that is,
- it tends to show "false positives" in the variable selection process (see
- \cite{Fan2010}). Lasso could also run into inconsistency issues when the
- variables are highly correlated \cite{Zou2005}.
+ it tends to show "false positives" in the variable selection process 
+ (\cite{Fan2010}). Lasso could also run into inconsistency issues when the
+ variables are highly correlated (\cite{Zou2005}).
  We used 10-fold cross validation to select the smoothing parameter when we carried out Lasso regression (see \cite{Tibshirani1996} and \cite{Friedman2010} for more details). 
 \item[Sparse Partial Least Squares (sPLS)] 
-  Partial least squares seeks to reduce the high-dimensionality issues of the
+  Partial least squares seek to reduce the high-dimensionality issues of the
   design matrix in  
-  linear regression models through a latent matrix whose columns maximize the
+  linear regression models through a latent matrix whose columns maximize \bl{can we replace the rest of the sentence by "their linear correlation with the responses"}the 
   product of its linear correlation with respect to the response and its
-  variance. The sPLS method introduces sparseness to the partial least squares
+  variance. The sPLS method further introduces sparseness to the partial least squares
   estimators by means of a $L_1$-penalty with a thresholding parameter, in order to avoid inconsistency problems when there are a
-  considerable number of noisy covariates (see \cite{Chun2010} and
+  substantial number of noisy covariates (\cite{Chun2010} and
   \cite{Chung2013}). However, this method is inefficient in
   measuring the statistical significance of whether the parameters associated to certain
-  variables are effectively zero \cite{OlsonHunt2014}. In our case, the
-  thresholding parameter of this method is found using a 10-fold cross-validation criteria.    
+  variables are effectively zero (\cite{OlsonHunt2014}). In our implementation, the
+  thresholding parameter involved in sPLS is estimated using a 10-fold cross-validation criteria.    
 \item[Sliced Inverse Regression (SIR) with CSS selection method]
   In general, the SIR methods (\cite{Li1991},
   \cite{Duan1991}, \cite{Zhong2005}, \cite{Li2008}, \cite{Coudret2014}, \cite{Weisberg2002} among
-  others) reduce the excess of dimension in non-parametric problems through the
+  others) reduce the excess of dimension in a non-parametric setting through the
   estimation of the linear space spanned by the coefficients of the covariables,
-  also known as \textit{effective dimension reduction} (EDR) subspace. \bl{If it is nonparametric,
-    why the covariables has coefficients, sounds like a linear model?}\lb{It is
-    nonparametric because the main model has the form
-    $y=f(\beta_1x,\beta_2x,\ldots,\beta_kx,\epsilon)$ where $f$ is unknown, but the
-  vector $x$ is p-dimensional (p covariates) and the $\beta$'s are parameters.}
-  This subspace is obtained by solving an eigenvalue decomposition problem that
-  involves the estimation of the covariance matrices of the design matrix and
+  also known as \textit{effective dimension reduction} (EDR) subspace. 
+  This subspace is obtained by an approximate eigenvalue decomposition that
+  involves an estimation of the covariance matrices of the design matrix and
   the conditional expectation of the explanatory variables given the
-  response\bl{Solve an eigenvalue decomposition problem or directly do the
-    eigenvalue decomposition?}\lb{The eigenvalue decomposition can't be
-    performed directly, so it is solved in an approximate way}. The
+  response. The
   estimation of the covariance matrix requires to partition the dependent variable into subgroups, called \textit{slices}.
   The SIR method can capture both linear or nonlinear associations between the response and
   covariates. However, the estimation of the dimension
   reduction space does not actually lead to a variable selection procedure and the
   covariance estimation relies heavily on the homogeneity of the response within
-  each slice \cite{Wu2010}. Because of this, we opt to incorporate the CSS
+  each slice (\cite{Wu2010}). Because of this, we opt to incorporate the CSS
   (\textit{Closest submodel selection}) variable 
-  selection procedure into the SIR method and, in case of a larger number of
-  covariates than observations, we employ the SIR-QZ method \footnote{The SIR-QZ
-    method is based on the generalized Shur decomposition and it aims to solve
-    the eigenvalue problem of SIR for undetermined cases.} instead  (see
-  \cite{Coudret2014} and \cite{Coudret2017}).
+  selection procedure into the SIR method. Furthermore, to better deal with the fact that there is a larger number of
+  covariates than observations, we employed the SIR-QZ algorithm, an upgrade of the SIR method based on the generalized Shur decomposition for undermined cases (\cite{Coudret2014} and \cite{Coudret2017}).   
+  %\footnote{The SIR-QZ method is based on the generalized Shur decomposition and it aims to solve the eigenvalue problem of SIR for undetermined cases.} instead  (see \cite{Coudret2014} and \cite{Coudret2017}).
   %This compound method allows us to select
   %reduced models that are close to the complete model (possibly with excess
   %of dimension) in terms of their eigenvalue decompositions. 
-  In our case, we studied the association between proxies and temperatures
-  through a linear regression among a certain number \footnote{The number of EDR
-  directions is determined by means of marginal
-  dimension tests (see \cite{Cook2004}). } of EDR directions (orthogonal basis
-  of the EDR subspace) and the anomalies observed
-  during the calibration period. 
+  Finally, we studied the association between proxies and temperatures
+  through a linear regression between the observed anomalies and a number of EDR directions, i.e., orthogonal basis of the EDR subspace, determined by marginal dimension tests (\cite{Cook2004}). 
 \item[Principal Component Regression (PCR)]
-We fitted a regression model between the temperature and PCs of covariates in the calibration period. We selected the number of PCs in each of
+PCR simply means that we replace the original covariates by their PCs. To select how many and which PCs to use, we fitted a regression model between the temperature and PCs of eight different sets of covariates selected in each of the eight different time periods based on the training data in calibration period. We then selected the number of PCs in each of
 the eight regressions as the minimum number that attains, for the first time, an adjusted
-$R^2$ of at least 70\% in each case. The PCR is often used when the covariates are
+$R^2$ of at least 70\% in each case. PCR is often used when covariates are
 highly-correlated or when the number of covariates is larger than the number of 
- observations. A caveat of this method is that principal components
+ observations. A caveat of this method is that the principal components
 with smaller contribution to variance are not necessarily the ones that
-associate less with the dependent variable in a linear regression model (see
+associate less with the dependent variable in a linear regression model (
 \cite{Jolliffe1982} and \cite{Tibshirani1996}). 
 \item[Supervised Principal Components (sPCR)]
 Because of the above-mentioned caveat of directly using PCR, \cite{Bair2006} developed a technique where PCR is applied only
 to a certain subset of covariates that exhibits a considerable amount of association
  with the dependent variable, and the threshold of ``considerable" is chosen through
-cross-validation. Comparine to PCR, the sPCR ensures the dimensionality
+cross-validation. Compared to PCR, the sPCR ensures the dimensionality
 reduction on the covariates space while taking the association between
 the covariates and the dependent variable into account. In general, its performance is quite similar to
-sPLS method (see \cite{Chung2013}).  
+sPLS method (\cite{Chung2013}).  
 \end{description}
-Finally, we computed the reduced proxies by predicting\bl{compute the reduced
-  proxies by prediction? should it be the reverse order?}\lb{No, the reduced
-  proxies are the predictions of the linear model between anomalies
-  and the proxies after the application of the reduction methods, as we did in
-  AOAS, 14.} the anomalies in the
-reconstruction period under any of the above methods and any of the groups in
-Table \ref{tab:distdate}. The eight reduced proxies for each methodology are
-shown in Figure \ref{fig:RPs} in the Appendix. Also note that
-the obtained reduced proxies from different methods are highly correlated, except that the reduced proxies from PCR
-method shows a lower level of correlation to those from the other methods,
-as we can see in Figure \ref{fig:CorrRPs}.  
+The data reduction allows us to fit linear regression models between temperatures and proxies. After we fit a linear regression model under each of the five data reduction methods and for each of the eight proxy groups listed in Table \ref{tab:distdate}, we further reduce the proxies into a single reduced proxy series following \cite{Barboza2014}. All reduced proxies are
+shown in Figure \ref{fig:RPs} in the Appendix. 
+The reduced proxies obtained under different data reduction methods are highly correlated, except that the reduced proxies under PCR show a lower level of correlation with others, as we can see in Figure \ref{fig:CorrRPs} in the Appendix.  
 %Pba
 %Pba2
 %\section{Integrated Nested Laplace Approximation (INLA).}
@@ -330,40 +310,50 @@ as we can see in Figure \ref{fig:CorrRPs}.
 
 \subsection{Model Specification}
 \label{sec:modelspec}
-As we emphasized in the introduction, Bayesian hierarchical models represent an interesting modeling option for this class of problems.
-%The most popular model is to integrate all information using Bayesian
-%hierarchical models.
-We will adopt this modeling framework for this research as
-well. In the second hierarchy of the BHM, forcings are often included to improve
+As we emphasized in the introduction, Bayesian hierarchical models (BHM) are very powerful tools and thus we will adopt this modeling framework for our problem. The first level of BHM is always designated for modeling the likelihood of data. In the second level, forcings are often included to improve
 the reconstruction. However, reconstruction without forcings involved is more
 desirable when we try to use proxy data to evaluate the climate models, because
-the forcings will introduce circularity issue. We explore the model that
-replaces forcings by a smooth function defined as a linear combination of spline basis.
+in such case the forcings will introduce circularity issue. We therefore will also explore the model that substitutes forcings by a smooth function defined as a linear combination of spline bases.
+%The most popular model is to integrate all information using Bayesian
+%hierarchical models.
 
-
-
-Our models are based on the one presented in \cite{Barboza2014}. Now we define
-some notation, assuming that all the variables are set at time $t$.
+Below we first define notations for our models:
+%Our models are based on the one presented in \cite{Barboza2014}. Now we define some notation, %assuming that all the variables are set at time $t$.
 \begin{itemize}
 \item $RP_t^i$: $i$-th reduced proxy at time $t$.
   
 \item $T_t$: temperature anomaly at time $t$.
   
-\item $\tilde C_t = \log (C_t)$. Transformed greenhouse gases. The log
+\item $\tilde C_t = \log (C_t)$: Transformed greenhouse gases. The log
   transformation is chosen to approximate the radiative forcing due to changes
-  in the equivalent CO$_2$ concentration. (see \cite{Barboza2014})
+  in the equivalent CO$_2$ concentration. (\cite{Barboza2014})
   
-\item $\tilde V_t = \log (-V_t+1)$. Transformed volcanic forcing. More details
-  on the choice of the transformation in \cite{Barboza2014}.
+\item $\tilde V_t = \log (-V_t+1)$: Transformed volcanic forcing. See more details in \cite{Barboza2014} for the choice of the transformation.
   
-\item $B_t^{k,\tau}$. $k$-th B-Spline basis function at time $t$ with knot
-  sequence $\tau$ (more details in \cite{DeBoor2001} and \cite{Ramsay2005}). We assume that the
-  B-Spline basis is composed by cubic polynomials.  
+\item $B_t^{k,\tau}$: $k$-th B-Spline basis function at time $t$ with knot
+  sequence $\tau$ (\cite{DeBoor2001} and \cite{Ramsay2005}). Here we choose cubic B-spline bases.  
 \end{itemize}
-With the above notation we can define two types of model as extensions of the
-one defined in \cite{Barboza2014}, taking advantage of more reduced proxies:
+We then define the first level of BHM as 
+$$ RP_t^i&=\alpha_0^i+\alpha_1^iT_t+\epsilon^i_t, $$
+where $\{\alpha^i_j\}$ random parameters for $i=1,\ldots,N$ and $j=0,1$,  $\epsilon^i_t$ are normally-distributed random variables with finite variances
+$\{\sigma^2_{\epsilon^i}\}$.  \bl{Are you defining random effects model? I don't see this is the case. Define what is N here? Since you have 8 time periods, the RP should have 8 segments, you concatenate them into one single series?}
+
+The second level will be defined in two different forms depending on whether forcings will be included. We have
+
+{\bf Model NF}  $$T_t&=\beta_0+\sum_{k=1}^{K(\tau)}\beta_k B_t^{k,\tau}+\eta_t,$$
+where $\beta_k$ are coefficients for B-spline bases, \bl{define $K(\tau)$}, and $\eta_t$ are also normally-distributed random variables with finite variances $\sigma^2_{\eta}$. For simplicity, the error terms $\epsilon^i_t$ and $\eta_t$ are assumed to be independent. The main idea of this model is to evaluate the central hypothesis of this article, that is, the paleoclimate reconstruction can perform  well without taking into account the external forcings, as long as a smoothing function has been included to approximate the dynamic behavior of the temperature series. In order to have a baseline model to evaluate Model NF, we define 
+
+{\bf Model WF}
+$$T_t&=\beta_0+\beta_1S_t+\beta_2\tilde V_t+\beta_3\tilde C_t+\eta_t.$$
+Both first level and second level models are defined for
+$t=1,\cdots,2000$ (Common Era). \bl{should $t$ also include the calibration period?} It is important to add that in Models NF and WF we simply assume
+an independent error structures. This is because \cite{Barboza2014} 
+found that complex error structures make little difference when forcings are added to the reconstruction.
+
+\bl{Suggest to use the above to replace the rest of this section}
+We then define two types of models as extensions of \cite{Barboza2014}. %taking advantage of more reduced proxies:
 \begin{description}
-\item[State-Space model without forcings (Model SSnF)]
+\item[State-Space model without forcings (Model SSnF)]\bl{Why it has the name ``state-space" model? This name is more for karman filters, right? Also is each model has to start with SS, then we should not include SS in the name as this is not helpful to differentiate different models.}
 Basically, we would be defining a data level (according to the hierarchical bayesian models' jargon)
   for each available $RP$:
 \begin{align}\label{eq:ssnf}
@@ -403,68 +393,92 @@ structures are more complex.
 
 \subsection{Sampling with INLA}
 
-The computation is slow for even a global reconstruction, let alone a space-time reconstruction in our mind. We now introduce INLA to our reconstruction by adapting our model to the general specification of  the INLA framework. Now it is fast and we plan to extend this to space-time reconstruction. 
+The computational challenge has been a concern for paleoclimate reconstructions using Bayesian methods. It is crucial to overcome this computational bottleneck before we can move forward to a more complex space-time reconstruction. Here we introduce the INLA sampling strategy to accelerate our global series reconstruction, and we hope this experiment can be served as a pioneer for employing INLA in other more complex reconstructions. 
 
-The INLA approach uses a general specification where the mean of a sequence of
-observations is a function of the linear structure:
+%The computation is slow for even a global reconstruction, let alone a space-time reconstruction in our mind. We now introduce INLA to our reconstruction by adapting our model to the general specification of  the INLA framework. Now it is fast and we plan to extend this to space-time reconstruction. 
+
+The INLA approach is applicable to a general specification for which the mean $\eta_i$ of  observations $y_i$ follows a  linear structure:
 \begin{align}\label{eq:meanINLA}
   \eta_i = \alpha +\sum_{m-=1}^M\beta_mx_{mi}+\sum_{l=1}^Lf_l(z_{li})
 \end{align}
-where $\alpha$ represents an intercept; the coefficients
-$\mathbf{\beta} = (\beta_1,\ldots,\beta_M)$ are related to $M$ covariates
-$(x_1,\ldots,x_M)$ and $f = \{f_1(\cdot),\ldots,f_L(\cdot)\}$ is a collection of
+where $\alpha$ represents an intercept, the coefficients
+$\mathbf{\beta} = (\beta_1,\ldots,\beta_M)$ relate $M$ covariates
+$(x_1,\ldots,x_M)$ to $\eta_i$, and $f = \{f_1(\cdot),\ldots,f_L(\cdot)\}$ is a collection of
 random effects defined on a set of $L$ covariates $(z_1,\ldots,z_L)$ (see
-\cite{Rue2009} and \cite{Blangiardo2013}). Denote the set of random parameters as
+\cite{Rue2009} and \cite{Blangiardo2013}). 
+Denote the set of random \bl{again, why this is called random parameters?} parameters as
 $\theta = (\alpha,\beta,f)$ with $K$ hyperparameters $\psi =
-\{\psi_1,\ldots,\psi_K\}$. If $y=(y_1,\ldots,y_n)$ denotes the observations, we
-can assume conditional independence in the following way:
+\{\psi_1,\ldots,\psi_K\}$, and the vector of observations as $y=(y_1,\ldots,y_n)$. Model \eqref{eq:meanINLA} leads to conditional independence of $y$ given $\theta$ and $\psi$:
 \begin{align*}
-  p(y|\theta,\psi)=\prod_{i=1}^np(y_i|\theta_i,\psi),
+  p(y|\theta,\psi)=\prod_{i=1}^np(y_i|\theta_i,\psi).
 \end{align*}
-The INLA approach assumes that (1) the vector $\theta$ .is multivariate normal with
-some precision matrix depending on the hyperparameters $\psi$, and (2) this vector
-$\theta$ is conditionally independent given the hyperparameters. These two
-assumptions specifies $\theta$ as a Gaussian Markov random field.
+\bl{I think we need to add the following to connect INLA to our problem, Otherwise it is purely description of INLA method. Please add description of $f(z_l)$} In our models, if we consider $y_i$ as the temperature anomaly,  $\eta_i$ the underlying mean temperature of interest, $x_m$ the reduced proxies, and $f(z_l)$ ????, then our models fall into the general specification of INLA. 
 
-The main objectives of the bayesian estimation in this case are to compute the
+
+The main objectives of our Bayesian estimation are to compute the
 marginal posterior distribution of each parameter in $\theta$:
 \begin{align*}
   p(\theta_i|y) = \int p(\theta_i,\psi|y)d \psi = \int p(\theta_i|\psi,y)p(\psi|y)d \psi
 \end{align*}
-and the marginal posterior distribution of each hyperparameter:
+\bl{Do we need this? I dont see we used this in the rest of the this subsection.-- and the marginal posterior distribution of each hyperparameter:
 \begin{align*}
   p(\psi_k|y)=\int p(\psi|y) d\psi_{-k}.
-\end{align*}
-In order to compute the above, we need to approximate the components $p(\psi|y)$
-and $p(\theta_i|\psi,y)$. The first component can be approximated using a
+\end{align*}}
+To attain computational advantages, INLA approach assumes that (i) the prior of vector $\theta$ is a multivariate normal random vector with a precision matrix that depends on hyperparameters $\psi$, and (ii) the vector
+$\theta$ is conditionally independent given the hyperparameters. These two
+assumptions specify $\theta$ as a Gaussian Markov random field. INLA further 
+substitutes the two components $p(\psi|y)$ and $p(\theta_i|\psi,y)$ by their approximations. The first component can be approximated using a
 Laplace Approximation (see \cite{Tierney1986}):
 \begin{align*}
   p(\psi|y)&=\frac{p(\theta,\psi|y)}{p(\theta|\psi,y)}\propto \frac{p(\psi)p(\theta|\psi)p(y|\theta)}{p(\theta|\psi,y)}\\
-           & \approx  \frac{p(\psi)p(\theta|\psi)p(y|\theta)}{\tilde p(\theta|\psi,y)} \Biggm |_{\theta=\theta^*(\psi)} := \tilde p(\psi|y)
+           & \approx  \frac{p(\psi)p(\theta|\psi)p(y|\theta)}{\tilde p(\theta|\psi,y)} \Biggm |_{\theta=\theta^*(\psi)} := \tilde p(\psi|y),
 \end{align*}
 where $\tilde p(\theta|\psi,y)$ is the Gaussian approximation of
 $p(\theta|\psi,y)$ and $\theta^*(\psi)$ is its mode (see \cite{Rue2009}). The
 second component can be approximated in a similar way:
 \begin{align}\label{eq:second}
   p(\theta_i|\psi,y)&=\frac{p((\theta_i,\theta_{-i})|\psi,y)}{p(\theta_{-i}|\theta_i,\psi,y)} \notag \\
-  &\approx \frac{p((\theta_i,\theta_{-i})|\psi,y)}{\tilde p(\theta_{-i}|\theta_i,\psi,y)} \Biggm |_{\theta_{-i}=\theta_{-i}^*(\theta_i,\psi)}:=\tilde p(\theta_i|\psi,y)
+  &\approx \frac{p((\theta_i,\theta_{-i})|\psi,y)}{\tilde p(\theta_{-i}|\theta_i,\psi,y)} \Biggm |_{\theta_{-i}=\theta_{-i}^*(\theta_i,\psi)}:=\tilde p(\theta_i|\psi,y),
 \end{align}
-and $\tilde p(\theta_{-i}|\theta_i,\psi,y)$ is the gaussian approximation of
-$p(\theta_{-i}|\theta_i,\psi,y)$. In this case $\theta=(\theta_i,\theta_{-i})$.
-This last approximation has good precision, but it is quite complex because it
-requires to recompute the above term for each value of $\theta$ and $\psi$. A
-more efficient approach is the use the simplified Laplace Approximation which is
-based on a Taylor's expansion of $\tilde p(\theta_i|\psi,y)$ in equation
+where $\theta=(\theta_i,\theta_{-i})$, $\tilde p(\theta_{-i}|\theta_i,\psi,y)$ is the Gaussian approximation of
+$p(\theta_{-i}|\theta_i,\psi,y)$ and $\theta_{-i}^*(\theta_i,\psi)$ is its mode,  
+The approximation in \eqref{eq:second} possesses good precision, but it is very time demanding because it
+requires to recompute $\tilde p(\theta_i|\psi,y)$ for each value of $\theta$ and $\psi$. A
+more efficient approach is to use the simplified Laplace Approximation that is
+based on a Taylor's expansion of $\tilde p(\theta_i|\psi,y)$ in 
 \eqref{eq:second}. As mentioned in \cite{Rue2009} and \cite{Blangiardo2013},
-INLA first explores the marginal joint posterior for the hyperparameters $\tilde
-p(\psi | y)$ in order to locate the mode and then a grid search is performed to
+INLA first explores the marginal joint posterior of the hyperparameters $\tilde
+p(\psi | y)$ in order to locate the mode and then performs a grid search to 
 produce a set of ``relevant'' points $\{\psi^*\}$ together with a set of weights
 $w_{\psi^*}$ as an approximation of this marginal distribution. The marginals
-$p(\psi^*|y)$ are refined by using interpolation methods. Finally the marginals
+$p(\psi^*|y)$ are then refined using interpolation methods. Finally, the marginals
 $\tilde p(\theta_i|y)$ are obtained as follows:
 \begin{align*}
   \tilde p(\theta_i|y) \approx \sum_{\psi^*}\tilde p(\theta_i|\psi^*,y)\tilde p(\psi^*|y)w_{\psi^*}.
 \end{align*}
+
+\subsection{Priors}
+The models proposed in equations \eqref{eq:ssnf} and \eqref{eq:sswf} were
+implemented using the R package \textbf{r-inla}\footnote{www.r-inla.org}. The
+implementation followed the methods provided in \cite{Ruiz-Cardenas2012} and
+\cite{Muff2015} on the use of the INLA methodology in state-space models,
+dynamic linear models, and in general models whose mean can be written
+into equation \eqref{eq:meanINLA}. These
+methods together with \cite{Martins2013} allow INLA to be applicable to a wide array of Bayesian models such as BHM that consists of several layers. 
+
+As Bayesian estimation, INLA requires priors for unknow parameters. Below is the list of priors we used in our models:
+\begin{itemize}
+\item $\alpha^i_j\sim N(0,3)$, $\beta_\ell \sim N(0,3)$ for $i=1,\ldots,N$, $j=0,1$, and  $\ell=0,\ldots,3$
+  for Model WF and $\ell=0,\ldots,K(\tau)$ for Model NF. The choice of the variance is
+  completely arbitrary, but the main idea is to select a relatively large one.
+  
+\item $\rho_i := -\log \sigma^2_{\epsilon^i}\sim \text{log-gamma}(1,10^{-20})$
+  (very small precision) for $i=1,\ldots,N$.
+  
+\item $\rho_0 := -\log \sigma^2_\eta \sim \text{log-gamma}(1,10^{-20})$ (very
+  small precision).
+\end{itemize}
+
 
 \section{Results.}
 \label{sec:results}
@@ -477,30 +491,6 @@ Give some subsection titles to divide the long text into a few sections. For exa
 3 Computation efficiency with INLA
 
 
-The models proposed in equations \eqref{eq:ssnf} and \eqref{eq:sswf} were
-implemented using the R package \textbf{r-inla}\footnote{www.r-inla.org}. The
-implementation was based on the recommendations of \cite{Ruiz-Cardenas2012} and
-\cite{Muff2015} on the use of the INLA methodology in state-space models,
-dynamic linear models and, in general, models whose mean can be written
-according to equation \eqref{eq:meanINLA}. These
-recommendations together with \cite{Martins2013} allow
-great flexibility when we work with bayesian models with several levels of
-information, in particular in the case of levels of hierarchical models.
-
-Like any hierarchical bayesian model, the most basic level of information
-corresponds to the level of prior information. This is defined through the
-following hypothesis:
-\begin{itemize}
-\item $\alpha^i_j\sim N(0,3)$, $\beta_\ell \sim N(0,3)$ for $i=1,\ldots,N$, $j=0,1$ and $\ell=0,\ldots,3$
-  (Model SSwF) or $\ell=0,\ldots,K(\tau)$ (Model SSnF). The choice of the variance is
-  completely arbitrary, but the main idea is to select a relatively large one.
-  
-\item $\rho_i := -\log \sigma^2_{\epsilon^i}\sim \text{log-gamma}(1,10^{-20})$
-  (very small precision) for $i=1,\ldots,N$.
-  
-\item $\rho_0 := -\log \sigma^2_\eta \sim \text{log-gamma}(1,10^{-20})$ (very
-  small precision).
-\end{itemize}
 
 As a first exercise, we analyze the change in the predictive capacity of the
 reconstruction model when more equations involving proxies are included. We used
