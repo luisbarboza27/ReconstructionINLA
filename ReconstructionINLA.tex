@@ -248,8 +248,10 @@ period. Many different data reduction methods have been developed. We will focus
 \item[Sparse Partial Least Squares (sPLS)] 
   Partial least squares seek to reduce the high-dimensionality issues of the
   design matrix in  
-  linear regression models through a latent matrix whose columns maximize \bl{can we replace the rest of the sentence by "their linear correlation with the responses"}the 
-  product of its linear correlation with respect to the response and its
+  linear regression models through a latent matrix whose columns maximize
+  \bl{can we replace the rest of the sentence by "their linear correlation with
+    the responses"}\lb{I think it's better now}the 
+  product of their linear correlation with the response and its
   variance. The sPLS method further introduces sparseness to the partial least squares
   estimators by means of a $L_1$-penalty with a thresholding parameter, in order to avoid inconsistency problems when there are a
   substantial number of noisy covariates (\cite{Chun2010} and
@@ -313,7 +315,11 @@ The reduced proxies obtained under different data reduction methods are highly c
 As we emphasized in the introduction, Bayesian hierarchical models (BHM) are very powerful tools and thus we will adopt this modeling framework for our problem. The first level of BHM is always designated for modeling the likelihood of data. In the second level, forcings are often included to improve
 the reconstruction. However, reconstruction without forcings involved is more
 desirable when we try to use proxy data to evaluate the climate models, because
-in such case the forcings will introduce circularity issue. We therefore will also explore the model that substitutes forcings by a smooth function defined as a linear combination of spline bases.
+in such case the forcings will introduce circularity issue\lb{Julien: can you
+  add here more details about this circularity issue?}. We therefore will also
+explore the model that substitutes forcings by a smooth function defined as a
+linear combination of spline bases and a model composed by a combination of both
+terms.
 %The most popular model is to integrate all information using Bayesian
 %hierarchical models.
 
@@ -330,66 +336,56 @@ Below we first define notations for our models:
   
 \item $\tilde V_t = \log (-V_t+1)$: Transformed volcanic forcing. See more details in \cite{Barboza2014} for the choice of the transformation.
   
-\item $B_t^{k,\tau}$: $k$-th B-Spline basis function at time $t$ with knot
-  sequence $\tau$ (\cite{DeBoor2001} and \cite{Ramsay2005}). Here we choose cubic B-spline bases.  
+\item $B_t^{k,\tau}$: $k$-th B-Spline basis function at time $t$ with a uniform knot
+  sequence $\tau$ (\cite{DeBoor2001} and \cite{Ramsay2005}). Here we choose
+  cubic B-spline bases and we denote $K(\tau)$ as the total number of basis elements.  
 \end{itemize}
-We then define the first level of BHM as 
-$$ RP_t^i&=\alpha_0^i+\alpha_1^iT_t+\epsilon^i_t, $$
-where $\{\alpha^i_j\}$ random parameters for $i=1,\ldots,N$ and $j=0,1$,  $\epsilon^i_t$ are normally-distributed random variables with finite variances
-$\{\sigma^2_{\epsilon^i}\}$.  \bl{Are you defining random effects model? I don't see this is the case. Define what is N here? Since you have 8 time periods, the RP should have 8 segments, you concatenate them into one single series?}
+We then define the first level of BHM as
+\begin{align*}
+RP_t^i=\alpha_0^i+\alpha_1^iT_t+\epsilon^i_t,  
+\end{align*}
+where $\{\alpha^i_j\}$ are random parameters for $i=1,\ldots,N$ and $j=0,1$,  $\epsilon^i_t$ are normally-distributed random variables with finite variances
+$\{\sigma^2_i\}$. Note that in our case $N=8$, since we are working with 8
+reduced proxies. The time variable $t$ is defined on each $RP$ according to the
+time intervals of Table \ref{tab:distdate}. \bl{Are you defining random effects model? I don't see this
+  is the case. Define what is N here? Since you have 8 time periods, the RP
+  should have 8 segments, you concatenate them into one single series?}\lb{I
+  changed the notation for the variances, now they don't seem random-effect
+  variances. $N$ is defined and I explained how the time segments are chosen.}
 
-The second level will be defined in two different forms depending on whether forcings will be included. We have
-
-{\bf Model NF}  $$T_t&=\beta_0+\sum_{k=1}^{K(\tau)}\beta_k B_t^{k,\tau}+\eta_t,$$
-where $\beta_k$ are coefficients for B-spline bases, \bl{define $K(\tau)$}, and $\eta_t$ are also normally-distributed random variables with finite variances $\sigma^2_{\eta}$. For simplicity, the error terms $\epsilon^i_t$ and $\eta_t$ are assumed to be independent. The main idea of this model is to evaluate the central hypothesis of this article, that is, the paleoclimate reconstruction can perform  well without taking into account the external forcings, as long as a smoothing function has been included to approximate the dynamic behavior of the temperature series. In order to have a baseline model to evaluate Model NF, we define 
-
-{\bf Model WF}
-$$T_t&=\beta_0+\beta_1S_t+\beta_2\tilde V_t+\beta_3\tilde C_t+\eta_t.$$
-Both first level and second level models are defined for
-$t=1,\cdots,2000$ (Common Era). \bl{should $t$ also include the calibration period?} It is important to add that in Models NF and WF we simply assume
-an independent error structures. This is because \cite{Barboza2014} 
-found that complex error structures make little difference when forcings are added to the reconstruction.
-
-\bl{Suggest to use the above to replace the rest of this section}
-We then define two types of models as extensions of \cite{Barboza2014}. %taking advantage of more reduced proxies:
+The second level will be defined in three different forms depending on whether
+forcings and/or BSplines will be included. We have
 \begin{description}
-\item[State-Space model without forcings (Model SSnF)]\bl{Why it has the name ``state-space" model? This name is more for karman filters, right? Also is each model has to start with SS, then we should not include SS in the name as this is not helpful to differentiate different models.}
-Basically, we would be defining a data level (according to the hierarchical bayesian models' jargon)
-  for each available $RP$:
-\begin{align}\label{eq:ssnf}
-  \begin{cases}
-    RP_t^i&=\alpha_0^i+\alpha_1^iT_t+\epsilon^i_t\\
-  T_t&=\beta_0+\sum_{k=1}^{K(\tau)}\beta_k B_t^{k,\tau}+\eta_t
-  \end{cases}
-\end{align}
-where $\{\alpha^i_j\}$ and $\{\beta_k\}$ are random parameters for
-$i=1,\ldots,N$, $j=0,1$ and $k=1,\ldots,K(\tau)$. The number of reduced proxies is
-$N\geq 1$. For simplicity, the error terms
-$\epsilon^i_t$ and $\eta_t$ are assumed to be
-independent normally-distributed random variables with finite variances
-$\{\sigma^2_{\epsilon^i}\}$ and $\sigma^2_{\eta}$ respectively. These variances
-are also considered as random and do not depend on time $t$. The main idea of
-this model is to evaluate the central hypothesis of this article, that is, the
-paleoclimate reconstruction can be performed without taking into account the
-external forcings, as long as they are replaced with deterministic
-functions that allow to describe the mean behavior of the series of anomalies.
-\item[State-Space model with forcings (Model SSwF)]
-As a second model we substitute the mean function in the second equation of
-\eqref{eq:ssnf} with a linear combination of the external forcings:    
-\begin{align}\label{eq:sswf}
-  \begin{cases}
-    RP_t^i&=\alpha_0^i+\alpha_1^iT_t+\epsilon^i_t\\
-  T_t&=\beta_0+\beta_1S_t+\beta_2\tilde V_t+\beta_3\tilde C_t+\eta_t
-  \end{cases}
-\end{align}
+\item[Model NF]
+  \begin{align}\label{eq:M1}
+    T_t=\beta_0+\sum_{k=1}^{K(\tau)}\beta_k B_t^{k,\tau}+\eta_t,
+  \end{align}
+where $\beta_k$ are coefficients for B-spline bases, and
+$\eta_t$ are also normally-distributed random variables with finite variances
+$\sigma^2_{\eta}$. For simplicity, the error terms $\epsilon^i_t$ and $\eta_t$
+are assumed to be independent. The main idea of this model is to evaluate the
+central hypothesis of this article, that is, the paleoclimate reconstruction can
+perform  well without taking into account the external forcings, as long as a
+smoothing function has been included to approximate the dynamic behavior of the
+temperature series. In order to have a baseline model to evaluate Model NF, we
+define
+\item[Model WF]
+  \begin{align}\label{eq:M2}
+    T_t=\beta_0+\beta_1S_t+\beta_2\tilde V_t+\beta_3\tilde C_t+\eta_t.
+  \end{align}
+Both first level and second level models are defined for
+$t=1,\cdots,2000$ (Common Era). \bl{should $t$ also include the calibration period?}\lb{Yes} It is important to add that in Models NF and WF we simply assume
+an independent error structures. This is because \cite{Barboza2014} 
+found that complex error structures make little difference when forcings are
+added to the reconstruction.
+\item[Model Mixed]
+  This model is a combination of equations \eqref{eq:M1} and \eqref{eq:M2} as follows:
+  \begin{align*}
+    T_t=\beta_0+\beta_1S_t+\beta_2\tilde V_t+\beta_3\tilde C_t+\sum_{k=1}^{K(\tau)}\gamma_k B_t^{k,\tau}+\eta_t
+  \end{align*}
+  where $\gamma_k$ are the coefficients for the B-Spline basis in this case. \lb{Julien: please include an explanation why this model is interesting in the
+    climatology community.}
 \end{description}
-The models \eqref{eq:ssnf} and \eqref{eq:sswf} are defined for
-$t=1,\cdots,2000$ (Common Era). It is also important to add that we focus on
-models with independent error structures since in \cite{Barboza2014} the authors
-found that the greatest impact on the predictive capacity of these hierarchical
-models is obtained when the forcings are added and not so much when the error
-structures are more complex.
-
 
 \subsection{Sampling with INLA}
 
@@ -406,13 +402,16 @@ $\mathbf{\beta} = (\beta_1,\ldots,\beta_M)$ relate $M$ covariates
 $(x_1,\ldots,x_M)$ to $\eta_i$, and $f = \{f_1(\cdot),\ldots,f_L(\cdot)\}$ is a collection of
 random effects defined on a set of $L$ covariates $(z_1,\ldots,z_L)$ (see
 \cite{Rue2009} and \cite{Blangiardo2013}). 
-Denote the set of random \bl{again, why this is called random parameters?} parameters as
+Denote the set of random variables as
 $\theta = (\alpha,\beta,f)$ with $K$ hyperparameters $\psi =
 \{\psi_1,\ldots,\psi_K\}$, and the vector of observations as $y=(y_1,\ldots,y_n)$. Model \eqref{eq:meanINLA} leads to conditional independence of $y$ given $\theta$ and $\psi$:
 \begin{align*}
   p(y|\theta,\psi)=\prod_{i=1}^np(y_i|\theta_i,\psi).
 \end{align*}
-\bl{I think we need to add the following to connect INLA to our problem, Otherwise it is purely description of INLA method. Please add description of $f(z_l)$} In our models, if we consider $y_i$ as the temperature anomaly,  $\eta_i$ the underlying mean temperature of interest, $x_m$ the reduced proxies, and $f(z_l)$ ????, then our models fall into the general specification of INLA. 
+In our models, if we consider $y_i$ as the reduced proxies,  $\eta_i$ the
+linear mean of the reduced proxies, $x_m$ the external forcings and/or the set
+of spline basis, and $f(z_l)$ are the latent variables (temperature anomalies in
+our case), then our models fall into the general specification of INLA. 
 
 
 The main objectives of our Bayesian estimation are to compute the
@@ -420,10 +419,6 @@ marginal posterior distribution of each parameter in $\theta$:
 \begin{align*}
   p(\theta_i|y) = \int p(\theta_i,\psi|y)d \psi = \int p(\theta_i|\psi,y)p(\psi|y)d \psi
 \end{align*}
-\bl{Do we need this? I dont see we used this in the rest of the this subsection.-- and the marginal posterior distribution of each hyperparameter:
-\begin{align*}
-  p(\psi_k|y)=\int p(\psi|y) d\psi_{-k}.
-\end{align*}}
 To attain computational advantages, INLA approach assumes that (i) the prior of vector $\theta$ is a multivariate normal random vector with a precision matrix that depends on hyperparameters $\psi$, and (ii) the vector
 $\theta$ is conditionally independent given the hyperparameters. These two
 assumptions specify $\theta$ as a Gaussian Markov random field. INLA further 
@@ -458,7 +453,7 @@ $\tilde p(\theta_i|y)$ are obtained as follows:
 \end{align*}
 
 \subsection{Priors}
-The models proposed in equations \eqref{eq:ssnf} and \eqref{eq:sswf} were
+The models proposed in section \ref{sec:modelspec} were
 implemented using the R package \textbf{r-inla}\footnote{www.r-inla.org}. The
 implementation followed the methods provided in \cite{Ruiz-Cardenas2012} and
 \cite{Muff2015} on the use of the INLA methodology in state-space models,
@@ -466,7 +461,7 @@ dynamic linear models, and in general models whose mean can be written
 into equation \eqref{eq:meanINLA}. These
 methods together with \cite{Martins2013} allow INLA to be applicable to a wide array of Bayesian models such as BHM that consists of several layers. 
 
-As Bayesian estimation, INLA requires priors for unknow parameters. Below is the list of priors we used in our models:
+As Bayesian estimation, INLA requires priors for unknown parameters. Below is the list of priors we used in our models:
 \begin{itemize}
 \item $\alpha^i_j\sim N(0,3)$, $\beta_\ell \sim N(0,3)$ for $i=1,\ldots,N$, $j=0,1$, and  $\ell=0,\ldots,3$
   for Model WF and $\ell=0,\ldots,K(\tau)$ for Model NF. The choice of the variance is
