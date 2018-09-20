@@ -25,6 +25,8 @@
 
 \newcommand{\bl}[1]{\color{ForestGreen}\textbf{[Bo: #1]}\normalcolor}
 \newcommand{\lb}[1]{\color{MidnightBlue}\textbf{[LB: #1]}\normalcolor}
+\newcommand{\jeg}[1]{\color{ProcessBlue}\textbf{[JEG: #1]}\normalcolor}
+
 
 %\addbibresource{biblioteca.bib}
 
@@ -84,7 +86,7 @@ observed temperatures. \lb{Julien: Can you help me to add more details about the
 importance of paleoclimate reconstructions from the physical point of view?}
 
 Many methods have been developed to reconstruct the past climate:
-Expectation-Maximimation algorithm (\cite{mann2005testing},
+Expectation-Maximization algorithm (\cite{Schneider01,mann2005testing},
 \cite{mann2007robust}, \cite{rutherford2003climate}, \cite{bradley2005proxy},
 \cite{steig2009}), principal component regression
 (\cite{luterbacher2004european}, \cite{Wahl2012}), canonical
@@ -161,10 +163,9 @@ second panel of Figure~\ref{fig:proxy}. Unlike previous studies (for example \ci
 
 \subsection{Temperature data.}
 We used the HadCRUT4 global temperature dataset provided by the Met Office Hadley
-Centre and the Climatic Research Unit at the University of East Anglia, UK (version 4.4.0.0). The
-data consists of historical information of temperature anomalies relative to the
-period 1961-1990 in degrees Celsius, on an annual basis and calculated as
-medians of spatial information (more details in \cite{Morice2012}).
+Centre and the Climatic Research Unit at the University of East Anglia, UK (version 4.4.0.0). The dataset consists of instrumental, {\it in situ} observations of surface temperature over land \cite{CRUTEM4} and ocean \cite{Kennedy_HadSST3_p1,Kennedy_HadSST3_p2}. The
+observations are expressed as anomalies relative to the monthly-mean seasonal cycle over the 1961-1990 period in degrees Celsius. Though HadCRUT4 features a rather sophisticated analysis of error sources \cite{Morice2012}, including a 100-member ensemble of draws from the error distribution, we neglect these uncertainties against the much larger uncertainties affecting paleoclimate observations, and simply use the median of this ensemble, averaged on an annual basis.
+\jeg{Note: it's a little too late for that, but one day it would be nice to incorporate the uncertainty in instrumental temperatures into your analysis. Perhaps mention this in the discussion as a possible application of INLA?}
 
 \subsection{Forcing data.}
 The forcing data consists of (see Figure \ref{fig:forcings} in the Appendix):
@@ -185,7 +186,17 @@ The forcing data consists of (see Figure \ref{fig:forcings} in the Appendix):
   recorded on a decadal basis from 9495BC - 1939AD and then on a daily basis
   from 1940AD onwards. Hence, the data prior to 1939AD was interpolated using splines and after 1940AD, an annual mean is computed. For consistence of resolution of the data, annual data from 1640AD to 2000AD is also spline interpolated.
 \end{itemize}
+All forcings are displayed in Figure~\ref{fig:forcings}.
+
 \lb{Julien: Can you please include more details on this section?}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.35]{forcings}
+  \caption{Main climate Forcings of the Common Era (1-2000 AD): volcanic, solar, and carbon dioxide. AOD = Aerosol optical depth. TSI = total solar irradiance. ppm = parts per million. See text for details.}
+  \label{fig:forcings}
+\end{figure}
+
 
 \section{Data reduction, modeling and computation}\label{sec:model}
 \subsection{Data reduction methods}
@@ -193,15 +204,14 @@ The forcing data consists of (see Figure \ref{fig:forcings} in the Appendix):
 
 The proxy data is massive due to the large number of proxies and their in-homogeneous temporal resolution and availability. The calibration period is however short compared to the number of proxies, therefore a typical large $p$ and small $n$ issue arises in the reconstruction. A data reduction is necessary and helpful in such situation. We will explore a few common data reduction methods.    
 
-Following \cite{Barboza2014}, we reduce the dimension of the proxy dataset
-through the notion of Reduced Proxy ($RP$). First of all, we centered and
-scaled the 257 proxy variables. Then we remove proxy series whose proportion of lost
-annual 
-observations is larger than 5\%. Due to the diversity of start
-dates in the proxies database (see Figure \ref{fig:proxy}), we divide
-proxies into non-homogeneous groups where each group has temporal availability within an
+Following \cite{Barboza2014}, we reduce the dimension of the proxy dataset by generating Reduced Proxy ($RP$) timeseries, which condense individual proxy timeseries into a single timeseries with larger predictive power over the GMST target.  The 257 proxy variables are first centered and scaled. Then we remove proxy series whose proportion of missing annual observations is larger than 5\%.  \jeg{This gives me pause. Did you exclude all series lacking >5\% of data in a given 250y nest, or overall. If overall, you are missing out on a LOT of proxies!!! We should redo the calculations with a less restrictive threshold}. 
+
+Due to the diversity of start dates in the proxies database (Fig. ~\ref{fig:proxy}), we gather proxies into non-homogeneous groups where each group has temporal availability within an
 interval of 250 years. As the reconstruction is taking place over a 2000 year
-horizon, this creates 8 groups with the distribution shown in Table \ref{tab:distdate}.
+horizon, this creates 8 groups with the distribution shown in Table \ref{tab:distdate}. The corresponding timeseries are displayed in Figure~\ref{fig:RPs}.
+
+
+
 \begin{table}
   \centering
   \begin{tabular}{c|c|c}
@@ -221,6 +231,18 @@ horizon, this creates 8 groups with the distribution shown in Table \ref{tab:dis
   \caption{Distribution of proxies according to their temporal availability.}
   \label{tab:distdate}
 \end{table}
+
+
+\begin{figure}[H]
+  \centering
+ \includegraphics[scale=0.38]{RPs_type} 
+  \caption{Reduced Proxies among methods.}
+  \label{fig:RPs}
+\end{figure}
+
+
+
+
 An important aspect we notice from the distribution of Table
 \ref{tab:distdate} is that the number of proxies can be greater or at least very
 closed to the number of available observations in the calibration period defined as
@@ -300,9 +322,16 @@ reduction on the covariates space while taking the association between
 the covariates and the dependent variable into account. In general, its performance is quite similar to
 sPLS method (\cite{Chung2013}).  
 \end{description}
-The data reduction allows us to fit linear regression models between temperatures and proxies. After we fit a linear regression model under each of the five data reduction methods and for each of the eight proxy groups listed in Table \ref{tab:distdate}, we further reduce the proxies into a single reduced proxy series following \cite{Barboza2014}. All reduced proxies are
-shown in Figure \ref{fig:RPs} in the Appendix. 
-The reduced proxies obtained under different data reduction methods are highly correlated, except that the reduced proxies under PCR show a lower level of correlation with others, as we can see in Figure \ref{fig:CorrRPs} in the Appendix.  
+
+The data reduction allows us to fit linear regression models between temperatures and proxies. After we fit a linear regression model under each of the five data reduction methods and for each of the eight proxy groups listed in Table \ref{tab:distdate}, we further reduce the proxies into a single reduced proxy series following \cite{Barboza2014}. All reduced proxies are shown in Figure \ref{fig:RPs}.  These series are highly correlated, with the reduced proxies obtained by PCR standing out as least similar to the others by this metric (Fig.~\ref{fig:CorrRPs}).
+
+\begin{figure}[H]
+  \centering
+ \includegraphics[scale=0.38]{CorMatrixRPs} 
+  \caption{Correlation Matrices among 5 different Reduced Proxy series}
+  \label{fig:CorrRPs}
+\end{figure}
+
 %Pba
 %Pba2
 %\section{Integrated Nested Laplace Approximation (INLA).}
@@ -491,7 +520,7 @@ Give some subsection titles to divide the long text into a few sections. For exa
 3 Computation efficiency with INLA
 
 
-
+\subsection{Impact of reduction method}
 As a first exercise, we analyze the change in the predictive capacity of the
 reconstruction model when more equations involving proxies are included. We used
 two scoring rules in \cite{Gneiting2007a} as measures of predictive ability:
@@ -599,27 +628,25 @@ methods explained above.
 %   \caption{Comparison of predictive measures in Model 1.}
 %   \label{tab:comparison1}
 % \end{table}
-It is evident that there is a substantial improvement
+It is evident that there is a substantial improvement \jeg{over what?}
 in all the measures when we use all the available reduced proxies under any
 method within the 1900-2000 period. However, for the out-of-sample validation, only
 the SPLS, PCR and sPCR show an improvement in terms of measures.  Also note that, among the models with external forcings, the techniques that
 guarantees better results in terms of prediction are sPCR and PCR.
 
-We are also interested in verifying whether a linear combination of B-splines
-models the average behavior of the anomalies without the inclusion of external
-forcings at all. It is clear from equation \eqref{eq:ssnf} that one of the
-drawbacks of Model 2 is the arbitrariness of $K(\tau)$. We analyze the
+\subsection{Impact of modeling assumptions}
+We are also interested in assessing whether a linear combination of B-splines can models GMST without the inclusion of external
+forcings at all. It is clear from equation \eqref{eq:ssnf} that one of the drawbacks of Model 2 is the arbitrariness of $K(\tau)$. We analyze the
 relationship between the temperature observed during the calibration period
 (1900-2000) and a linear combination of BSplines. The number of elements of the
 base is selected according to the adjusted $R^2$ of a linear regression model between observed anomalies and
-the corresponding basis elements. Based on the above, we finally selected 6
+the corresponding basis elements. Based on the above, we selected 6
 BSpline terms for this period and we take $K(\tau)=120$ based on the
 assumption that the number of BSpline terms is uniform
-throughout all the reconstruction period. Finally we fit the model in
-\eqref{eq:ssnf} with the previous choice of $K(\tau)$ using the five techniques
-in section \ref{sec:rp}. These results are
-shown in the last five lines of Table \ref{tab:comparisontot}. Due to the comments of the above paragraph, we opt to
-use all the reduced proxies in this case.
+throughout all the reconstruction period \jeg{this assumption seems strange given that the number of proxies varies drastically. Can you justify it?}. Finally we fit the model in
+\eqref{eq:ssnf} with the previous choice of $K(\tau)$ using the five different RPs (section \ref{sec:rp}). These results are
+shown in the last five rows of Table \ref{tab:comparisontot}. Due to the comments of the above paragraph, we opt to
+use all the reduced proxies in this case. \jeg{I don't understand this sentence}
 % Therefore, for each of
 % the methods in section 4.1, the IS and CRPS measures were calculated for a fixed
 % value of $K(\tau)$ over a grid defined in [1,50]. After this, the best $K(\tau)$
@@ -659,12 +686,15 @@ Figure \ref{fig:paleoCE1}.
     prediction bands. Best four choices.}
   \label{fig:paleoCE1}
 \end{figure}
+
+\jeg{I take issue with the definition of "best" here. This is entirely contingent on the choice of calibration and verification period, and many studies have shown that you can obtain different results with different defintions of such periods. This is basically a cross-validation exercise, and there would be many different choices (5-fold cross validation is my personal favorite). I would strongly urge against declaring any ``best'' choices based only on the short observational record. Inevitably we need to assert our favorites, but let us not fool ourselves that this is an objective choice.}
+
 The best choice (sPCR-SSwF) shows an interesting
 balance in terms of the variance of the reconstructed series and the width of
 the confidence region approximated by INLA. Reconstructions PCR-SSwF and
 PCR-SSnF show similar small-scale tendencies with respect to the best choice, but the width of their confidence regions
 is greater, which is an indicator of less precision in the overall
-reconstruction. These last resconstructions also have smaller amplitude than the one shown by the best
+reconstruction. These last reconstructions also have smaller amplitude than the one shown by the best
 option, this clearly is an indicator that the absence or presence of the
 forcings is not decisive at the time of performing the reconstruction. In
 general terms these three reconstructions have a very similar average level
@@ -692,6 +722,10 @@ although the observed series during this period is completely contained in the
 respective confidence bands. For the above reasons we believe that the
 reconstruction that has the best results is the one obtained by sPCR-SSwF, followed
 by the PCR-SSwF model. 
+
+\subsection{Impact of Laplace approximations}
+
+\jeg{I think this is what you're trying to do here, but I can't be sure...}
 
 The SSwF model in its simplest case (1 proxy) was fitted in \cite{Barboza2014}
 using an MCMC approach. We employed this approach in order to adjust the
@@ -785,34 +819,15 @@ Discuss about using INLA for space-time reconstruction......
 \appendix
 
 \section{Additional Plots}
-
-\begin{figure}[H]
-  \centering
- \includegraphics[scale=0.38]{RPs_type} 
-  \caption{Reduced Proxies among methods.}
-  \label{fig:RPs}
-\end{figure}
+\jeg{most of these plots were essential to the paper, so I moved them to the main text}
 
 
-\begin{figure}[H]
-  \centering
- \includegraphics[scale=0.38]{CorMatrixRPs} 
-  \caption{Correlation Matrices for each Reduced Proxy among methods.}
-  \label{fig:CorrRPs}
-\end{figure}
 % \begin{figure}[H]
 %   \centering
 %   \includegraphics[scale=0.4]{PAGES_composites_PCR5} 
 %   \caption{Reduced Proxies using PC regression.}
 %   \label{fig:proxiespcr}
 % \end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[scale=0.35]{forcings}
-  \caption{Climate Forcings in the Common Era (1-2000 AD)}
-  \label{fig:forcings}
-\end{figure}
 
 \begin{figure}[H]
   \centering
