@@ -7,6 +7,7 @@
 %  url=false]{biblatex}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[version=3]{mhchem}
 
 
 \theoremstyle{plain}
@@ -207,19 +208,16 @@ All forcings are displayed in Figure~\ref{fig:forcings}.
 \subsection{Data reduction methods}
 \label{sec:rp}
 
-The proxy data is massive due to the large number of proxies and their in-homogeneous temporal resolution and availability. The calibration period is however short compared to the number of proxies, therefore a typical large $p$ and small $n$ issue arises in the reconstruction. A data reduction is necessary and helpful in such situation. We will explore a few common data reduction methods.    
+The proxy data is massive due to the large number of proxies and their in-homogeneous temporal resolution and availability. The calibration period is however short compared to the number of proxies, therefore a typical large $p$ and small $n$ issue arises in the reconstruction. A data reduction will be necessary and helpful in such situation. 
+Following \cite{Barboza2014}, we will reduce the dimension of the proxy dataset by generating Reduced Proxy ($RP$) time series, which condense individual proxy time series into a single time series with larger predictive power over the GMST target. Since this is one of the major steps in temperature reconstruction, in this paper we will carefully investigate five common data reduction methods rather than adopting the simple data reduction method employed in (\cite{Barboza2014}), after some initial screening of proxies series.    
 
-Following \cite{Barboza2014}, we reduce the dimension of the proxy dataset by
-generating Reduced Proxy ($RP$) timeseries, which condense individual proxy
-timeseries into a single timeseries with larger predictive power over the GMST
-target.  The 257 proxy variables are first centered and scaled. Then we remove
+The 257 proxy variables are first centered and scaled. Then we remove
 proxy series whose proportion of missing annual observations is larger than 5\%
 during the calibration  period.  \jeg{This gives me pause. Did you exclude all
   series lacking >5\% of data in a given 250y nest, or overall. If overall, you
   are missing out on a LOT of proxies!!! We should redo the calculations with a
   less restrictive threshold}\lb{The percentage of missing observations is
   computed over the calibration period (1900-2000), so we don't loose too much information.}. 
-
 Due to the diversity of start dates in the proxies database (Fig. ~\ref{fig:proxy}), we gather proxies into non-homogeneous groups where each group has temporal availability within an
 interval of 250 years. As the reconstruction is taking place over a 2000 year
 horizon, this creates 8 groups with the distribution shown in Table \ref{tab:distdate}. The corresponding timeseries are displayed in Figure~\ref{fig:RPs}.
@@ -258,11 +256,11 @@ An important aspect we notice from the distribution of Table
 closed to the number of available observations in the calibration period defined as
 1900-2000CE \footnote{The choice of the calibration period is based on the
   arguments shown in \cite{Barboza2014}} (101 observations), which can cause overfitting issues or
-dimensionality problems in the use of classical linear models. Due to the above
-reasons we investigated various data reduction techniques with the aim of establishing 
+dimensionality problems in the use of classical linear models. For the above
+reasons, we investigated various data reduction techniques with the aim of establishing 
 a reliable linear model between the observed anomalies and the corresponding proxies in
 Table \ref{tab:distdate}, based on the data in the calibration
-period. Many different data reduction methods have been developed. We will focus on below five popular ones:  
+period. Many different data reduction methods have been developed. We will focus on the below five popular ones:  
 %(Description of the five methods including the basic idea, the unique feature, the pros and cons of the method)
 \begin{description}
 \item[Lasso Regression (LR)]
@@ -281,8 +279,7 @@ period. Many different data reduction methods have been developed. We will focus
   Partial least squares seek to reduce the high-dimensionality issues of the
   design matrix in  
   linear regression models through a latent matrix whose columns maximize
-  \bl{can we replace the rest of the sentence by "their linear correlation with
-    the responses"}\lb{I think it's better now}the 
+  \lb{I think it's better now}\bl{by saying "product of ..."do you really mean their linear correlation times the response and its variance? I guess I still do not understand what the "product" really menant here. }the 
   product of their linear correlation with the response and its
   variance. The sPLS method further introduces sparseness to the partial least squares
   estimators by means of a $L_1$-penalty with a thresholding parameter, in order to avoid inconsistency problems when there are a
@@ -335,7 +332,7 @@ the covariates and the dependent variable into account. In general, its performa
 sPLS method (\cite{Chung2013}).  
 \end{description}
 
-The data reduction allows us to fit linear regression models between temperatures and proxies. After we fit a linear regression model under each of the five data reduction methods and for each of the eight proxy groups listed in Table \ref{tab:distdate}, we further reduce the proxies into a single reduced proxy series following \cite{Barboza2014}. All reduced proxies are shown in Figure \ref{fig:RPs}.  These series are highly correlated, with the reduced proxies obtained by PCR standing out as least similar to the others by this metric (Fig.~\ref{fig:CorrRPs}).
+The data reduction allows us to fit linear regression models between temperatures and proxies. After we fit a linear regression model under each of the five data reduction methods and for each of the eight proxy groups listed in Table \ref{tab:distdate}, we further reduce the proxies into a single reduced proxy series following \cite{Barboza2014}.\bl{i thought you only used the RP for 8 groups calcluated by the data reduction methods. Why do you still further reduce the proxies into a single reduced proxy?} All reduced proxies are shown in Figure \ref{fig:RPs}.  These series are highly correlated, with the reduced proxies obtained by PCR standing out as least similar to the others by this metric (Fig.~\ref{fig:CorrRPs}).
 
 \begin{figure}[H]
   \centering
@@ -383,14 +380,10 @@ We then define the first level of BHM as
 \begin{align*}
 RP_t^i=\alpha_0^i+\alpha_1^iT_t+\epsilon^i_t,  
 \end{align*}
-where $\{\alpha^i_j\}$ are random parameters for $i=1,\ldots,N$ and $j=0,1$,  $\epsilon^i_t$ are normally-distributed random variables with finite variances
+where $\{\alpha^i_j\}$ are intercepts ($j=0$) and slopes ($j=1$) for $i=1,\ldots,N$,  and $\epsilon^i_t$ are normally-distributed random variables with finite variances
 $\{\sigma^2_i\}$. Note that in our case $N=8$, since we are working with 8
 reduced proxies. The time variable $t$ is defined on each $RP$ according to the
-time intervals of Table \ref{tab:distdate}. \bl{Are you defining random effects model? I don't see this
-  is the case. Define what is N here? Since you have 8 time periods, the RP
-  should have 8 segments, you concatenate them into one single series?}\lb{I
-  changed the notation for the variances, now they don't seem random-effect
-  variances. $N$ is defined and I explained how the time segments are chosen.}
+time intervals of Table \ref{tab:distdate}. 
 
 The second level will be defined in three different forms depending on whether
 forcings and/or BSplines will be included. We have
@@ -413,7 +406,7 @@ define
     T_t=\beta_0+\beta_1S_t+\beta_2\tilde V_t+\beta_3\tilde C_t+\eta_t.
   \end{align}
 Both first level and second level models are defined for
-$t=1,\cdots,2000$ (Common Era). \bl{should $t$ also include the calibration period?}\lb{Yes} It is important to add that in Models NF and WF we simply assume
+$t=1,\cdots,2000$ (Common Era). It is important to add that in Models NF and WF we simply assume
 an independent error structures. This is because \cite{Barboza2014} 
 found that complex error structures make little difference when forcings are
 added to the reconstruction.
@@ -449,9 +442,9 @@ $\theta = (\alpha,\beta,f)$ with $K$ hyperparameters $\psi =
 \end{align*}
 In our models, if we consider $y_i$ as the reduced proxies,  $\eta_i$ the
 linear mean of the reduced proxies, $x_m$ the external forcings and/or the set
-of spline basis, and $f(z_l)$ are the latent variables (temperature anomalies in
+of spline basis, and $f(z_l)$ the latent variables (temperature anomalies in
 our case), then our models fall into the general specification of INLA. 
-
+\bl{Is the above correct? I thought $y_i$ is the observed temperature anomaly and $\eta_i$ the mean of temperature anomalies. If what you said is correct, then after you estimate the parameters, how do you sample the reconstructed temperatures?}
 
 The main objectives of our Bayesian estimation are to compute the
 marginal posterior distribution of each parameter in $\theta$:
@@ -516,7 +509,7 @@ As Bayesian estimation, INLA requires priors for unknown parameters. Below is th
 
 \section{Results.}
 \label{sec:results}
-\subsection{Impact of the number of reduced proxies and the reduction method}
+\subsection{Impact of data reduction method and the grouping of reduced proxies}
 As a first exercise, we analyze the change in the predictive capacity of the
 reconstruction model when more equations involving proxies are included. We used
 two scoring rules in \cite{Gneiting2007a} as measures of predictive ability:
@@ -609,7 +602,7 @@ However, for the PS04 dataset validation, only
 the PCR method shows an improvement in terms of measures.  Also note that, among the models with external forcings, the techniques that
 guarantees better results in terms of prediction are sPCR and PCR.
 
-\subsection{Impact of modeling assumptions}
+\subsection{Can forcings be surrogated by a nonparametric smoothing function?}
 We are also interested in assessing whether a linear combination of B-splines can model GMST without the inclusion of external
 forcings at all. It is clear from equation \eqref{eq:ssnf} that one of the drawbacks of Model 2 is the arbitrariness of $K(\tau)$. We analyze the
 relationship between the temperature observed during the calibration period
@@ -707,7 +700,7 @@ by the PCR-SSwF model.
   \label{fig:paleo15001}
 \end{figure}
 
-\subsection{Impact of Laplace approximations}
+\subsection{Comparison between MCMC and INLA sampling}
 
 \jeg{I think this is what you're trying to do here, but I can't be sure...}
 
@@ -733,8 +726,7 @@ calibration period is not the most optimal according to this method. We can
 compare also these two models in terms of the estimated coefficients of the
 external forcings in equation \eqref{eq:sswf}. The estimated density function
 for each coefficient is shown in Figure \ref{fig:betas}. Note that the INLA's
-estimates are more precise and their magnitude are quite similar for the Solar and Vulcanism
-forcings. The greenhouse-gases coefficient is significantly smaller than the one
+estimates are more precise and their magnitude are quite similar for the solar and volcanic forcings. The \ce{CO2} coefficient is significantly smaller than the one
 obtained in the MCMC model, mainly due to a larger effect of the remaining
 reduced proxies on the reconstruction, but in general, this external forcings
 represents the one with greatest weight when we describe the mean behavior of the anomalies.
