@@ -412,9 +412,9 @@ found that complex error structures make little difference when forcings are
 added to the reconstruction.
 \item[Model Mixed]
   This model is a combination of equations \eqref{eq:M1} and \eqref{eq:M2} as follows:
-  \begin{align*}
+  \begin{align}\label{eq:M3}
     T_t=\beta_0+\beta_1S_t+\beta_2\tilde V_t+\beta_3\tilde C_t+\sum_{k=1}^{K(\tau)}\gamma_k B_t^{k,\tau}+\eta_t
-  \end{align*}
+  \end{align}
   where $\gamma_k$ are the coefficients for the B-Spline basis in this case. \lb{Julien: please include an explanation why this model is interesting in the
     climatology community.}
 \end{description}
@@ -604,39 +604,26 @@ guarantees better results in terms of prediction are sPCR and PCR.
 
 \subsection{Can forcings be surrogated by a nonparametric smoothing function?}
 We are also interested in assessing whether a linear combination of B-splines can model GMST without the inclusion of external
-forcings at all. It is clear from equation \eqref{eq:ssnf} that one of the drawbacks of Model 2 is the arbitrariness of $K(\tau)$. We analyze the
+forcings at all. It is clear from equations \eqref{eq:M1} and \eqref{eq:M3} that
+one of the drawbacks of Models NF and Mixed is the arbitrariness of $K(\tau)$. We analyze the
 relationship between the temperature observed during the calibration period
 (1900-2000) and a linear combination of BSplines. The number of elements of the
-base is selected according to the adjusted $R^2$ of a linear regression model between observed anomalies and
+base in Model NF is selected according to the adjusted $R^2$ of a linear regression model between observed anomalies and
 the corresponding basis elements. Based on the above, we selected 6
 BSpline terms for this period and we take $K(\tau)=120$ based on the
 assumption that the number of BSpline terms is uniform
-throughout all the reconstruction period \jeg{this assumption seems strange given that the number of proxies varies drastically. Can you justify it?}. Finally we fit the model in
-\eqref{eq:ssnf} with the previous choice of $K(\tau)$ using the five different RPs (section \ref{sec:rp}). These results are
-shown in the last five rows of Table \ref{tab:comparisontot}. Due to the comments of the above paragraph, we opt to
-use all the reduced proxies in this case. \jeg{I don't understand this sentence}
-% Therefore, for each of
-% the methods in section 4.1, the IS and CRPS measures were calculated for a fixed
-% value of $K(\tau)$ over a grid defined in [1,50]. After this, the best $K(\tau)$
-% for each method was selected using the IS and CRPS measures. These results are
-% shown in the last four lines in Table \ref{tab:comparisontot}. Due to the comments of the above paragraph, we opt to
-% use all the reduced proxies in this case.
-% \begin{table}
-%   \centering
-%   \begin{tabular}{c|rrr}
-%   \toprule
-% Method  & IS$_{80}$ & IS$_{95}$ & CRPS \\ 
-%   \midrule
-% PCR & 0.1583 & 0.0532 & 0.0435 \\ 
-%   LASSO & 0.1881 & 0.0640 & 0.0697 \\ 
-%   SPLS & 0.1819 & 0.0611 & 0.0574 \\ 
-%   SIR & 0.1649 & 0.0550 & 0.0462 \\ 
-%    \bottomrule
-% \end{tabular}
-%   \caption{Comparison of predictive measures of Model 2.}
-%   \label{tab:comparison2}
-% \end{table}
-Note that the SPLS method achieves a better performance in terms of all the
+throughout all the reconstruction period. Note that the high prevalence of
+proxy-based annual data allows to assume that a constant number of elements of
+the BSpline basis is adequate to describe the component of the temperature
+mean.\jeg{this assumption seems strange given that the number of proxies varies
+  drastically. Can you justify it?}\lb{I tried using the fact that practically
+  all the data here comes in an annual basis, so the deterministic trend of the 
+  temperature can be
+  modelled in an uniform way}. The choice of $K(\tau)=100$ for Model Mixed is
+based on the same criteria as before. Finally we fit the models NF and Mixed
+with the previous choices of $K(\tau)$ using the five different data reduction
+techniques of section \ref{sec:rp}. These results are
+also shown in Table \ref{tab:comparisontot}. Note that the SPLS method achieves a better performance in terms of all the
 predictive measures for both validation periods, even though the PCR results
 differ very little in its corresponding measures. 
 
@@ -837,13 +824,13 @@ Discuss about using INLA for space-time reconstruction...
   \label{fig:paleoCE4}
 \end{figure}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[scale=0.35]{Rec1900_MCMC}
-  \caption{Paleoclimate Reconstruction 1900-2000 with 95\%
-    prediction bands. Model sPCR-SSwF under two methods: INLA and MCMC.}
-  \label{fig:paleo19004}
-\end{figure}
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[scale=0.35]{Rec1900_MCMC}
+%   \caption{Paleoclimate Reconstruction 1900-2000 with 95\%
+%     prediction bands. Model sPCR-SSwF under two methods: INLA and MCMC.}
+%   \label{fig:paleo19004}
+% \end{figure}
 
 \begin{figure}[H]
   \centering
