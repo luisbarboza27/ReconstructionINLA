@@ -312,16 +312,8 @@ The data reduction allows us to fit linear regression models between temperature
 
 \subsection{Model Specification}
 \label{sec:modelspec}
-As we emphasized in the introduction, we use BHMs for our problem. The first level of BHM is always designated for modeling the likelihood of data. In the second level, forcings are often included to improve
-the reconstruction. However, reconstruction without forcings involved is more
-desirable when we try to use proxy data to evaluate the climate models, because
-in such case the forcings will introduce circularity issue\lb{Julien: can you
-  add here more details about this circularity issue?}. We therefore will also
-explore the model that substitutes forcings by a smooth function defined as a
-linear combination of spline bases and a model composed by a combination of both
-terms.
-%The most popular model is to integrate all information using Bayesian
-%hierarchical models.
+As we emphasized in the introduction, we use BHMs for our problem. The first level of a BHM always models the likelihood of the data \cite{Tingley_QSR2012}. The second level models the temperature process, where forcings may be included to improve
+the reconstruction \cite{Barboza2014} \jeg{I am not aware of other examples -- are you?}, since they are known to drive the temperature process. An additional benefit is that this allows to {\it attribute} forcings \cite{HegerlZwiers:2011} as part of the inference procedure. However, this raises the spectre of overfitting, whereby the model would discount the noisy proxy data and place undue influence on the forcings, and not enough on internal variability. To avoid this risk, it may be preferable to model temperature fluctuations as a smooth function of time (say, via splines) without including forcings, then perform forcing attribution on the inferred temperature posterior \cite{Schurer:2013aa,Schurer:2013ab}, which guarantees independence: this way, if the reconstruction bears a strong resemblance to the forcings, it is only because the latter are reflected in the values of the predictors, not because they were fed to the model. In this section we explore both end-members, as well as an intermediate case. 
 
 Below we first define notations for our models:
 %Our models are based on the one presented in \cite{Barboza2014}. Now we define some notation, %assuming that all the variables are set at time $t$.
@@ -347,12 +339,11 @@ RP_t^i=\alpha_0^i+\alpha_1^iT_t+\epsilon^i_t,
 where $\{\alpha^i_j\}$ are intercepts ($j=0$) and slopes ($j=1$) for $i=1,\ldots,N$,  and $\epsilon^i_t$ are normally-distributed random variables with finite variances
 $\{\sigma^2_i\}$. Note that in our case $N=8$, since we are working with 8
 reduced proxies. The time variable $t$ is defined on each $RP$ according to the
-time intervals of Table \ref{tab:distdate}. 
+time intervals of Table~\ref{tab:distdate}. 
 
-The second level will be defined in three different forms depending on whether
-forcings and/or BSplines will be included. We have
+The second level will be defined in three different forms:
 \begin{description}
-\item[Model NF]
+\item[Model "NF"]
   \begin{align}\label{eq:M1}
     T_t=\beta_0+\sum_{k=1}^{K(\tau)}\beta_k B_t^{k,\tau}+\eta_t,
   \end{align}
@@ -365,31 +356,31 @@ perform  well without taking into account the external forcings, as long as a
 smoothing function has been included to approximate the dynamic behavior of the
 temperature series. In order to have a baseline model to evaluate Model NF, we
 define
-\item[Model WF]
+\item[Model "WF"]
   \begin{align}\label{eq:M2}
     T_t=\beta_0+\beta_1S_t+\beta_2\tilde V_t+\beta_3\tilde C_t+\eta_t.
   \end{align}
 Both first level and second level models are defined for
-$t=1,\cdots,2000$ (Common Era). It is important to add that in Models NF and WF we simply assume
-an independent error structures. This is because \cite{Barboza2014} 
-found that complex error structures make little difference when forcings are
-added to the reconstruction.
-\item[Model Mixed]
-  This model is a combination of equations \eqref{eq:M1} and \eqref{eq:M2} as follows:
+$t=1,\cdots,2000$ (Common Era). It is important to add that Models NF and WF simply assume an independent error structure. This is because \cite{Barboza2014} 
+found that complex error structures make little difference when forcings are added to the reconstruction.
+\item[Model "Mixed"] 
+\vskip 0.25in
+  This model is a combination of equations \eqref{eq:M1} and \eqref{eq:M2}, as follows:
   \begin{align}\label{eq:M3}
     T_t=\beta_0+\beta_1S_t+\beta_2\tilde V_t+\beta_3\tilde C_t+\sum_{k=1}^{K(\tau)}\gamma_k B_t^{k,\tau}+\eta_t
   \end{align}
-  where $\gamma_k$ are the coefficients for the B-Spline basis in this case. \lb{Julien: please include an explanation why this model is interesting in the
-    climatology community.}
+  where $\gamma_k$ are the coefficients for the B-Spline basis. %\lb{Julien: please include an explanation why this model is interesting in the climatology community.} \jeg{done}
+  This last case is of most obvious relevance to climate dynamicists. Indeed, it is common knowledge that Earth's temperature varies both as a result of internal causes (NF) and forcings (WF). It is thus most natural to set up a mixed model that reflects both causes. The downside is that the model is more complex, thus making estimation more challenging. 
 \end{description}
+
 
 \subsection{Sampling with INLA}
 
-The computational challenge has been a concern for paleoclimate reconstructions using Bayesian methods. It is crucial to overcome this computational bottleneck before we can move forward to a more complex space-time reconstruction. Here we introduce the INLA sampling strategy to accelerate our global series reconstruction, and we hope this experiment can be served as a pioneer for employing INLA in other more complex reconstructions. 
+The computational challenge of MCMC inference has been a concern for Bayesian paleoclimate reconstructions. It is crucial to overcome this computational bottleneck before we can move forward to a more complex space-time reconstruction. Here we introduce the INLA sampling strategy to accelerate the MCMC procedure, and we hope this experiment can serve as a template for employing INLA in more complex reconstructions. 
 
 %The computation is slow for even a global reconstruction, let alone a space-time reconstruction in our mind. We now introduce INLA to our reconstruction by adapting our model to the general specification of  the INLA framework. Now it is fast and we plan to extend this to space-time reconstruction. 
 
-The INLA approach is applicable to a general specification for which the mean $\eta_i$ of  observations $y_i$ follows a  linear structure:
+The INLA approach is applicable to a general specification for which the mean $\eta_i$ of the observations $y_i$ follows a  linear structure:
 \begin{align}\label{eq:meanINLA}
   \eta_i = \alpha +\sum_{m-=1}^M\beta_mx_{mi}+\sum_{l=1}^Lf_l(z_{li})
 \end{align}
@@ -473,19 +464,21 @@ As Bayesian estimation, INLA requires priors for unknown parameters. Below is th
 
 \section{Results.}
 \label{sec:results}
-\subsection{Impact of data reduction method and the grouping of reduced proxies}
+\jeg{Here the baseline seems to be WF. WOuld it make sense to choose "Mixed" or "NF" instead?} 
+
+\subsection{Impact of data reduction choices}
 As a first exercise, we analyze the change in the predictive capacity of the
 reconstruction model when more equations involving proxies are included. We used
-two scoring rules in \cite{Gneiting2007a} as measures of predictive ability:
-IS$_\alpha$ (Interval Score at $\alpha$ level) and CRPS (Continuous Ranked
-Probability Score). These scores have been previously employed in the
+two proper scoring rules \cite{Gneiting2007a} as measures of predictive ability: the Interval Score at $\alpha$ level
+(IS$_\alpha$) and the Continuous Ranked
+Probability Score (CRPS). These scores have been previously employed in the
 verification of point forecasts in environmental sciences for example, as well as the area
 of paleoclimatic reconstructions (see \cite{Barboza2014} and
-\cite{Scheuerer2014}). Table \ref{tab:comparisontot} contains the predictive
+\cite{Scheuerer2014}). Table~\ref{tab:comparisontot} contains the predictive
 measures using the INLA's prediction intervals and: (1) the \textbf{observed
   anomalies} over 1850-1899 as an out-of-sample validation interval and (2) the borehole-based
 reconstruction of \cite{Pollack2004} over 1500-1899 as an out-of-sample
-validation interval. We compared in this case Model WF with a single RP
+validation interval \jeg{with smoothing}. We compared in this case Model WF with a single RP
 (the longest available) with respect to model WF using the 8 available reduced
 proxies, where the comparison was made under the five dimension reduction
 methods explained above.
@@ -563,10 +556,12 @@ methods explained above.
 It is evident that there is an improvement in all the measures when we use all the available reduced proxies over the case
 $N=1$, under the methods SPLS, PCR and sPCR for the first validation period.
 However, for the PS04 dataset validation, only
-the PCR method shows an improvement in terms of measures.  Also note that, among the models with external forcings, the techniques that
+the PCR method shows an improvement in terms of measures. \jeg{I bet my house that this will change when you lowpass filter temperature}
+
+Also note that, among the models with external forcings, the techniques that
 guarantees better results in terms of prediction are sPCR and PCR.
 
-\subsection{Can forcings be surrogated by a nonparametric smoothing function?}
+\subsection{Impact of Model Choice}
 We are also interested in assessing whether a linear combination of B-splines can model GMST without the inclusion of external
 forcings at all. It is clear from equations \eqref{eq:M1} and \eqref{eq:M3} that
 one of the drawbacks of Models NF and Mixed is the arbitrariness of $K(\tau)$. We analyze the
@@ -577,13 +572,15 @@ the corresponding basis elements. Based on the above, we selected 6
 BSpline terms for this period and we take $K(\tau)=120$ based on the
 assumption that the number of BSpline terms is uniform
 throughout all the reconstruction period. Note that the high prevalence of
-proxy-based annual data allows to assume that a constant number of elements of
+annually-resolved proxy data allows to assume that a constant number of elements of
 the BSpline basis is adequate to describe the component of the temperature
 mean.\jeg{this assumption seems strange given that the number of proxies varies
   drastically. Can you justify it?}\lb{I tried using the fact that practically
   all the data here comes in an annual basis, so the deterministic trend of the 
   temperature can be
-  modelled in an uniform way}. The choice of $K(\tau)=100$ for Model Mixed is
+  modelled in an uniform way}.\jeg{I supposed the RPs are annual, even if they are made of fewer and fewer observations as you go further back in time. I'll be curious to see what the reviewers say about this, but I don't want this to hold up the show.}
+  
+  The choice of $K(\tau)=100$ for Model Mixed is
 based on the same criteria as before. Finally we fit the models NF and Mixed
 with the previous choices of $K(\tau)$ using the five different data reduction
 techniques of section \ref{sec:rp}. These results are
@@ -651,17 +648,23 @@ by the PCR-SSwF model.
   \label{fig:paleo15001}
 \end{figure}
 
-\subsection{Comparison between MCMC and INLA sampling}
+\subsection{Impact of INLA sampling}
 
-We now quantify the trade-offs of approximating the MCMC procedure using INLA.\jeg{that's what we're doing, right?}
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.35]{RecCE_MCMC}
+  \caption{Paleoclimate Reconstruction in the Common Era (CE) with 95\%
+    prediction bands. Model sPCR-SSwF under two methods: INLA and MCMC.}
+  \label{fig:paleoCE4}
+\end{figure}
 
-The SSwF \jeg{change name} model in its simplest case (1 nest) was fitted in \cite{Barboza2014}
+We now quantify the trade-offs of approximating the MCMC procedure using INLA. The WF model in its simplest case (1 nest) was fitted in \cite{Barboza2014}
 using an MCMC approach. We employed this approach in order to adjust the
-SSwF model with the first reduced proxy from the sPCR method (the best choice
-obtained from Table \ref{tab:comparisontot}). The MCMC was performed using the
+WF model with the first reduced proxy from the sPCR method (the best choice
+obtained from Table~\ref{tab:comparisontot}). The MCMC was performed using the
 same priors as in \cite{Barboza2014}, but with a larger calibration period
-(1900-2000). The results are shown in Figures \ref{fig:paleoCE4} and
-\ref{fig:paleo19004} in the appendix, together with the results of the best
+(1900-2000). The results are shown in Figures~\ref{fig:paleoCE4} and
+\ref{fig:paleo19004}, together with the results of the best
 model according to Table \ref{tab:comparisontot}. Note that the MCMC reconstruction is cooler than INLA's, due
 mainly to the inclusion of more information from the remaining 7 reduced
 proxies. The MCMC confidence bands along the reconstruction period are narrower,
@@ -682,6 +685,16 @@ obtained in the MCMC model, mainly due to a larger effect of the remaining
 reduced proxies on the reconstruction, but in general, this external forcings
 represents the one with greatest weight when we describe the mean behavior of the anomalies.
 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.45]{PlotBetas}
+  \caption{Posterior densities of $\beta_1$, $\beta_2$ and $\beta_3$ for Model
+    sPCR-SSwF and MCMC using PCR single reduced proxy.}
+  \label{fig:betas}
+\end{figure}
+
+
 In terms of computational efficiency the INLA procedure is quite remarkable, not only
 for our case but in most of the previous works on the topic (see \cite{Rue2009},
 \cite{Blangiardo2013}, \cite{Ruiz-Cardenas2012} for a few examples). The
@@ -691,15 +704,42 @@ aproximately 14 hours, whereas the computational time of INLA's best model with
 was performed on an Ubuntu 16.04 server with Intel Xeon E5-2630 (8-cores,
 2.40GHz) and 64 GB of RAM.}. 
 
-\section{Conclusions}
-The impact of data reduction choices was explored by five popular dimension reduction techniques that allow us to compute reduced proxies under different temporal horizons and we were able to compare them through their
-predictive capacity during a validation period. We also considered the model developed in \cite{Barboza2014}, and we explored to make it more complex by including more information from the proxy dataset, as well as by extending the reconstruction period by 1000 years. The participation of external forces in the hierarchical Bayesian model was tested by comparing its ability to describe the
-average behavior of temperature anomalies with respect to a linear combination
-of BSplines. Of course, this adds more complexity to the hierarchical model and
-it becomes more necessary to solve the slow behavior of the adjustment process
-when we employ MCMC techniques. This second challenge was successfully solved by
-approximating the adjustment with INLA, with which we were able to adjust Bayesian models with much
-greater complexity than \cite{Barboza2014} in a much shorter period of time. 
+
+\subsection{Are we living in extraordinary times?}
+
+\jeg{can we use the Mixed model as baseline here?. You could put the figures for NF and WF in the Appendix, if need be.}
+Finally, we take advantage of our probabilistic output to ask whether the levels and rates of warming over the recent past are exceptional in a 2,000 year context.  Fig.~\ref{fig:compmeans} compares the temporal means of the last 10, 25, 50 and 100 years of the record compared to all similar previous intervals. That is, for the 25y case, we compare the mean over 1976-2000 to the mean over 1951-1975, 1926-1950, and so on back to 1 CE. It is evident that in all cases the most recent periods appear detectably warmer than any other time in the past 2,000 years, which confirms and strengthens the original conclusions of \cite{MBH99}.  
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.35]{compMeans}
+  \caption{Comparison of the distribution of reconstructed anomalies for different time horizons. Model sPCR-SSwF. }
+  \label{fig:compmeans}
+\end{figure}
+
+The situation is more nuanced for warming rates: there is no discernible difference on 10 or 20y intervals, but warming rates over 1951-2000 and 1901-2000 appear highly anomalous in a 2,000 year context. This is not surprising, as transient heat exchanges between the surface and deep ocean are known to occur on scales shorter than a few decades \cite{Hansen:2005}. These transient average out over 50-100y scales, and reveal a highly anomalous warming rate, which can be tied to the radiative forcing due to anthropogenic emissions of $CO_2$ (parameter $\beta_3$ in the WF and Mixed models).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.35]{compTrends}
+  \caption{Comparison of the distribution of trends of reconstructed anomalies for different time horizons. Model sPCR-SSwF.}
+  \label{fig:comptrends}
+\end{figure}
+
+\section{Discussion}
+We have carried out a Bayesian inference of global mean surface temperature over the past 2,000. By leveraging INLA to lighten the computational burden, our framework allows to investigate a wide range of choices for the model and data reduction strategy.  We validated the result using instrumnetal data over the 1850-1899 period, and using borehole temperature inversions prior from 1500-2000. The former constrains mostly variability on interannual scales. The latter constrains multi-decadal to centennial behavior.  
+
+We have found that .. \jeg{summarize what the results actually tell us. To me these are:}
+
+\begin{itemize}
+    \item the data reduction techniques give roughly equivalent results, with PCR performing marginally better in most cases.
+    \item the model choice is highly consequential. Model "mixed" is the most physically justifiable and appears to perform at least as well as other choices. 
+    \ item In cases where both are computed, INLA allows to approximate the MCMC solution at a fraction of the computational cost, but with wider uncertainties
+    \item Temperature levels are unprecedented in the past 2,000 years, while the rates are only anomalous on scales longer than 50 years. There too, the twentieth century stands out as warming more rapidly than any other century in the past 2,000 years. 
+    \item All models that include forcings (WF, Mixed) show that carbon dioxide is the leading contributor to this warming \jeg{verify that this is true...}. 
+\end{itemize}
+
+%The impact of data reduction choices was explored by five popular dimension reduction techniques that allow us to compute reduced proxies under different temporal horizons and we were able to compare them through their predictive capacity during a validation period. We also considered the model developed in \cite{Barboza2014}, and we explored to make it more complex by including more information from the proxy dataset, as well as by extending the reconstruction period by 1000 years. The participation of external forces in the hierarchical Bayesian model was tested by comparing its ability to describe the average behavior of temperature anomalies with respect to a linear combination of BSplines. Of course, this adds more complexity to the hierarchical model and  it becomes more necessary to solve the slow behavior of the adjustment process when we employ MCMC techniques. This second challenge was successfully solved by approximating the adjustment with INLA, with which we were able to adjust Bayesian models with much greater complexity than \cite{Barboza2014} in a much shorter period of time.  Discuss about using INLA for space-time reconstruction...
 
 
 
@@ -738,12 +778,7 @@ greater complexity than \cite{Barboza2014} in a much shorter period of time.
 
 
 
-\section{Conclusions.}
-\label{sec:conclusions}
 
-A brief summary of what this paper did and what are the conclusions. 
-
-Discuss about using INLA for space-time reconstruction...
 
 
 %\printbibliography
@@ -766,13 +801,7 @@ Discuss about using INLA for space-time reconstruction...
 %   \label{fig:proxiespcr}
 % \end{figure}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[scale=0.45]{PlotBetas}
-  \caption{Posterior densities of $\beta_1$, $\beta_2$ and $\beta_3$ for Model
-    sPCR-SSwF and MCMC using PCR single reduced proxy.}
-  \label{fig:betas}
-\end{figure}
+
 
 % \begin{figure}[H]
 %   \centering
@@ -790,13 +819,7 @@ Discuss about using INLA for space-time reconstruction...
 %   \label{fig:paleo19003}
 % \end{figure}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[scale=0.35]{RecCE_MCMC}
-  \caption{Paleoclimate Reconstruction in the Common Era (CE) with 95\%
-    prediction bands. Model sPCR-SSwF under two methods: INLA and MCMC.}
-  \label{fig:paleoCE4}
-\end{figure}
+
 
 % \begin{figure}[H]
 %   \centering
@@ -806,17 +829,5 @@ Discuss about using INLA for space-time reconstruction...
 %   \label{fig:paleo19004}
 % \end{figure}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[scale=0.35]{compMeans}
-  \caption{Comparison of the distribution of reconstructed anomalies for different time horizons. Model sPCR-SSwF.}
-  \label{fig:compmeans}
-\end{figure}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[scale=0.35]{compTrends}
-  \caption{Comparison of the distribution of trends of reconstructed anomalies for different time horizons. Model sPCR-SSwF.}
-  \label{fig:comptrends}
-\end{figure}
 \end{document}
