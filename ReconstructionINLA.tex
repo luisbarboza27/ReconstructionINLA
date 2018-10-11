@@ -61,7 +61,7 @@ San Jos\'e, Costa Rica}
 
 \date{\today}
 %\date{December 20, 2014}
-\keywords{INLA,Paleoclimate Reconstruction,Hierarchical Bayesian Model}
+\keywords{INLA, Hierarchical Bayesian Model, Paleoclimate Reconstruction}
 \subjclass[2010]{}
 \maketitle
 
@@ -88,22 +88,22 @@ Earth's climate presents a continuum of variability, with periodic and non-perio
 %observed temperatures. \lb{Julien: Can you help me to add more details about the
 %importance of paleoclimate reconstructions from the physical point of view?}
 
-Many methods have been developed to reconstruct past climates, particularly temperature:  principal component regression
+Many methods have been developed to reconstruct past climates, particularly temperatures:  principal component regression
 \cite{MBH98,MBH99,luterbacher2004european,Wahl2012,Neukom:2014}, regularized forms of the expectation-maximization algorithm \cite{Schneider2001,bradley2005proxy,mann2005testing,mann2007robust,rutherford2003climate,steig2009,JEG10a,JEG10b,Guillot_AOAS2015}, canonical
 correlation analysis \cite{smerdon2010pseudoproxy,Wang_CP2014,Evans_grl2014}, pairwise comparison
 \cite{Hanhijarvi2013,Gergis2016}, data assimilation \cite{Lee_CD08,Hakim2016}, and Bayesian hierarchical models (BHMs). 
 
 BHMs models offer several distinct advantages for paleoclimatic reconstruction. They can ($i$) treat different sources of uncertainty in a natural way ($ii$) incorporate prior knowledge of the system in a logically-coherent manner \cite{Jaynes04} (c) allow for both inference and prediction. 
 
-Many studies have been conducted BHMs: \cite{boli1, tingley1,tingley2,tingley2013_Ext,werner2012pseudoproxy,Barboza2014} among others. Some of these studies have used space-state
+Many studies have conducted BHMs: \cite{boli1, tingley1,tingley2,tingley2013_Ext,werner2012pseudoproxy,Barboza2014} among others. Some of these studies have used space-state
 schemes to linearly relate information that comes from paleoclimateo observations (coming from trees, corals, icea cores, lake and marine sediments, and historical archives) together with information about external climatic forcings, resulting from 
 well-mixed greenhouse gases, volcanic activity, and variations in solar output.   Three problems arise in this
 case: the need to reduce data in some form, the complexity of the model, and the execution time of the numerical procedure. 
 
-Recently a method was proposed that jointly models the variability of the temperature series (as a latent process) as well as the variability of those climatic and biological variables that serve as approximations of this process \cite{Barboza2014}.  The authors found that ... \jeg{Luis, summarize your findings here}. The scope of the study was restricted by the computational requirements of the Monte-Carlo Markov Chain (MCMC) procedure, which limited the sensitivity analysis and forced severe levels of data reduction. 
+Recently a\bl{what method? give a name or reference?} method was proposed that jointly models the variability of the temperature series (as a latent process) as well as the variability of those climatic and biological variables that serve as approximations of this process \cite{Barboza2014}.  The authors found that ... \jeg{Luis, summarize your findings here}. The scope of the study was restricted by the computational requirements of the Monte-Carlo Markov Chain (MCMC) procedure, which limited the sensitivity analysis and forced severe levels of data reduction. 
 
 In this article we leverage Integrated Nested Laplace
-Approximations (INLA) to extend the work of \cite{Barboza2014}. By lightening the computational burden, INLA allows to (a) explore new model designs inspired by the physics of the problem; (b) consider various choices for data reduction; and (c) take the non-stationary nature of the observational network into account.  In addition, this work makes use the most up-to-date estimates of radiative forcing, as well as a state-of-the-art, open-access compilation of community-curated paleoclimate observations \cite{PAGES2kSD2017allauthors}. This ensures that our calculations are using the best available data and are completely
+Approximations (INLA) to extend the work of \cite{Barboza2014}. By lightening the computational burden, INLA allows to (a) explore new model designs inspired by the physics of the problem; (b) consider various choices for data reduction; and (c) take the non-stationary nature of the observational network into account.  In addition, this work makes use of the most up-to-date estimates of radiative forcing, as well as a state-of-the-art, open-access compilation of community-curated paleoclimate observations \cite{PAGES2kSD2017allauthors}. This ensures that our calculations are using the best available data and are completely
 reproducible. %They can also be readily updated as the dataset changes over time. 
 
 The article is organized as follows: we start by describing the datasets (section 2), and the methodology (section 3). Results are presented in section 4, discussed in Section 5, before concluding in section 6. 
@@ -568,18 +568,17 @@ Also note that, among the models with external forcings, the techniques that
 guarantees better results in terms of prediction are sPCR and PCR.
 
 \subsection{Impact of Model Choice}
-We are also interested in assessing whether a linear combination of B-splines can model GMST without the inclusion of external
+We are also interested in assessing whether a linear combination of B-spline bases can model GMST without the inclusion of external
 forcings at all. It is clear from equations \eqref{eq:M1} and \eqref{eq:M3} that
 one of the drawbacks of Models NF and Mixed is the arbitrariness of $K(\tau)$. We analyze the
 relationship between the temperature observed during the calibration period
-(1900-2000) and a linear combination of BSplines. The number of elements of the
-base in Model NF is selected according to the adjusted $R^2$ of a linear regression model between observed anomalies and
-the corresponding basis elements. Based on the above, we selected 6
-BSpline terms for this period and we take $K(\tau)=120$ based on the
-assumption that the number of BSpline terms is uniform
-throughout all the reconstruction period. Note that the high prevalence of
-annually-resolved proxy data allows to assume that a constant number of elements of
-the BSpline basis is adequate to describe the component of the temperature
+(1900-2000) and a linear combination of BSplines. The number of 
+bases in Model NF is selected according to the adjusted $R^2$ of a linear regression model between observed anomalies and
+the corresponding basis functions. Based on the above, we selected 6
+BSpline functions for this period and we take $K(\tau)=120$ based on the
+assumption that the number of BSpline bases is uniform
+throughout the entire reconstruction period. Note that the high prevalence of
+annually-resolved proxy data allows to assume that a constant number of BSpline bases might be adequate to describe the temperature
 mean.\jeg{this assumption seems strange given that the number of proxies varies
   drastically. Can you justify it?}\lb{I tried using the fact that practically
   all the data here comes in an annual basis, so the deterministic trend of the 
@@ -587,9 +586,9 @@ mean.\jeg{this assumption seems strange given that the number of proxies varies
   modelled in an uniform way}.\jeg{I supposed the RPs are annual, even if they are made of fewer and fewer observations as you go further back in time. I'll be curious to see what the reviewers say about this, but I don't want this to hold up the show.}
   
   The choice of $K(\tau)=100$ for Model Mixed is
-based on the same criteria as before. Finally we fit the models NF and Mixed
-with the previous choices of $K(\tau)$ using the five different data reduction
-techniques of section \ref{sec:rp}. These results are
+based on the same criteria as before. Finally, we fit the models NF and Mixed
+with the previous choices of $K(\tau)$, using the five different data reduction
+techniques described in section \ref{sec:rp}. These results are
 also shown in Table \ref{tab:comparisontot}. Note that the SPLS method achieves a better performance in terms of the
 predictive measures for the first validation period, and PCR gets the smallest
 MSE for the second period. 
@@ -676,7 +675,7 @@ results in terms of the two previous validation exercises.
   \includegraphics[scale=0.55]{Rec1500_Final}
   \caption{Paleoclimate Reconstruction 1500-2000 with 95\%
     prediction bands. Best two choices per validation method. The out-of-sample validation period is
-    located between the red lines.}
+    located between the red lines.\bl{No red lines here?}}
   \label{fig:paleo15001}
 \end{figure}
 
@@ -722,7 +721,7 @@ both reconstructions is the greenhouse-gases component, followed by solar irradi
 \end{figure}
 
 In terms of computational efficiency the INLA procedure is quite remarkable, not only
-for our case but in most of the previous works on the topic (see \cite{Rue2009},
+for our case but in most of the previous work on a similar topic as well (see \cite{Rue2009},
 \cite{Blangiardo2013}, \cite{Ruiz-Cardenas2012} for a few examples). The
 computational time of an MCMC method with 5000 samples was
 aproximately 8 hours, whereas the computational time of INLA's best model with
@@ -756,43 +755,42 @@ The situation is more nuanced for warming rates: there is no discernible differe
 \end{figure}
 
 \section{Discussion}
-We have carried out a Bayesian inference of global mean surface temperature over
-the past 2,000 years. By leveraging INLA to lighten the computational burden, our framework allows to investigate a wide range of choices for the model and data reduction strategy.  We validated the result using instrumental data over the 1850-1899 period, and using borehole temperature inversions prior from 1600-1899. The former constrains mostly variability on interannual scales. The latter constrains multi-decadal to centennial behavior.  
+We carried out a Bayesian inference of global mean surface temperature over
+the past 2,000 years. By leveraging INLA to lighten the computational burden, our framework allows us to investigate a wide range of model choices and data reduction strategies.  We validated the result using instrumental data over the 1850-1899 period, and then using the borehole temperature inversions from 1600-1899. The former validates the reconstruction precisely to an interannual scale, while the latter validates only the multi-decadal to centennial behavior.  
 
-We have found that:
+Below are a few take-home messages from our study:
 
 \begin{itemize}
-    \item The data reduction techniques give roughly equivalent results, with
-      sPCR and PCR performing marginally better in most cases.
+    \item The data reduction techniques provide roughly equivalent results, with
+      sPCR and PCR performing marginally better than other methods.
     \item The model choice is highly consequential. Model "Mixed" is the most
       physically justifiable because it guarantees a balance between the
       validation measures on the first and second testing periods and it also
-      appears to perform at least as well as other choices. The existence of the
-      additional term in the mean component of equation \eqref{eq:M3} allows us
-      to model information that is not included into the external forcings,
-      besides giving an additional dependence structure to the error term.
-    \item In cases where both are computed, INLA allows to approximate the MCMC
+      appears to perform at least as well as other choices. The 
+      additional nonparametric term in the mean component of equation \eqref{eq:M3} allows us
+      to capture information that is not included in the external forcings, which sort of compensates for the independent structure in errors. 
+      %besides giving an additional dependence structure to the error term.
+    \item In cases where both INLA and MCMC are implemented, INLA allows to approximate the MCMC
       solution at a fraction of the computational cost, but with wider
       prediction intervals. This exercise was performed only for the simplest
-      model available (1 reduced proxy), otherwise the computational time of the
+      model available (1 reduced proxy) though. The computational time of the
       MCMC for more complex models like the ones presented in Figure
       \ref{fig:paleoCE1} was practically impossible to perform. 
-    \item Temperature levels are unprecedented in the past 2,000 years, while
-      the rates are only anomalous on scales longer than 50 years. There too,
-      the twentieth century stands out as warming more rapidly than any other
+    \item Temperature levels are unprecedented in the past 2,000 years. 
+      The twentieth century also stands out as warming more rapidly than any other
       century in the past 2,000 years. It is important to add that all models that include forcings (WF, Mixed) show that the external
       forcing guided by carbon dioxide is the leading contributor to this
       warming effect. 
 \end{itemize}
 
-It is important to add that one of the limitations of our analysis is the strong
+One limitation of our analysis is the strong
 dependence of our results on the choice of the testing period. Ideally, a
 cross-validation exercise should be carried out to determine with greater
-certainty the testing error of the models, but for reasons of availability of
-additional comparison information it can be considered a challenge for this type
-of problem. Another important limitation is the modeling of spatial variability
-in the reduced proxies. At least INLA has proved to be very computationally
-efficient, so it could be considered in the future the extension of our models to the spatio-temporal case.
+certainty the testing error of the models, but due to the restricted access to
+additional comparison information the cross-validation is very challenging for this problem. 
+Another way to improve our current study is to consider the space-time variability of the reduced proxies and temperatures in the model. 
+Since INLA has been proven to be computationally
+efficient, it can be used to extend our studies to spatiotemporal reconstruction of temperatures.
 
 
 
