@@ -1,5 +1,5 @@
-\documentclass[11pt]{amsart}
-\usepackage{amsmath,amsfonts,amssymb,amsthm,verbatim,multirow,url,subfig,footnote,graphicx,array,xr,booktabs,placeins,float}
+\documentclass[12pt]{amsart}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,verbatim,multirow,url,subfig,footnote,graphicx,array,xr,booktabs,placeins,float,setspace}
 \usepackage[usenames,dvipsnames]{color}
 %  \usepackage[style=numeric,
 %  doi=false,
@@ -8,6 +8,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[version=3]{mhchem}
+\usepackage[sort]{natbib}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
 
 
 \theoremstyle{plain}
@@ -29,19 +31,19 @@
 \newcommand{\jeg}[1]{\color{ProcessBlue}\textbf{[JEG: #1]}\normalcolor}
 
 
-%\addbibresource{biblioteca.bib}
 
 \begin{document}
-\title[Paleoclimate Reconstruction using INLA.]{Efficient Reconstructions of Common Era Climate via Integrated Nested Laplace Approximations.}
+\doublespacing
+\title[]{Efficient Reconstructions of Common Era Climate via Integrated Nested Laplace Approximations.}
 
-\author{Luis A. Barboza}
+\author[]{Luis A. Barboza}
 \address{Centro de Investigacion en Matematica Pura y Aplicada (CIMPA)-Escuela
   de Matematica, Universidad de Costa Rica\\
 San Jos\'e, Costa Rica}
 \email{luisalberto.barboza@ucr.ac.cr}
 
 
-\author{Julien Emile-Geay}
+\author[]{Julien Emile-Geay}
 \address{Department of Earth Sciences \\
   University of Southern California \\
   Los Angeles, California, USA.
@@ -49,62 +51,60 @@ San Jos\'e, Costa Rica}
 \email{julieneg@usc.edu}
 
 
-\author{Bo Li}
+\author[]{Bo Li}
 \address{Department of Statistics \\
   University of Illinois at Urbana-Champaign \\
   Champaign, Illinois, USA.
 }
 \email{libo@illinois.edu}
 
-\author{Wan He}
-
+\author[]{Wan He}
 
 \date{\today}
-%\date{December 20, 2014}
-\keywords{INLA, Hierarchical Bayesian Model, Paleoclimate Reconstruction}
+\keywords{Hierarchical Bayesian Model, INLA, Paleoclimate Reconstruction}
 \subjclass[2010]{}
 \maketitle
 
 \begin{abstract}
-A Paleolimate Reconstruction on the Common Era (1-2000AD) was performed using a
+A Paleoclimate Reconstruction on the Common Era (1-2000AD) was performed using a
 Hierarchical Bayesian Model from three sources of data: proxy data from PAGES2k
 project dataset, HadCRUT4 temperature data from the Climatic Research Unit
 at the University of East Anglia and external forcing data from several sources.
-Instead of using the MCMC approach to solve for the latent variable, we used the
+Data reduction techniques were used with the aim of achieving a realiable set of
+proxy equations. Instead of using the MCMC approach to solve for the latent variable, we used the
 INLA algorithm that shows a similar approximation than previous studies. The use
-of external forcings was tested by replace them with a fixed number of
-BSplines in the latent equation. Classical goodness-of-fit measures show that there is not a significant
-difference between the predictive ability of both approaches. 
+of external forcings was tested by replace or combine them with a fixed number of
+BSplines in the latent equation. Two different validation exercises confirm that
+it is feasible to improve the predictive ability of external-forcing models. 
 \end{abstract}
 
 \section{Introduction.}
 \label{sec:intro}
 
-Earth's climate presents a continuum of variability, with periodic and non-periodic fluctuations ranging from 1 to $10^8$ years \cite{pelletier_power_1998,ghil2002natural,huybers_links_2006}. In particular, variability on scales of decades to centuries is of paramount importance for adaption and planning to anthropogenic climate change, yet is incompletely sampled by the relatively short historical record of wide-spread instrumental observations, going back to about 1850 CE \cite{AR5_chap5}. It is thus critical to reconstruct these variations from the paleoclimate record as quantitatively as possible.  A particular focus has been reconstructions of global or hemispheric temperature from high-resolution proxy observations \cite{Jones_Holocene09}.
-
-%Paleoclimate reconstructions represent statistical simplifications of more
-%complex processes at the climatic level and they allow us to understand the past
-%behavior of temperatures over a specific area, and also the future trend of
-%observed temperatures. \lb{Julien: Can you help me to add more details about the
-%importance of paleoclimate reconstructions from the physical point of view?}
+Earth's climate presents a continuum of variability, with periodic and non-periodic fluctuations ranging from 1 to $10^8$ years \citep{pelletier_power_1998,ghil2002natural,huybers_links_2006}. In particular, variability on scales of decades to centuries is of paramount importance for adaption and planning to anthropogenic climate change, yet is incompletely sampled by the relatively short historical record of wide-spread instrumental observations, going back to about 1850 CE \citep{AR5_chap5}. It is thus critical to reconstruct these variations from the paleoclimate record as quantitatively as possible.  A particular focus has been reconstructions of global or hemispheric temperature from high-resolution proxy observations \citep{Jones_Holocene09}.
 
 Many methods have been developed to reconstruct past climates, particularly temperatures:  principal component regression
-\cite{MBH98,MBH99,luterbacher2004european,Wahl2012,Neukom:2014}, regularized forms of the expectation-maximization algorithm \cite{Schneider2001,bradley2005proxy,mann2005testing,mann2007robust,rutherford2003climate,steig2009,JEG10a,JEG10b,Guillot_AOAS2015}, canonical
-correlation analysis \cite{smerdon2010pseudoproxy,Wang_CP2014,Evans_grl2014}, pairwise comparison
-\cite{Hanhijarvi2013,Gergis2016}, data assimilation \cite{Lee_CD08,Hakim2016}, and Bayesian hierarchical models (BHMs). 
+\citep{MBH98,MBH99,luterbacher2004european,Wahl2012,Neukom:2014}, regularized forms of the expectation-maximization algorithm \citep{Schneider2001,bradley2005proxy,mann2005testing,mann2007robust,rutherford2003climate,steig2009,JEG10a,JEG10b,Guillot_AOAS2015}, canonical
+correlation analysis \citep{smerdon2010pseudoproxy,Wang_CP2014,Evans_grl2014}, pairwise comparison
+\citep{Hanhijarvi2013,Gergis2016}, data assimilation \cite{Lee_CD08,Hakim2016}, and Bayesian hierarchical models (BHMs). 
 
-BHMs models offer several distinct advantages for paleoclimatic reconstruction. They can ($i$) treat different sources of uncertainty in a natural way ($ii$) incorporate prior knowledge of the system in a logically-coherent manner \cite{Jaynes04} (c) allow for both inference and prediction. 
+BHMs models offer several distinct advantages for paleoclimatic reconstruction. They can ($i$) treat different sources of uncertainty in a natural way ($ii$) incorporate prior knowledge of the system in a logically-coherent manner \citep{Jaynes04} (c) allow for both inference and prediction. 
 
-Many studies have conducted BHMs: \cite{boli1, tingley1,tingley2,tingley2013_Ext,werner2012pseudoproxy,Barboza2014} among others. Some of these studies have used space-state
+Many studies have conducted BHMs: \citep{boli1, tingley1,tingley2,tingley2013_Ext,werner2012pseudoproxy,Barboza2014} among others. Some of these studies have used space-state
 schemes to linearly relate information that comes from paleoclimateo observations (coming from trees, corals, icea cores, lake and marine sediments, and historical archives) together with information about external climatic forcings, resulting from 
 well-mixed greenhouse gases, volcanic activity, and variations in solar output.   Three problems arise in this
 case: the need to reduce data in some form, the complexity of the model, and the execution time of the numerical procedure. 
 
-Recently a\bl{what method? give a name or reference?} method was proposed that jointly models the variability of the temperature series (as a latent process) as well as the variability of those climatic and biological variables that serve as approximations of this process \cite{Barboza2014}.  The authors found that ... \jeg{Luis, summarize your findings here}. The scope of the study was restricted by the computational requirements of the Monte-Carlo Markov Chain (MCMC) procedure, which limited the sensitivity analysis and forced severe levels of data reduction. 
+\cite{Barboza2014} proposes a method that jointly models the variability of the
+temperature series (as a latent process) as well as the variability of those
+climatic and biological variables that serve as approximations of this process.
+The authors found that long-memory error terms are necessary in absence of
+external-forcing information within a hierarchical bayesian model, but the
+presence of external-forcing information substantially improves the reconstruction. The scope of the study was restricted by the computational requirements of the Monte-Carlo Markov Chain (MCMC) procedure, which limited the sensitivity analysis and forced severe levels of data reduction. 
 
 In this article we leverage Integrated Nested Laplace
-Approximations (INLA) to extend the work of \cite{Barboza2014}. By lightening the computational burden, INLA allows to (a) explore new model designs inspired by the physics of the problem; (b) consider various choices for data reduction; and (c) take the non-stationary nature of the observational network into account.  In addition, this work makes use of the most up-to-date estimates of radiative forcing, as well as a state-of-the-art, open-access compilation of community-curated paleoclimate observations \cite{PAGES2kSD2017allauthors}. This ensures that our calculations are using the best available data and are completely
-reproducible. %They can also be readily updated as the dataset changes over time. 
+Approximations (INLA) to extend the work of \cite{Barboza2014}. By lightening the computational burden, INLA allows to (a) explore new model designs inspired by the physics of the problem; (b) consider various choices for data reduction; and (c) take the non-stationary nature of the observational network into account.  In addition, this work makes use of the most up-to-date estimates of radiative forcing, as well as a state-of-the-art, open-access compilation of community-curated paleoclimate observations \citep{PAGES2kSD2017allauthors}. This ensures that our calculations are using the best available data and are completely
+reproducible.  
 
 The article is organized as follows: we start by describing the datasets (section 2), and the methodology (section 3). Results are presented in section 4, discussed in Section 5, before concluding in section 6. 
 
@@ -113,18 +113,18 @@ The article is organized as follows: we start by describing the datasets (sectio
 
 \subsection{Proxy data.}
 Reconstructions of past climates rely on ``proxies'': indirect observations of climate, as recorded in borehole, coral, documentary, glacier
-ice, lake and marine sediment, sclerosponge, speleothem and tree-ring archives \cite{Jones_Holocene09}.
+ice, lake and marine sediment, sclerosponge, speleothem and tree-ring archives \citep{Jones_Holocene09}.
 
 The PAGES2k global multiproxy database is a ``community-driven effort to
 synthesize all publicly-archived, temperature-sensitive proxy records of the
-past 2,000 years'' \cite{PAGES2KConsortium2013,Kaufman2014,PAGES2kSD2017allauthors}. The most recent effort \cite{PAGES2kSD2017allauthors} made all records available in a standard format (LiPD, \cite{lipd_cp}) readable in R, Python and Matlab \cite{lipd-util}, to ensure reproducible workflows.   
+past 2,000 years'' \citep{PAGES2KConsortium2013,Kaufman2014,PAGES2kSD2017allauthors}. The most recent effort \citep{PAGES2kSD2017allauthors} made all records available in a standard format (LiPD, \cite{lipd_cp}) readable in R, Python and Matlab \citep{lipd-util}, to ensure reproducible workflows.   
 
 The dataset gathers collected through 692
 data series from 648 locales around the world. Each of those proxies
 has different time horizons (Fig.~\ref{fig:proxy}, bottom), which creates challenges for data reduction. Unlike previous studies (for example \cite{Barboza2014}), we strive to take into account the information available in most proxies, despite their temporal diversity.
 In order to select proxies with high predictive power, we first chose those series with large correlations with respect to
-their closest spatial temperature record in the HadCRUT4.2 dataset \cite{Morice2012}. More
-details on this ``screening'' procedure, which controls for the multiple test problem \cite{BenjaminiHochberg95}, can be found in \cite{PAGES2kSD2017allauthors}; it whittles down the database to 257 proxies (Fig.~\ref{fig:proxy}).   
+their closest spatial temperature record in the HadCRUT4.2 dataset \citep{Morice2012}. More
+details on this ``screening'' procedure, which controls for the multiple test problem \citep{BenjaminiHochberg95}, can be found in \citep{PAGES2kSD2017allauthors}; it whittles down the database to 257 proxies (Fig.~\ref{fig:proxy}).   
 \begin{figure}
   \centering
   \includegraphics[scale=0.40]{CombinedMap_Area}
@@ -139,9 +139,9 @@ second panel of Figure~\ref{fig:proxy}.
 We estimate Global Mean Surface Temperature (GMST) from the HadCRUT4 global temperature dataset provided by the Met Office Hadley
 Centre and the Climatic Research Unit at the University of East Anglia, UK
 (version 4.4.0.0). The dataset consists of instrumental, {\it in situ}
-observations of surface temperature over land \cite{Jones2012} and ocean
-\cite{Kennedy2011, Kennedy2011a}. The
-observations are expressed as anomalies relative to the monthly-mean seasonal cycle over the 1961-1990 period in degrees Celsius. Though HadCRUT4 features a rather sophisticated analysis of error sources \cite{Morice2012}, including a 100-member ensemble of draws from the error distribution, we neglect these uncertainties against the much larger uncertainties affecting paleoclimate observations, and simply use the median of this ensemble, averaged on an annual basis.
+observations of surface temperature over land \citep{Jones2012} and ocean
+\citep{Kennedy2011, Kennedy2011a}. The
+observations are expressed as anomalies relative to the monthly-mean seasonal cycle over the 1961-1990 period in degrees Celsius. Though HadCRUT4 features a rather sophisticated analysis of error sources \citep{Morice2012}, including a 100-member ensemble of draws from the error distribution, we neglect these uncertainties against the much larger uncertainties affecting paleoclimate observations, and simply use the median of this ensemble, averaged on an annual basis.
 \jeg{Luis, are you using the GMST provided by HadCRUT4, or do you calculate your
   own from the spatial data?}\lb{I'm using the file
   HadCRUT.4.4.0.0.ama\_ns\_avg\_1850-2015.txt that you provided me.}
@@ -149,7 +149,7 @@ observations are expressed as anomalies relative to the monthly-mean seasonal cy
 %\jeg{Note: it's a little too late for that, but one day it would be nice to incorporate the uncertainty in instrumental temperatures into your analysis. Perhaps mention this in the discussion as a possible application of INLA?}\lb{Yes, I will include that in the discussion.}
 
 \subsection{Forcing data.}
-It is well-known that climate responds to external forcings, including natural forcings. In this work we take advantage of this knowledge for statistical modeling, and use the most recent compilations from the PMIP4-CMIP6 project \cite{JungclausGMD17,Kageyama_GMD2017}. The data consist of:
+It is well-known that climate responds to external forcings, including natural forcings. In this work we take advantage of this knowledge for statistical modeling, and use the most recent compilations from the PMIP4-CMIP6 project \citep{JungclausGMD17,Kageyama_GMD2017}. The data consist of:
 \begin{itemize}
 \item Volcanic forcing from Easy Volcanic Aerosol (EVA) dataset (evolv2k,
   \cite{Toohey2016}) reconstructed zonal mean AOD (mid-visible, i.e., 550 nm), covering the
@@ -157,12 +157,12 @@ It is well-known that climate responds to external forcings, including natural f
   used to fill in the forcing table. EVA is given as a function latitude, so the data are area-weighted (multiplied by the cosine of their corresponding latitudes) to form a single timeseries (Fig.~\ref{fig:forcings}, top).
   
 \item The solar forcing data is computed from the SATIRE-H
-  (Holocene) dataset \cite{Vieira2011}. Irradiance from SATIRE-H (Holocene) is
+  (Holocene) dataset \citep{Vieira2011}. Irradiance from SATIRE-H (Holocene) is
   recorded on a decadal basis from 9495BC - 1939AD and then on a daily basis
   from 1940AD onwards. Hence, the data prior to 1939AD was interpolated using splines and after 1940AD, at annual resolution. For consistency, daily data from 1640AD to 2000AD is also spline interpolated to annual resolution (Fig.~\ref{fig:forcings}, middle). 
 \item Greenhouse-Gases concentrations: hemispheric means of mole
   fraction of carbon dioxide in air (ppm) with annual
-  resolution \cite{Meinshausen_GMD2017} as well as ice core measurements prior to that date \cite{JungclausGMD17} (Fig.~\ref{fig:forcings}, bottom).
+  resolution \citep{Meinshausen_GMD2017} as well as ice core measurements prior to that date \citep{JungclausGMD17} (Fig.~\ref{fig:forcings}, bottom).
 \end{itemize}
 
 \begin{figure}
@@ -209,9 +209,9 @@ horizon, this creates 8 groups with the distribution shown in Table \ref{tab:dis
 An important aspect we notice from the distribution of Table
 \ref{tab:distdate} is that the number of proxies can be greater or at least very
 closed to the number of available observations in the calibration period defined as
-1900-2000CE\footnote{The choice of the calibration period is based on the
-  arguments shown in \cite{Barboza2014}} (101 observations), which can cause overfitting issues or
-dimensionality problems in the use of classical linear models. For the above
+1900-2000CE (101 observations), which can cause overfitting issues or
+dimensionality problems in the use of classical linear models. The choice of the calibration period is based on the
+  arguments shown in \cite{Barboza2014}. For the above
 reasons, we investigated various data reduction techniques with the aim of establishing 
 a reliable linear model between the observed anomalies and the corresponding proxies in
 Table \ref{tab:distdate}, based on the data in the calibration
@@ -221,14 +221,14 @@ period. Many different data reduction methods have been developed; we focus on f
 \item[Lasso Regression (LR)]
   The Lasso regression penalizes the usual sum of squares with an argument
  containing the sum of the absolute values of each coefficient in the classical
- linear regression model, multiplied by an additional smoothing parameter  (\cite{Tibshirani1996}). Due
+ linear regression model, multiplied by an additional smoothing parameter \citep{Tibshirani1996}. Due
  to the geometric nature of the term of penalization, the search of estimators
  tends to assign values very close to zero to variables that have almost null
  effects with respect to the dependent variable, which makes the resulting
  models easily interpretable. This method is very common to data reduction and easy to implement, but it often tends to select models with an excess of complexity, that is,
  it tends to show "false positives" in the variable selection process 
- (\cite{Fan2010}). Lasso could also run into inconsistency issues when the
- variables are highly correlated (\cite{Zou2005}).
+ \citep{Fan2010}. Lasso could also run into inconsistency issues when the
+ variables are highly correlated \citep{Zou2005}.
  We used 10-fold cross validation to select the smoothing parameter when we carried out Lasso regression (see \cite{Tibshirani1996} and \cite{Friedman2010} for more details). 
 \item[Sparse Partial Least Squares (sPLS)] 
   Partial least squares seek to reduce the high-dimensionality issues of the
@@ -240,7 +240,7 @@ period. Many different data reduction methods have been developed; we focus on f
   substantial number of noisy covariates (\cite{Chun2010} and
   \cite{Chung2013}). However, this method is inefficient in
   measuring the statistical significance of whether the parameters associated to certain
-  variables are effectively zero (\cite{OlsonHunt2014}). In our implementation, the
+  variables are effectively zero \citep{OlsonHunt2014}. In our implementation, the
   thresholding parameter involved in sPLS is estimated using a 10-fold cross-validation criteria.    
 \item[Sliced Inverse Regression (SIR) with CSS selection method]
   In general, the SIR methods (\cite{Li1991},
@@ -266,7 +266,7 @@ period. Many different data reduction methods have been developed; we focus on f
   %reduced models that are close to the complete model (possibly with excess
   %of dimension) in terms of their eigenvalue decompositions. 
   Finally, we studied the association between proxies and temperatures
-  through a linear regression between the observed anomalies and a number of EDR directions, i.e., orthogonal basis of the EDR subspace, determined by marginal dimension tests (\cite{Cook2004}). 
+  through a linear regression between the observed anomalies and a number of EDR directions, i.e., orthogonal basis of the EDR subspace, determined by marginal dimension tests \citep{Cook2004}. 
 \item[Principal Component Regression (PCR)]
 PCR simply means that we replace the original covariates by their PCs. To select how many and which PCs to use, we fitted a regression model between the temperature and PCs of eight different sets of covariates selected in each of the eight different time periods based on the training data in calibration period. We then selected the number of PCs in each of
 the eight regressions as the minimum number that attains, for the first time, an adjusted
@@ -440,7 +440,7 @@ $\tilde p(\theta_i|y)$ are obtained as follows:
 
 \subsection{Priors}
 The models proposed in section \ref{sec:modelspec} were
-implemented using the R package \textbf{r-inla}\footnote{www.r-inla.org}. The
+implemented using the R package \textbf{r-inla} (www.r-inla.org). The
 implementation followed the methods provided in \cite{Ruiz-Cardenas2012} and
 \cite{Muff2015} on the use of the INLA methodology in state-space models,
 dynamic linear models, and in general models whose mean can be written
@@ -478,10 +478,9 @@ of paleoclimatic reconstructions (see \cite{Barboza2014} and
 measures using the INLA's prediction intervals and the observed
   anomalies over 1850-1899 as an out-of-sample validation interval.  and the
   last column consists of the mean square error (MSE) between the smoothed
-  reconstruction\footnote{The smoothing version was computed with a Butterworth
-    low-pass filter with a 50-year cutoff and order equal to 4.} and the borehole-based
+  reconstruction and the borehole-based
 reconstruction of \cite{Pollack2004} over 1600-1899 as an out-of-sample
-validation interval. We compared in this case Model WF with a single RP
+validation interval. The smoothing version was computed with a Butterworth low-pass filter with a 50-year cutoff and order equal to 4. We compared in this case Model WF with a single RP
 (the longest available) with respect to model WF using the 8 available reduced
 proxies, where the comparison was made under the five dimension reduction
 methods explained above.
@@ -673,9 +672,7 @@ results in terms of the two previous validation exercises.
 \begin{figure}
   \centering
   \includegraphics[scale=0.55]{Rec1500_Final}
-  \caption{Paleoclimate Reconstruction 1500-2000 with 95\%
-    prediction bands. Best two choices per validation method. The out-of-sample validation period is
-    located between the red lines.\bl{No red lines here?}}
+  \caption{Smoothed Reconstruction 1600-1900 vs PS04 series. Best two choices per validation method.}
   \label{fig:paleo15001}
 \end{figure}
 
@@ -725,9 +722,9 @@ for our case but in most of the previous work on a similar topic as well (see \c
 \cite{Blangiardo2013}, \cite{Ruiz-Cardenas2012} for a few examples). The
 computational time of an MCMC method with 5000 samples was
 aproximately 8 hours, whereas the computational time of INLA's best model with
-a single reduced proxy was aproximately 15 seconds \footnote{This comparison
+a single reduced proxy was aproximately 15 seconds. This comparison
 was performed on an Ubuntu 16.04 server with Intel Xeon E5-2630 (8-cores,
-2.40GHz) and 64 GB of RAM.}. 
+2.40GHz) and 64 GB of RAM. 
 
 
 \subsection{Are we living in extraordinary times?}
@@ -838,7 +835,7 @@ efficient, it can be used to extend our studies to spatiotemporal reconstruction
 
 %\printbibliography
 
-\bibliographystyle{plain}
+\bibliographystyle{chicago}
 \bibliography{biblioteca}
 
 \end{document}
