@@ -67,15 +67,15 @@ San Jos\'e, Costa Rica}
 
 \begin{abstract}
 A Paleoclimate Reconstruction on the Common Era (1-2000AD) was performed using a
-Hierarchical Bayesian Model from three data sources: proxy data from PAGES2k
+Hierarchical Bayesian Model from three types of data: proxy data from PAGES2k
 project dataset, HadCRUT4 temperature data from the Climatic Research Unit
-at the University of East Anglia and external forcing data from several sources.
-Several data reduction techniques were explored with the purpose of achieving a parsimoneous but sufficient set of
-proxy equations. Instead of using the MCMC approach to solve for the latent variable, we employed the
-INLA algorithm that well approximates the MCMC results and mentime much more computationally efficient. The use
-of external forcings was tested by replacing or combining them with a fixed number of
+at the University of East Anglia, and external forcing data from several sources.
+Five data reduction techniques were explored with the purpose of achieving a parsimoneous but sufficient set of
+proxy equations. Instead of using the MCMC approach to solve for the latent variable, we employed an
+INLA algorithm that can approximate the MCMC results and meantime is  much more computationally efficient than MCMC. The role
+of external forcings was investigated by replacing or combining them with a fixed number of
 BSplines in the latent equation. Two different validation exercises confirm that
-it is feasible to improve the predictive ability of external-forcing models. 
+it is feasible to improve the predictive ability of traditional external forcing models. 
 \end{abstract}
 
 \section{Introduction.}
@@ -88,9 +88,8 @@ Many methods have been developed to reconstruct past climates, particularly temp
 correlation analysis \citep{smerdon2010pseudoproxy,Wang_CP2014,Evans_grl2014}, pairwise comparison
 \citep{Hanhijarvi2013,Gergis2016}, data assimilation \citep{Lee_CD08,Hakim2016}, and Bayesian hierarchical models (BHMs). 
 
-BHMs models offer several distinct advantages for paleoclimatic reconstruction. They can ($i$) treat different sources of uncertainty in a natural way ($ii$) incorporate prior knowledge of the system in a logically-coherent manner \citep{Jaynes04} (c) allow for both inference and prediction \citep{Tingley_QSR2012}. 
-
-Many studies have conducted BHMs: \citep{boli1, tingley1,tingley2,tingley2013_Ext,werner2012pseudoproxy,Barboza2014} among others. Some of these studies have used space-state
+BHMs offer several distinct advantages for paleoclimatic reconstruction. They can (i) treat different sources of uncertainty in a natural way (ii) incorporate prior knowledge of the system in a logically-coherent manner \citep{Jaynes04} (iii) allow for both inference and prediction \citep{Tingley_QSR2012}. 
+Many studies have conducted BHMs: \cite{boli1, tingley1,tingley2,tingley2013_Ext,werner2012pseudoproxy,Barboza2014} are examples among others. Some of these studies have used space-state
 schemes to linearly relate information that comes from paleoclimate observations (coming from trees, corals, icea cores, lake and marine sediments, and historical archives) together with information about external climatic forcings, resulting from 
 well-mixed greenhouse gases, volcanic activity, and variations in solar output.   Three problems arise in this
 case: the need to reduce dimensionality, the complexity/realism of the model, and the execution time of the numerical procedure. 
@@ -98,9 +97,9 @@ case: the need to reduce dimensionality, the complexity/realism of the model, an
 \citet{Barboza2014} proposed a method that jointly models the variability of the
 temperature series (as a latent process) as well as the variability of those
 climatic and biological variables that serve as approximations of this process.
-The authors found that long-memory error terms are necessary in absence of
-external-forcing information within a BHM, but the
-presence of external-forcing information substantially improves the reconstruction. The scope of the study was restricted by the computational requirements of the Monte-Carlo Markov Chain (MCMC) procedure, which limited the sensitivity analysis and forced severe levels of data reduction. 
+The authors found that long memory error terms are necessary in absence of
+external forcing information within a BHM, but the
+presence of external forcing information substantially improves the reconstruction. The scope of the study was restricted by the computational requirements of the Monte Carlo Markov Chain (MCMC) procedure, which limited the sensitivity analysis and forced severe levels of data reduction. 
 
 In this article we leverage Integrated Nested Laplace
 Approximations (INLA) to extend the work of \cite{Barboza2014}. By lightening the computational burden, INLA allows to (a) explore new model designs inspired by the physics of the problem; (b) consider various choices for data reduction; and (c) take the non-stationary nature of the observational network into account.  In addition, this work makes use of the most up-to-date estimates of radiative forcing, as well as a state-of-the-art, open-access compilation of community-curated paleoclimate observations \citep{PAGES2kSD2017allauthors}. This ensures that our calculations are using the best available data and are completely
@@ -174,6 +173,7 @@ It is well-known that climate responds to external forcings, including natural f
 \label{sec:rp}
 
 The proxy data matrix is large ($p=257$) compared to the 101 yearly samples used to train the model (1900-2000). This large $p$, small $n$ problem therefore require  a data reduction of some kind. 
+Following \cite{Barboza2014}, we do so by generating a set of ``Reduced Proxy'' ($RP$) time series, which condense individual proxy time series into a single time series with larger predictive power over the GMST target. Since this is one of the major steps in temperature reconstruction, in this paper we will carefully investigate five common data reduction methods rather than adopting the simple data reduction method employed in \cite{Barboza2014}, after some initial screening of proxies series.    
 
 \begin{table}
   \centering
@@ -194,8 +194,6 @@ The proxy data matrix is large ($p=257$) compared to the 101 yearly samples used
   \caption{Distribution of proxies according to their temporal availability.}
   \label{tab:distdate}
 \end{table}
-
-Following \cite{Barboza2014}, we do so by generating a set of ``Reduced Proxy'' ($RP$) time series, which condense individual proxy time series into a single time series with larger predictive power over the GMST target. Since this is one of the major steps in temperature reconstruction, in this paper we will carefully investigate five common data reduction methods rather than adopting the simple data reduction method employed in \cite{Barboza2014}, after some initial screening of proxies series.    
 
 The 257 proxy variables are first centered and scaled. Then we remove
 proxy series whose proportion of missing annual observations is larger than 5\%
@@ -305,7 +303,7 @@ Table \ref{tab:distdate}, we compute a single reduced proxy series following
 \subsection{Model Specification}
 \label{sec:modelspec}
 As we emphasized in the introduction, we use BHMs for our problem. The first level of a BHM always models the likelihood of the data \citep{Tingley_QSR2012}. The second level models the temperature process, where forcings may be included to improve
-the reconstruction \citep{Barboza2014,boli1}, since they are known to drive the temperature process. An additional benefit is that this allows to {\it attribute} forcings \citep[i.e., determine causality,][]{HegerlZwiers:2011} as part of the inference procedure. However, this raises the spectre of overfitting, whereby the model would discount the noisy proxy data and place undue influence on the forcings, and not enough on internal variability. To avoid this risk, it may be preferable to model temperature fluctuations as a smooth function of time (say, via splines) without including forcings, then perform forcing attribution on the inferred temperature posterior \citep{Schurer2013a,Schurer2013b}, which guarantees independence: this way, if the reconstruction bears a strong resemblance to the forcings, it is only because the latter are reflected in the values of the predictors, not because they were fed to the model. In this section we explore both end-members, as well as an intermediate case. 
+the reconstruction \citep{Barboza2014,boli1}, since they are known to drive the temperature process. An additional benefit is that this allows to {\it attribute} forcings \citep[i.e., determine causality,][]{HegerlZwiers:2011} as part of the inference procedure. However, this raises the spectre of overfitting, whereby the model would discount the noisy proxy data and place undue influence on the forcings, and not enough on internal variability. To avoid this risk, it may be preferable to model temperature fluctuations as a smooth function of time (say, via splines) without including forcings, then perform forcing attribution on the inferred temperature posterior \citep{Schurer2013a,Schurer2013b},\bl{one reference is not found} which guarantees independence: this way, if the reconstruction bears a strong resemblance to the forcings, it is only because the latter are reflected in the values of the predictors, not because they were fed to the model. In this section we explore both end-members, as well as an intermediate case. 
 
 Below we first define notations for our models:
 %Our models are based on the one presented in \cite{Barboza2014}. Now we define some notation, %assuming that all the variables are set at time $t$.
