@@ -283,7 +283,7 @@ sPLS method \citep{Chung2013}.
 
 \begin{figure}
   \centering
- \includegraphics[scale=0.55]{RPs_type} 
+ \includegraphics[scale=0.40]{RPs_type} 
   \caption{Reduced Proxies among methods.}
   \label{fig:RPs}
 \end{figure}
@@ -296,7 +296,7 @@ Table \ref{tab:distdate}, we compute a single reduced proxy series following
 
 \begin{figure}
   \centering
- \includegraphics[scale=0.38]{CorMatrixRPs} 
+ \includegraphics[scale=0.35]{CorMatrixRPs} 
   \caption{Correlation Matrices among 5 different Reduced Proxy series}
   \label{fig:CorrRPs}
 \end{figure}
@@ -481,7 +481,8 @@ proxies, where the comparison was made under the five dimension reduction
 methods explained above.
 
 \begin{table}
-\centering
+  \centering
+  {\small
 \begin{tabular}{lll|rrr|r}
   \toprule
   \textbf{Model} & $N$ & \textbf{Method} & IS$_{80}$ & IS$_{95}$ & CRPS & MSE \\ 
@@ -511,6 +512,7 @@ methods explained above.
   Mixed & 8 & SIR & 0.5986 & 0.4209 & 0.1766 & 0.2019 \\ 
    \bottomrule
 \end{tabular}
+}
 \caption{Comparison of predictive measures.}
 \label{tab:comparisontot}
 \end{table}
@@ -556,10 +558,7 @@ methods explained above.
 
 It is evident that there is an improvement in all the measures when we use all the available reduced proxies over the case
 $N=1$, under the methods SPLS, PCR and sPCR for the first validation period.
-For the PS04 dataset validation, all the methods except SIR shows an improvement in terms of MSE. (Table~\ref{tab:comparisontot}, last column). 
-
-Also note that, among the models with external forcings, the techniques that
-guarantees better results in terms of prediction are sPCR and PCR. \jeg{the term "guarantee" is problematic, as it implies some kind of theoretical assurance, whereas this is not the case here as far as I understand. Would it be more fair to say "best results from the viewpoint of these prediction measures are obtained with sPCR and PCR"?}
+For the PS04 dataset validation, all the methods except SIR shows an improvement in terms of MSE. (Table~\ref{tab:comparisontot}, last column). Also note that, among the models with external forcings, the techniques that best results from the viewpoint of these prediction measures are obtained with sPCR and PCR.
 
 \subsection{Impact of Model Choice}
 We are also interested in assessing whether a linear combination of B-spline bases can model GMST without the inclusion of external
@@ -592,7 +591,7 @@ according to the two testing periods.
 
 \begin{figure}
   \centering
-  \includegraphics[scale=0.55]{RecCE_Final}
+  \includegraphics[scale=0.40]{RecCE_Final}
   \caption{Paleoclimate Reconstruction in the Common Era (CE) with 95\%
     prediction bands. Best two choices per validation method.}
   \label{fig:paleoCE1}
@@ -602,22 +601,13 @@ according to the two testing periods.
 
 The best model for the first testing period (sPCR-WF) shows an interesting
 balance in terms of the variance of the reconstructed series and the width of
-the confidence region approximated by INLA. The remaining 3 reconstructions show similar small-scale tendencies with respect to the best choice, but the width of their confidence regions
-is greater, which is an indicator of less precision in the overall
-reconstruction. \jeg{NO!!! Figure 6 shows that sPCR-WF is completely off the mark for low-frequency variability, and therefore is not "interesting" but simply wrong. That is exactly what I thought would happen when we included PS04 for long timescales, and I am glad to see it confirmed here.}
-
-
-% These last reconstructions also have smaller amplitude than the one shown by the best
-% option, this clearly is an indicator that the absence or presence of the
-% forcings is not decisive at the time of performing the reconstruction. In
-% general terms these three reconstructions have a very similar average level
-% of anomalies, except that the PCR-SSnF method gives anomalies that are generally a
-% bit colder than the two best ones.
-A closer look of the reconstructions is shown in Figure
+the confidence region approximated by INLA. The remaining 3 reconstructions show
+similar small-scale tendencies with respect to the best choice, but the width of
+their confidence regions is greater. A closer look of the reconstructions is shown in Figure
 \ref{fig:paleo19001}, where the first testing period appears between the red lines.
 \begin{figure}
   \centering
-  \includegraphics[scale=0.55]{Rec1900_Final}
+  \includegraphics[scale=0.40]{Rec1900_Final}
   \caption{Paleoclimate Reconstruction 1850-2000 with 95\%
     prediction bands. Best two choices per validation method. The out-of-sample validation period is
     located between the red lines.}
@@ -636,8 +626,7 @@ using a low-pass filter and the borehole-based reconstruction of
 and PCR models with external forcings provide the best adjustment in terms of
 the MSE measure, especially during the 1700-1850 period. We can infer therefore
 that the B-Spline basis provides enough flexibility to attain reconstructed
-anomalies that were estimated by reconstructions that do not use the PAGES2k
-dataset \jeg{confusing. Don't they all use the PAGES2k dataset?}. Therefore, PCR-Mixed yields the most balanced
+anomalies with low-frequency features. Therefore, PCR-Mixed yields the most balanced
 results in terms of the two previous validation exercises.
 % Note that although the reconstruction we obtained in
 % SPLS-SSnF has a fairly narrow confidence region, there are quite a few observed
@@ -655,7 +644,7 @@ results in terms of the two previous validation exercises.
 
 \begin{figure}
   \centering
-  \includegraphics[scale=0.55]{Rec1500_Final}
+  \includegraphics[scale=0.40]{Rec1500_Final}
   \caption{Smoothed Reconstruction 1600-1900 vs PS04 series. Best two choices per validation method.}
   \label{fig:paleo15001}
 \end{figure}
@@ -664,7 +653,7 @@ results in terms of the two previous validation exercises.
 
 \begin{figure}
   \centering
-  \includegraphics[scale=0.5]{RecCE_MCMC}
+  \includegraphics[scale=0.40]{RecCE_MCMC}
   \caption{Paleoclimate Reconstruction in the Common Era (CE) with 95\%
     prediction bands. Model sPCR-WF under two methods: INLA and MCMC.}
   \label{fig:paleoCE4}
@@ -676,11 +665,10 @@ WF model with the first reduced proxy from the sPCR method (we chose this method
 just for comparison purposes). The MCMC was performed using the
 same priors as in \cite{Barboza2014}, but with a larger calibration period
 (1900-2000). The results are shown in Figures~\ref{fig:paleoCE4} and
-\ref{fig:betas}. Note that the MCMC reconstruction reaches cooler temperatures than INLA's, due
-mainly to the inclusion of more information from the remaining 7 reduced
-proxies \jeg{I thought we were only using 1 nest here?}. The MCMC confidence bands along the reconstruction period are narrower,
-which may be an indication that the  reconstruction obtained through MCMC has a larger
-bias than the one obtained with INLA method. \jeg{does the interval score support the notion that the MCMC intervals are overconfident? Narrower isn't always better.} Despite these differences, the general trends of both reconstructions are quite similar. 
+\ref{fig:betas}. Note that the MCMC reconstruction reaches cooler temperatures
+than INLA's and the MCMC confidence bands along the reconstruction period are
+narrower. This last fact coincides with a small difference in terms of the
+interval score measure. Despite these contrasts, the general trends of both reconstructions are quite similar. 
 
 Another point of comparison is the estimated coefficients of the
 external forcings in equation \eqref{eq:M2}. The estimated density function
@@ -697,9 +685,9 @@ coefficients. This behavior confirms the observed details of Figure
 
 \begin{figure}
   \centering
-  \includegraphics[scale=0.45]{PlotBetas}
+  \includegraphics[scale=0.40]{PlotBetas}
   \caption{Posterior densities of $\beta_1$, $\beta_2$ and $\beta_3$ for Model
-    sPCR-SSwF and MCMC using PCR single reduced proxy. \jeg{here and in other figures, please replace "vulcanism" by "volcanic"}}
+    sPCR-SSwF and MCMC using PCR single reduced proxy.}
   \label{fig:betas}
 \end{figure}
 
@@ -817,7 +805,7 @@ efficient, it could be used to extend our studies to spatiotemporal reconstructi
 
 
 %\printbibliography
-
+\footnotesize
 \bibliographystyle{chicago}
 \bibliography{biblioteca}
 
