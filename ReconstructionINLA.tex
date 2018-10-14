@@ -8,7 +8,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[version=3]{mhchem}
-\usepackage[sort]{natbib}
+\usepackage[compress,authoryear]{natbib}
 \usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
 
 
@@ -303,7 +303,16 @@ Table \ref{tab:distdate}, we compute a single reduced proxy series following
 \subsection{Model Specification}
 \label{sec:modelspec}
 As we emphasized in the introduction, we use BHMs for our problem. The first level of a BHM always models the likelihood of the data \citep{Tingley_QSR2012}. The second level models the temperature process, where forcings may be included to improve
-the reconstruction \citep{Barboza2014,boli1}, since they are known to drive the temperature process. An additional benefit is that this allows to {\it attribute} forcings \citep[i.e., determine causality,][]{HegerlZwiers:2011} as part of the inference procedure. However, this raises the spectre of overfitting, whereby the model would discount the noisy proxy data and place undue influence on the forcings, and not enough on internal variability. To avoid this risk, it may be preferable to model temperature fluctuations as a smooth function of time (say, via splines) without including forcings, then perform forcing attribution on the inferred temperature posterior \citep{Schurer2013a,Schurer2013b},\bl{one reference is not found} which guarantees independence: this way, if the reconstruction bears a strong resemblance to the forcings, it is only because the latter are reflected in the values of the predictors, not because they were fed to the model. In this section we explore both end-members, as well as an intermediate case. 
+the reconstruction \citep{Barboza2014,boli1}, since they are known to drive the
+temperature process. An additional benefit is that this allows to {\it
+  attribute} forcings \citep[i.e., determine causality,][]{HegerlZwiers:2011} as
+part of the inference procedure. However, this raises the spectre of
+overfitting, whereby the model would discount the noisy proxy data and place
+undue influence on the forcings, and not enough on internal variability. To
+avoid this risk, it may be preferable to model temperature fluctuations as a
+smooth function of time (say, via splines) without including forcings, then
+perform forcing attribution on the inferred temperature posterior
+\cite{Schurer2013a, Schurer2013b}, which guarantees independence: this way, if the reconstruction bears a strong resemblance to the forcings, it is only because the latter are reflected in the values of the predictors, not because they were fed to the model. In this section we explore both end-members, as well as an intermediate case. 
 
 Below we first define notations for our models:
 %Our models are based on the one presented in \cite{Barboza2014}. Now we define some notation, %assuming that all the variables are set at time $t$.
@@ -804,7 +813,7 @@ efficient, it could be used to extend our studies to spatiotemporal reconstructi
 
 %\printbibliography
 \footnotesize
-\bibliographystyle{chicago}
+\bibliographystyle{apalike}
 \bibliography{biblioteca}
 
 \end{document}
