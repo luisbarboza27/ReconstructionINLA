@@ -1,0 +1,20 @@
+Due to ongoing technical issues (unrelated to the journal&manuscript)
+I haven't been able to thoroughly assess the detail of the content of
+the paper, and can only give general comments:
+
+- The paper is clear and well written
+
+- Some previous and controversial work made the error of trying to
+  minimise the number of proxies used for reconstruction, which had
+  the effect of removing all the useful information.  From what I can
+  tell, this paper avoids that trap, and instead formulates the
+  dimension reduction as a computational cost issue.  With this in
+  mind, it might be wise to be more clear about this; the goal isn't
+  to find "the best" summary pseudo-proxy, but rather to actually
+  reconstruct the temperature signal, which would ideally make use of
+  _all_ the available data; the PCA dimension reduction should a means
+  to that end, and not an end in itself.
+
+- I really like that several assessment criteria are used; it's clear from
+  the table that relying on only one would run the risk of overinterpreting
+  the method differences.
