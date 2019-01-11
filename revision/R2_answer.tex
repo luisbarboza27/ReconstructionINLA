@@ -1,0 +1,180 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amsfonts,amssymb,amsthm,verbatim,multirow,hyperref,subfig,footnote,graphicx,array,xr}
+\usepackage{times}
+\usepackage[textheight=600pt]{geometry}
+\usepackage[usenames,dvipsnames]{color}
+%%%%%%%%%%%%%%
+%\usepackage[spanish]{babel}
+%\usepackage[utf8]{inputenc}
+%%%%%%%%%%%%%
+
+
+
+% \oddsidemargin 0pt
+% \topmargin 0pt
+% \headheight 0pt
+% \headsep 0pt
+% \textwidth 15cm  
+% \textheight  24cm
+% \footskip 1cm
+
+\newcommand{\lb}[1]{\color{ForestGreen}\textbf{[Luis B.: #1]}\normalcolor}
+
+\begin{document}
+\begin{center}
+  {\Large \textbf{Response to the comments of the Referee \#2.}}
+\end{center}
+
+We are grateful for the reviewer's careful commentary on the paper, which has improved
+our presentation of the article. In what follows, we state the reviewer's
+comments in italics, and describe our response in roman.
+
+\begin{itemize}
+\item \textit{The above is particularly important when it comes to the proxy
+  dimension reduction; in a properly specified hierarchical model,
+  such as in the paper, the main loss from reducing the proxies is an
+  increased prediction uncertainty for the temperature and model
+  parameters.  For a "reverse" specified model, I would expect
+  hard-to-avoid bias and incorrect conclusions about appropriate
+  number of proxies etc, if those are treated as covariates to be
+  "selected". Having them as model responses removes that part of the
+  tendency to treat it as a model selection problem, when the
+  dimension reduction is really done for basic computational cost
+  reasons; The model should (ideally) be defined so that the original
+  proxies could be used, given enough computational power.  It should
+  be made clearer if the computational cost reduction is the only
+  reason for doing this, or if it also might reduce individual proxy
+  biases by averging some of them out.  Reducing the proxies by
+  averaging (or otherwise) within groups removes information relevant
+  for uncertainty quantification, so it should be made clear what such
+  information might be lost in the dimension reduction step. The above also relates to the discussion on page 10; using the
+  proxies as "input"/"covariates" would definitely run the risk of
+  ignoring them. The generative hierarchical construction used in the
+  paper makes them much less ignorable, as they are the means through
+  which everything else is estimated.}
+
+...
+
+\item \textit{Are the reduced proxy model residuals temporally independent? (see
+  comment above) May need to add an AR(1) random effect to the model to capture
+  dependence (but be careful about confounding with the independent
+  noise term that forms the response likelihood; ideally, one would
+  have a joint BYM model that parametrises the joint effect).}
+
+...
+
+\item \textit{What is the prior used for the weights on the B-spline basis
+  constructions? For independent weights, the results can be highly
+  dependent on the location and spacing of the knots. A nearly always
+  better alternative is to use a properly penalised spline with a well
+  defined interpretation in the limit as the number of knots approach
+  infinity, such as a continuous domain 2nd order random walk model
+  (when penalisisng the integral of the square of the 2nd order
+  derivatives, which gives a 2nd order intrinsic stationary prior on
+  the weights; in INLA either a "rw2" model can be used for the
+  continuous limit, or a 1D SPDE model on 2nd order B-spline bases).}
+
+...
+
+\item \textit{Page 12: The method is referred to as "Sampling with INLA", but it's
+  not clear if only the direct posterior density computations were
+  used, or if also the independent Monte Carlo posterior sample method
+  available in R-INLA was also used (even apart from the sampling
+  error inherent in estimates based on Monte Carlo samples, this
+  sampling method does not exactly match the computed marginal
+  posteriors).  Since the model is linear, all the results should be
+  accessible through the direct methods, but then it would be sensible
+  to refer to the method differently, e.g. "Computing posteriors with
+  INLA". If posterior samples are used, it should be made clear in the
+  text.} 
+
+...
+
+\item \textit{"Model (4) leads to conditional independence of $y$ given $\theta$ and
+  $\psi$": Conditional independence between the response variables (the
+  reduced proxy values) is a simplifying restriction of the R-INLA
+  implementation, separate from the the prior independence between
+  different structured random effects components. While conditional
+  independence between proxies seems reasonable (note \textbf{conditional}
+  independence, as one should expect strong \textbf{marginal} dependence, as
+  noted also on page 9), I have a harder time accepting conditional
+  independence within each proxy; are the model residuals really
+  statistically independent over time?}
+
+...
+
+\item \textit{What $f(.)$ models were used for the different inputs? (see comment
+  about rw2 etc, above) Linear? rw2? Other?}
+
+...
+
+\item \textit{Page 13: "(ii) the vector $\theta$ is conditionally independent given
+  the hyperparameters"; this statement is unclear. The R-INLA model
+  components are conditionally independent, but any structured effect
+  will have conditional dependence within such a components, so it's
+  not correct to say that the entire $\theta$ vector is conditionally
+  independent (unless it's meant to refer only to a specific subset of
+  models, but the preceeding text seems to descrive the general INLA
+  model setting). The next sentence, "These two assumptions specify $\theta$ as a
+  Gaussian Markov random field" is also not quite right; \textbf{all}
+  multivariate normal distributions are markov random fields on \textbf{some}
+  graph. The key is that for models such as "iid" and "AR(1)", "rw2",
+  etc, that graph is very very sparse, so that the Markov property on
+  that graph becomes useful for computations.} 
+
+  ...
+
+\item \textit{Page 13, last line: delete "their" in "their approximations"; there
+  might be other approximations!}
+  
+...
+
+\item \textit{It's not clear what the differences between the models estimated
+  with MCMC and INLA are in Figure 8. The text implies that the model
+  estimated with MCMC uses the same priors (and model structure) as in
+  Barboza et al (2014). Is the systematic difference in reconstruction
+  mean only due to the difference in priors for the model component
+  variances?  If the two models are the same, some more effort should
+  be put on determining why the posterior means are so different. If
+  the two models are different (which includes all the parameter prior
+  distributions), could another INLA run be done where exactly the
+  same priors as for the MCMC run is used, so that it's possible to
+  see if the two methods compute/estimate the same posteriors?}
+
+...
+
+\item \textit{The computational cost benefit of INLA seems very clear; there is
+  only a small number of variance parameters in the model, and the
+  lack of explicit temporal dependence (other than that implied by the
+  forcings) means that MCMC is overkill for this problem, and inposes
+  a large Monte Carlo error; Even with explicit random temporal
+  dependence in the model, the likelihood calculations would be order
+  N in cost, and would only add one extra covariance parameter, so
+  INLA should be expected to be more efficient.  Also, since the
+  entire model is Gaussian, the Laplace steps are exact, so only the
+  mode seeking and numerical integration steps are approximations.
+  Thus, the absolute Monte Carlo error from MCMC should be expected to
+  be large unless a very long run is made, and the relative bias in
+  the posterior densities from INLA should be expected to be small.}
+
+...
+
+\item \textit{I'm curious about the bimodal posterior density for the Greenhouse
+  effect in Figure 9, as I wouldn't expect that from a model of this
+  simple type.  How was the figure produced? If done via posterior
+  sampling, how many samples? The number of samples needs to be very
+  large to get stable empirical density estimates.}
+
+...
+
+\item \textit{I really like that several assessment criteria are used; it's clear
+  from the table that relying on only one would run the risk of
+  overinterpreting the method differences.}
+
+...
+
+\end{itemize}
+\end{document}
+
+
