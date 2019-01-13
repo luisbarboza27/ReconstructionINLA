@@ -39,7 +39,8 @@ dropped. I think a revision that provides more focus and clarity about these
 points is important.
 }
 
-  ...
+  \lb{Once we finished the revision we can address this remark, because we have
+    to adjust the writing and the length of the article to 25 pages.}
   
 \item \textit{Describe the proxy data better. Is it annually resolved tree ring
     data, pollen data at irregular resolutions, etc? Has the data been
@@ -77,12 +78,20 @@ smaller $\sigma_j^2$ and unimportant proxies will have their influence reduced d
     Process type estimation.
 }
 
-...
+The intention of the article is the reconstruction of the average anomalies,
+not the reconstruction of a particular biological proxy. This is the main reason
+why we consider a state-space model to represent the dynamics of the temperature
+process. The proxy data represents an approximation of the observed temperature
+series and the reconstructed temperatures are past estimates of the observed
+process, they are not estimates of the proxy time-series. We think that the
+usage of an state-space approach in this problem allows us to sucessfully
+explain the uncertainties in the system by means of a Bayesian approach. 
+
 
 \item \textit{I have a hard time using Figure 4. Please rescale the correlations
     to only positive values and add numeric values to the correlations.}
 
-  ...
+  Thanks for the suggestion. We rescaled and labeled Figure 4 according to your comment.
 
   
 \item \textit{The model validation and comparison is interesting. What is the
@@ -96,7 +105,23 @@ state that the scoring rules are negatively oriented - lower scores are better.
 A pseudo-proxy experiment can be useful in validating reconstructions. See Smerdon (2012) and Tipton et. al. (2016) for examples.
 }
 
-...
+As we mentioned above the reconstruction seeks to estimate the observed mean
+temperature during the past. That is the reason why we compare the reconstructed
+series with the observed temperature during the validation period. The
+calibration process only uses data from proxies and forcings, so we think that
+the comparison of the reconstructed series vs the mean temperatures is not
+restricting, on the contrary it guarantees more robustness. The purpose of the
+proper scoring rules is to measure nominal coverage together with prediction
+sharpness, and we think that an scoring rule can be applied without any
+restriction in our problem. We do not calibrate to a smoothed version of the
+reconstrction, instead we measure the MSE between the smoothed reconstruction
+and the PS04 dataset in order to validate the reconstruction in periods beyond
+the one with observed temperatures available. We stated in the article that the scoring rules
+are negatively oriented as you suggested. We thank the reviewer for the last
+comment, but due to the length restrictions of the
+article, we think that a pseudo-proxy validation can be considered in future
+work. 
+
 
 
 \item \textit{What is the computational time for the MCMC model? Was it coded in
