@@ -411,15 +411,15 @@ assumptions specify $\theta$ as a Gaussian Markov random field. INLA further
 substitutes the two components $p(\psi|y)$ and $p(\theta_i|\psi,y)$ by their approximations. The first component can be approximated using a
 Laplace Approximation (see \cite{Tierney1986}):
 \begin{align*}
-  p(\psi|y)&=\frac{p(\theta,\psi|y)}{p(\theta|\psi,y)}\propto \frac{p(\psi)p(\theta|\psi)p(y|\theta)}{p(\theta|\psi,y)}\\
-           & \approx  \frac{p(\psi)p(\theta|\psi)p(y|\theta)}{\tilde p(\theta|\psi,y)} \Biggm |_{\theta=\theta^*(\psi)} := \tilde p(\psi|y),
+  p(\psi|y)=\frac{p(\theta,\psi|y)}{p(\theta|\psi,y)}\propto \frac{p(\psi)p(\theta|\psi)p(y|\theta)}{p(\theta|\psi,y)}
+            \approx  \frac{p(\psi)p(\theta|\psi)p(y|\theta)}{\tilde p(\theta|\psi,y)} \Biggm |_{\theta=\theta^*(\psi)} := \tilde p(\psi|y),
 \end{align*}
 where $\tilde p(\theta|\psi,y)$ is the Gaussian approximation of
 $p(\theta|\psi,y)$ and $\theta^*(\psi)$ is its mode (see \cite{Rue2009}). The
 second component can be approximated in a similar way:
 \begin{align}\label{eq:second}
-  p(\theta_i|\psi,y)&=\frac{p((\theta_i,\theta_{-i})|\psi,y)}{p(\theta_{-i}|\theta_i,\psi,y)} \notag \\
-  &\approx \frac{p((\theta_i,\theta_{-i})|\psi,y)}{\tilde p(\theta_{-i}|\theta_i,\psi,y)} \Biggm |_{\theta_{-i}=\theta_{-i}^*(\theta_i,\psi)}:=\tilde p(\theta_i|\psi,y),
+  p(\theta_i|\psi,y) & =\frac{p((\theta_i,\theta_{-i})|\psi,y)}{p(\theta_{-i}|\theta_i,\psi,y)} \notag\\ 
+  & \approx \frac{p((\theta_i,\theta_{-i})|\psi,y)}{\tilde p(\theta_{-i}|\theta_i,\psi,y)} \Biggm |_{\theta_{-i}=\theta_{-i}^*(\theta_i,\psi)}:=\tilde p(\theta_i|\psi,y),
 \end{align}
 where $\theta=(\theta_i,\theta_{-i})$, $\tilde p(\theta_{-i}|\theta_i,\psi,y)$ is the Gaussian approximation of
 $p(\theta_{-i}|\theta_i,\psi,y)$ and $\theta_{-i}^*(\theta_i,\psi)$ is its mode,  

@@ -20,6 +20,7 @@
 % \footskip 1cm
 
 \newcommand{\lb}[1]{\color{ForestGreen}\textbf{[Luis B.: #1]}\normalcolor}
+\newcommand{\bl}[1]{\color{red}\textbf{[Bo: #1]}\normalcolor}
 
 \begin{document}
 \begin{center}
@@ -45,7 +46,7 @@ comments in italics, and describe our response in roman.
   proxies could be used, given enough computational power.  It should
   be made clearer if the computational cost reduction is the only
   reason for doing this, or if it also might reduce individual proxy
-  biases by averging some of them out.  Reducing the proxies by
+  biases by averaging some of them out.  Reducing the proxies by
   averaging (or otherwise) within groups removes information relevant
   for uncertainty quantification, so it should be made clear what such
   information might be lost in the dimension reduction step. The above also relates to the discussion on page 10; using the
@@ -54,7 +55,7 @@ comments in italics, and describe our response in roman.
   paper makes them much less ignorable, as they are the means through
   which everything else is estimated.}
 
-...
+\bl{Let's wait to see the results from the new model}
 
 \item \textit{Are the reduced proxy model residuals temporally independent? (see
   comment above) May need to add an AR(1) random effect to the model to capture
@@ -62,7 +63,7 @@ comments in italics, and describe our response in roman.
   noise term that forms the response likelihood; ideally, one would
   have a joint BYM model that parametrises the joint effect).}
 
-...
+\bl{Yes, we assumed independent residuals. Barboza et al. (2014) found that the error structure is unimportant when forcings are included in the reconstruction, but now we also had reconstruction without forcings, so I am not sure how to address this question. Should we try the AR(1) model as well?}
 
 \item \textit{What is the prior used for the weights on the B-spline basis
   constructions? For independent weights, the results can be highly
@@ -75,7 +76,7 @@ comments in italics, and describe our response in roman.
   the weights; in INLA either a "rw2" model can be used for the
   continuous limit, or a 1D SPDE model on 2nd order B-spline bases).}
 
-...
+\bl{It sounds complicated, but the reviewer pointed the function in INLA to use, so we may try the ``rw2" model?}
 
 \item \textit{Page 12: The method is referred to as "Sampling with INLA", but it's
   not clear if only the direct posterior density computations were
@@ -89,7 +90,7 @@ comments in italics, and describe our response in roman.
   INLA". If posterior samples are used, it should be made clear in the
   text.} 
 
-...
+\bl{Luis, i think you know the answer of this question better.}
 
 \item \textit{"Model (4) leads to conditional independence of $y$ given $\theta$ and
   $\psi$": Conditional independence between the response variables (the
@@ -102,12 +103,12 @@ comments in italics, and describe our response in roman.
   independence within each proxy; are the model residuals really
   statistically independent over time?}
 
-...
+\bl{Seems still question if we should add AR(1) error in our first level}
 
 \item \textit{What $f(.)$ models were used for the different inputs? (see comment
   about rw2 etc, above) Linear? rw2? Other?}
 
-...
+\bl{Luis can handle this.}
 
 \item \textit{Page 13: "(ii) the vector $\theta$ is conditionally independent given
   the hyperparameters"; this statement is unclear. The R-INLA model
@@ -123,7 +124,7 @@ comments in italics, and describe our response in roman.
   etc, that graph is very very sparse, so that the Markov property on
   that graph becomes useful for computations.} 
 
-  ...
+\bl{The reviewer is really an expert on ILNA :) Again, Luis, you know INLA better than any of us, so you have to address it.}
 
 \item \textit{Page 13, last line: delete "their" in "their approximations"; there
   might be other approximations!}
@@ -142,7 +143,7 @@ comments in italics, and describe our response in roman.
   same priors as for the MCMC run is used, so that it's possible to
   see if the two methods compute/estimate the same posteriors?}
 
-...
+\bl{I think we used the same model. The two plots have the same calibration period?}
 
 \item \textit{The computational cost benefit of INLA seems very clear; there is
   only a small number of variance parameters in the model, and the
@@ -158,7 +159,7 @@ comments in italics, and describe our response in roman.
   be large unless a very long run is made, and the relative bias in
   the posterior densities from INLA should be expected to be small.}
 
-...
+\bl{The first part seems to suggest to run an model with AR(1) errors, and the second part still seems to suggest further investigation between INLA and full MCMC? }
 
 \item \textit{I'm curious about the bimodal posterior density for the Greenhouse
   effect in Figure 9, as I wouldn't expect that from a model of this
