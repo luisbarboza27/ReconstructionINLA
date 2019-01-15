@@ -82,7 +82,7 @@ smaller $\sigma_j^2$ and unimportant proxies will have their influence reduced d
 
 The intention of the article is the reconstruction of the average anomalies,
 not the reconstruction of a particular biological proxy. This is the main reason
-why we consider a state-space model\bl{Did we use state-space model?} to represent the dynamics of the temperature
+why we consider a hierarchical bayesian model to represent the dynamics of the temperature
 process. The proxy data represents an approximation of the observed temperature
 series and the reconstructed temperatures are past estimates of the observed
 process, they are not estimates of the proxy time-series. We think that the
@@ -140,12 +140,12 @@ inference from MCMC? If this were a spatio-temporal problem with large data I
 would agree about INLA, but the dataset and the model are actually small.
 }
 
-\bl{We agree that the reconstruction in this paper can be performed in full MCMC and any of the R packages you mentioned. Indeed we wrote our own full MCMC sampling code using R in Barboza et al. (2014) for the reconstruction. We also agree that INLA is an approximation method and has limitations, We therefore have a particular section to investigate the effect of INLA approximations. Despite that,  there are two main reasons why we introduce INLA here. One is that INLA allows us to conduct experiments such as comparing different data reduction methods quickly, so we can implement many experiments without computation burden. The other reason is that we hope this work also plays the role of verifying that INLA can be used for climate reconstruction so later we can employ it in the space-time climate reconstruction, as you mentioned. We now have added a brief discussion about the limitation of INLA to the paper.}
+We agree that the reconstruction in this paper can be performed in full MCMC and any of the R packages you mentioned. Indeed we wrote our own full MCMC sampling code using R in Barboza et al. (2014) for the reconstruction. We also agree that INLA is an approximation method and has limitations, We therefore have a particular section to investigate the effect of INLA approximations. Despite that,  there are two main reasons why we introduce INLA here. One is that INLA allows us to conduct experiments such as comparing different data reduction methods quickly, so we can implement many experiments without computation burden. The other reason is that we hope this work also plays the role of verifying that INLA can be used for climate reconstruction so later we can employ it in the space-time climate reconstruction, as you mentioned. We now have added a brief discussion about the limitation of INLA to the paper.
 
 
 \item \textit{page 5 line 27 - what type of splines? In the abstract you say Bsplines - is this what you use here?}
 
-...
+Yes, we used BSplines. We clarified the sentence as you suggested.
 
 \item \textit{page 11 lines 48-50 - You state the central hypothesis of the
     article is to test “no-forcing” to “forcing” models. Why are you just now
@@ -157,7 +157,8 @@ would agree about INLA, but the dataset and the model are actually small.
 \item \textit{There are many undefined acronyms in the abstract. (INLA, MCMC,
     HadCRUT4, etc.). Make sure you define all acronyms in place.}
 
- ... 
+Thanks for the suggestion, we made the corresponding corrections.
+  
 \end{itemize}
 \end{document}
 

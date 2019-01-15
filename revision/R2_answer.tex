@@ -55,6 +55,16 @@ comments in italics, and describe our response in roman.
   paper makes them much less ignorable, as they are the means through
   which everything else is estimated.}
 
+We really thank the reviewer for these important comments. We are aware that
+modeling proxies individually would reduce local estimation bias. The variance
+at a local perspective would increase considerably, and this is one reason why
+we prefer to concentrate on modeling the average temperature only. It is a fact
+that if we had considered the individual proxies, the computational difficulties
+would have increased, especially in the MCMC case. The reconstruction taking
+individual proxies at a spatio-temporal level with INLA will definitely be a
+future project, but we cannot get rid off the above problem even in this case.
+That is why we consider that the dimension reduction techniques should be
+utilized in any way.
 \bl{Let's wait to see the results from the new model}
 
 \item \textit{Are the reduced proxy model residuals temporally independent? (see
@@ -63,7 +73,12 @@ comments in italics, and describe our response in roman.
   noise term that forms the response likelihood; ideally, one would
   have a joint BYM model that parametrises the joint effect).}
 
-\bl{Yes, we assumed independent residuals. Barboza et al. (2014) found that the error structure is unimportant when forcings are included in the reconstruction, but now we also had reconstruction without forcings, so I am not sure how to address this question. Should we try the AR(1) model as well?}
+\bl{Yes, we assumed independent residuals. Barboza et al. (2014) found that the
+  error structure is unimportant when forcings are included in the
+  reconstruction, but now we also had reconstruction without forcings, so I am
+  not sure how to address this question. Should we try the AR(1) model as
+  well?}\lb{I'm trying a model with AR(1) errors to see if there is an
+  evident change}
 
 \item \textit{What is the prior used for the weights on the B-spline basis
   constructions? For independent weights, the results can be highly
@@ -76,7 +91,17 @@ comments in italics, and describe our response in roman.
   the weights; in INLA either a "rw2" model can be used for the
   continuous limit, or a 1D SPDE model on 2nd order B-spline bases).}
 
-\bl{It sounds complicated, but the reviewer pointed the function in INLA to use, so we may try the ``rw2" model?}
+We are also aware that possibly there exists a high dependence of the results on the location and spacing of the knots as the
+reviewer emphasizes, this is why we fixed the knots location based on the
+degree of linear association between the true temperatures and the BSplines. In
+addition, we know
+that the knots spacing is a difficult problem to work with, mainly because of the
+nature of the temperature series and its diverse spatial composition, this is
+why we think that the assumption of a continuous time model is a complex and
+ambitious assumption. We prefer our simpler and more conservative assumption of uniformity in the distribution of nodes.    
+\bl{It sounds complicated, but the reviewer pointed the function in INLA to use,
+  so we may try the ``rw2" model?}\lb{Yes, it is quite complicated mostly
+  because the penalization term that the reviewer is suggesting. I prefer to defend our position here.}
 
 \item \textit{Page 12: The method is referred to as "Sampling with INLA", but it's
   not clear if only the direct posterior density computations were
