@@ -405,10 +405,10 @@ marginal posterior distribution of each parameter in $\theta$:
 \begin{align*}
   p(\theta_i|y) = \int p(\theta_i,\psi|y)d \psi = \int p(\theta_i|\psi,y)p(\psi|y)d \psi
 \end{align*}
-To attain computational advantages, INLA approach assumes that (i) the prior of vector $\theta$ is a multivariate normal random vector with a precision matrix that depends on hyperparameters $\psi$, and (ii) the vector
-$\theta$ is conditionally independent given the hyperparameters. These two
-assumptions specify $\theta$ as a Gaussian Markov random field. INLA further 
-substitutes the two components $p(\psi|y)$ and $p(\theta_i|\psi,y)$ by their approximations. The first component can be approximated using a
+To attain computational advantages, INLA approach assumes that the prior of
+vector $\theta$ is a multivariate normal random vector with a precision matrix
+that depends on hyperparameters $\psi$. INLA further 
+substitutes the two components $p(\psi|y)$ and $p(\theta_i|\psi,y)$ by approximations. The first component can be approximated using a
 Laplace Approximation (see \cite{Tierney1986}):
 \begin{align*}
   p(\psi|y)=\frac{p(\theta,\psi|y)}{p(\theta|\psi,y)}\propto \frac{p(\psi)p(\theta|\psi)p(y|\theta)}{p(\theta|\psi,y)}

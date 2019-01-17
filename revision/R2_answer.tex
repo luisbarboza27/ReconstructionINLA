@@ -73,6 +73,14 @@ utilized in any way.
   noise term that forms the response likelihood; ideally, one would
   have a joint BYM model that parametrises the joint effect).}
 
+We analyzed the behavior of the residuals based on the linear regression of
+each of the 8 reduced proxies vs the observed temperatures and we got enough
+evidence to reject the hypothesis of temporal independence in 5 out of 40
+possible residuals (5 reduced-proxy methods $\times$ 8 reduced proxies). Based
+on the above we think that the temporal independence assumption is fair enough.
+Despite the above, we implemented an AR(1) random effect to the model as you
+suggested and compared ... 
+
 \bl{Yes, we assumed independent residuals. Barboza et al. (2014) found that the
   error structure is unimportant when forcings are included in the
   reconstruction, but now we also had reconstruction without forcings, so I am
@@ -115,7 +123,10 @@ ambitious assumption. We prefer our simpler and more conservative assumption of 
   INLA". If posterior samples are used, it should be made clear in the
   text.} 
 
-\bl{Luis, i think you know the answer of this question better.}
+Thanks for the clarification. We used the direct posterior density computations
+for most of the calculations throughout the article, except when we compute the
+CRPS measure where we used Monte Carlo samples to construct the independent
+samples within its definition. We clarified this in the article. \lb{I have to do this...}  
 
 \item \textit{"Model (4) leads to conditional independence of $y$ given $\theta$ and
   $\psi$": Conditional independence between the response variables (the
@@ -128,12 +139,17 @@ ambitious assumption. We prefer our simpler and more conservative assumption of 
   independence within each proxy; are the model residuals really
   statistically independent over time?}
 
-\bl{Seems still question if we should add AR(1) error in our first level}
+Please see the answer above.
 
 \item \textit{What $f(.)$ models were used for the different inputs? (see comment
   about rw2 etc, above) Linear? rw2? Other?}
 
-\bl{Luis can handle this.}
+We used an i.i.d. random effect for the latent variable $T_t$ and we made as
+many copies as necessary of $T_t$ in order to define the latent variable
+multiplied by a random variable in each proxy equation. In addition, we added an
+independent random effect to model the error term in the latent equation and
+afterwards this
+last term was changed to an AR(1) random effect following your suggestion.  
 
 \item \textit{Page 13: "(ii) the vector $\theta$ is conditionally independent given
   the hyperparameters"; this statement is unclear. The R-INLA model
@@ -149,12 +165,14 @@ ambitious assumption. We prefer our simpler and more conservative assumption of 
   etc, that graph is very very sparse, so that the Markov property on
   that graph becomes useful for computations.} 
 
-\bl{The reviewer is really an expert on ILNA :) Again, Luis, you know INLA better than any of us, so you have to address it.}
+Thanks for this important clarification. We deleted both sentences to make the complete
+paragraph correct. 
+
 
 \item \textit{Page 13, last line: delete "their" in "their approximations"; there
   might be other approximations!}
   
-...
+Thanks, we changed the sentence as you suggested.
 
 \item \textit{It's not clear what the differences between the models estimated
   with MCMC and INLA are in Figure 8. The text implies that the model
