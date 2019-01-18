@@ -1,6 +1,6 @@
 \documentclass[11pt]{article}
 
-\usepackage{amsmath,amsfonts,amssymb,amsthm,verbatim,multirow,hyperref,subfig,footnote,graphicx,array,xr}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,verbatim,multirow,hyperref,subfig,footnote,graphicx,array,xr,booktabs}
 \usepackage{times}
 \usepackage[textheight=600pt]{geometry}
 \usepackage[usenames,dvipsnames]{color}
@@ -79,7 +79,11 @@ evidence to reject the hypothesis of temporal independence in 5 out of 40
 possible residuals (5 reduced-proxy methods $\times$ 8 reduced proxies). Based
 on the above we think that the temporal independence assumption is fair enough.
 Despite the above, we implemented an AR(1) random effect to the model as you
-suggested and compared ... 
+suggested. The results are shown in Table \ref{tab:comparisontot}. In general
+all the measures are slightly smaller using the AR(1) error term, but the best
+models chosen in the article are still the same. We think that the difference in
+terms of validation measures is not considerable to change our simpler
+assumption of an i.i.d error term.   
 
 \bl{Yes, we assumed independent residuals. Barboza et al. (2014) found that the
   error structure is unimportant when forcings are included in the
@@ -87,6 +91,44 @@ suggested and compared ...
   not sure how to address this question. Should we try the AR(1) model as
   well?}\lb{I'm trying a model with AR(1) errors to see if there is an
   evident change}
+
+\begin{table}
+  \centering
+  {\small
+\begin{tabular}{lll|rrr|r}
+  \toprule
+\textbf{Model} & N & \textbf{Method} & $IS_{80}$ & $IS_{95}$ & CRPS & MSE \\ 
+  \midrule
+WF & 1 & PCR & 0.4595 & 0.1759 & 0.1536 & 0.1475 \\ 
+WF & 1 & sPCR & 0.5105 & 0.1952 & 0.1850 & 0.1885 \\ 
+WF & 1 & LASSO & 0.4572 & 0.1749 & 0.1569 & 0.1738 \\ 
+WF & 1 & SPLS & 0.4978 & 0.1904 & 0.1873 & 0.1689 \\ 
+  WF & 1 & SIR & 0.4650 & 0.1779 & 0.1566 & 0.1689 \\
+  \midrule
+WF & 8 & PCR & 0.2300 & 0.0794 & 0.0893 & 0.0457 \\ 
+WF & 8 & sPCR & 0.1848 & 0.0673 & 0.0743 & 0.1028 \\ 
+WF & 8 & LASSO & 0.5826 & 0.4019 & 0.1732 & 0.1923 \\ 
+WF & 8 & SPLS & 0.3096 & 0.1369 & 0.1092 & 0.1484 \\ 
+  WF & 8 & SIR & 0.6647 & 0.4988 & 0.1904 & 0.2156 \\
+  \midrule
+NF & 8 & PCR & 0.3705 & 0.1157 & 0.1698 & 0.0249 \\ 
+NF & 8 & sPCR & 0.3641 & 0.1368 & 0.1350 & 0.0250 \\ 
+NF & 8 & LASSO & 0.6083 & 0.4329 & 0.1788 & 0.1983 \\ 
+NF & 8 & SPLS & 0.2844 & 0.1129 & 0.1025 & 0.1398 \\ 
+  NF & 8 & SIR & 0.3753 & 0.1856 & 0.1265 & 0.1477 \\
+  \midrule
+Mixed & 8 & PCR & 0.4774 & 0.1439 & 0.2255 & 0.0444 \\ 
+Mixed & 8 & sPCR & 0.3366 & 0.1260 & 0.1226 & 0.0284 \\ 
+Mixed & 8 & LASSO & 0.5988 & 0.4214 & 0.1769 & 0.1959 \\ 
+Mixed & 8 & SPLS & 0.2830 & 0.1118 & 0.1022 & 0.1395 \\ 
+Mixed & 8 & SIR & 0.3735 & 0.1837 & 0.1261 & 0.1468 \\ 
+   \bottomrule
+\end{tabular}
+}
+\caption{Comparison of predictive measures with an AR(1) error term.}
+\label{tab:comparisontot}
+\end{table}
+
 
 \item \textit{What is the prior used for the weights on the B-spline basis
   constructions? For independent weights, the results can be highly
