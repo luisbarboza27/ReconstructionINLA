@@ -118,7 +118,7 @@ The PAGES2k global multiproxy database is a ``community-driven effort to
 synthesize all publicly-archived, temperature-sensitive proxy records of the
 past 2,000 years'' \citep{PAGES2KConsortium2013,Kaufman2014,PAGES2kSD2017allauthors}. The most recent effort \citep{PAGES2kSD2017allauthors} made all records available in a standard format (LiPD, \cite{lipd_cp}) readable in R, Python and Matlab \citep{lipd-util}, to ensure reproducible workflows.   
 
-The dataset gathers collected through 692
+The dataset is collected through 692
 data series from 648 locales around the world. Each of those proxies
 has different time horizons (Fig.~\ref{fig:proxy}, bottom), which creates challenges for inference. Unlike previous studies (for example \cite{Barboza2014}), we strive to take into account the information available in most proxies, despite their temporal diversity.
 In order to select proxies with high predictive power, we first chose those series with large correlations with respect to
@@ -176,7 +176,7 @@ It is well-known that climate responds to external forcings, including natural f
 The proxy data matrix is large ($p=257$) compared to the 101 yearly samples used to train the model (1900-2000). This large $p$, small $n$ problem therefore require  a data reduction of some kind. 
 Following \cite{Barboza2014}, we do so by generating a set of ``Reduced Proxy'' ($RP$) time series, which condense individual proxy time series into a single time series with larger predictive power over the GMST target. Since this is one of the major steps in temperature reconstruction, in this paper we will carefully investigate five common data reduction methods rather than adopting the simple data reduction method employed in \cite{Barboza2014}, after some initial screening of proxies series.    
 
-\begin{table}
+\begin{table}[h!]
   \centering
   \begin{tabular}{c|c|c}
     \toprule
@@ -196,6 +196,7 @@ Following \cite{Barboza2014}, we do so by generating a set of ``Reduced Proxy'' 
   \label{tab:distdate}
 \end{table}
 
+\vskip -0.7cm
 The 257 proxy variables are first centered and scaled. Then we remove
 proxy series whose proportion of missing annual observations is larger than 5\%
 during the calibration  period.  %\jeg{This gives me pause. Did you exclude all series lacking >5\% of data in a given 250y nest, or overall. If overall, you are missing out on a LOT of proxies!!! We should redo the calculations with aless restrictive threshold}\lb{The percentage of missing observations is computed over the calibration period (1900-2000), so we don't loose too much information.}. 
@@ -284,7 +285,7 @@ the covariates and the dependent variable into account. In general, its performa
 sPLS method \citep{Chung2013}.  
 %\end{description}
 
-\begin{figure}
+\begin{figure}[h!]
   \centering
  \includegraphics[scale=0.40]{RPs_type} 
   \caption{Reduced Proxies among methods.}
@@ -297,10 +298,11 @@ the five data reduction methods and for each of the eight proxy groups listed in
 Table \ref{tab:distdate}, we compute a single reduced proxy series following
 \cite{Barboza2014} for each group. All reduced proxies are shown in Fig.~\ref{fig:RPs}.  These series are highly correlated, with the reduced proxies obtained by PCR standing out as least similar to the others by this metric (Fig.~\ref{fig:CorrRPs}).
 
-\begin{figure}
+\begin{figure}[h!]
+  \vskip -1cm
   \centering
  \includegraphics[scale=0.35]{CorMatrixRPs} 
-  \caption{Correlation Matrices among 5 different Reduced Proxy series}
+  \vskip -1.1cm \caption{Correlation Matrices among 5 different Reduced Proxy series}
   \label{fig:CorrRPs}
 \end{figure}
 
@@ -486,13 +488,12 @@ measures using the INLA's prediction intervals and the observed
   anomalies over 1850-1899 as an out-of-sample validation interval. The
   last column consists of the mean square error (MSE) between the smoothed
   reconstruction and the borehole-based
-reconstruction of \cite{Pollack2004} over 1600-1899 as an out-of-sample
+reconstruction of \cite{Pollack2004} over 1600-1899 (PS04 dataset) as an out-of-sample
 validation interval. Smoothing was accomplished through a Butterworth low-pass filter with a 50-year cutoff and order equal to 4. We compared in this case Model WF with a single RP
 (the longest available) with respect to model WF using the 8 available reduced
 proxies, where the comparison was made under the five dimension reduction
 methods explained above.
-
-\begin{table}
+\begin{table}[h!]
   \centering
   {\small
 \begin{tabular}{lll|rrr|r}
@@ -597,12 +598,12 @@ MSE for the second period.
 
  Four reconstructions of Common Era GMST
 are shown in Figure \ref{fig:paleoCE1}.
-In order to illustrate the reconstruction that we obtained for both models, we considered the best two choices in terms of the validation measures for the
+In order to illustrate the reconstruction that we obtained for both models WF and Mixed, we considered the best two choices in terms of the validation measures for the
 first out-of-sample period  and the best two choices for the second testing
 period. sPCR and PCR methods for both WF and Mixed models are the best choices
 according to the two testing periods.
 
-\begin{figure}
+\begin{figure}[h!]
   \centering
   \includegraphics[scale=0.40]{RecCE_Final}
   \caption{Paleoclimate Reconstruction in the Common Era (CE) with 95\%
@@ -618,7 +619,7 @@ the confidence region approximated by INLA. The remaining 3 reconstructions show
 similar small-scale tendencies with respect to the best choice, but the width of
 their confidence regions is greater. A closer look of the reconstructions is shown in Figure
 \ref{fig:paleo19001}, where the first testing period appears between the red lines.
-\begin{figure}
+\begin{figure}[h!]
   \centering
   \includegraphics[scale=0.40]{Rec1900_Final}
   \caption{Paleoclimate Reconstruction 1850-2000 with 95\%
@@ -655,7 +656,7 @@ results in terms of the two previous validation exercises.
 % reconstruction that has the best results is the one obtained by sPCR-SSwF, followed
 % by the PCR-SSwF model. 
 
-\begin{figure}
+\begin{figure}[h!]
   \centering
   \includegraphics[scale=0.40]{Rec1500_Final}
   \caption{Smoothed Reconstruction 1600-1900 vs PS04 series. Best two choices per validation method.}
@@ -664,7 +665,7 @@ results in terms of the two previous validation exercises.
 
 \subsection{Impact of INLA sampling}
 
-\begin{figure}
+\begin{figure}[h!]
   \centering
   \includegraphics[scale=0.40]{RecCE_MCMC}
   \caption{Paleoclimate Reconstruction in the Common Era (CE) with 95\%
@@ -740,29 +741,30 @@ The situation is more nuanced for warming rates: there is no discernible differe
 We carried out a Bayesian inference of global mean surface temperature over
 the past 2,000 years. By leveraging INLA to lighten the computational burden, our framework allows us to investigate a wide range of model choices and data reduction strategies.  We validated the result using instrumental data over the 1850-1899 period, and using independent borehole temperature inversions over 1600-1899. The former validates the reconstruction precisely to an interannual scale, while the latter validates only the multi-decadal to centennial behavior.  
 
-Below are a few take-home messages:
-
-\begin{itemize}
-    \item The data reduction techniques provide roughly equivalent results, with
+Below are a few take-home messages:\\
+     (a) The data reduction techniques provide roughly equivalent results, with
       sPCR and PCR performing marginally better than other methods.
-    \item The model choice is highly consequential. Model "Mixed" is the most
+    
+     \noindent (b) The model choice is highly consequential. Model "Mixed" is the most
       physically justifiable, and it guarantees a balance between the
       validation measures on the first and second testing periods. This models also
       appears to perform at least as well as other choices. The 
       additional nonparametric terms in the mean component of equation \eqref{eq:M3} allows us
       to capture long-memory behavior that is not included in the external forcings, which compensates for the independent structure of the errors. 
       %besides giving an additional dependence structure to the error term.
-    \item In cases where both INLA and MCMC are implemented, INLA allows to approximate the MCMC
+      
+     \noindent (c) In cases where both INLA and MCMC are implemented, INLA allows to approximate the MCMC
       solution at a fraction of the computational cost, but with wider
       prediction intervals. This exercise was performed only for the simplest
       model available (1 reduced proxy), because of the prohibitive cost of the
       MCMC approach for more complex models like the ones presented in Figure
       \ref{fig:paleoCE1}. 
-    \item Adding to a wide body of literature, we find that current temperature levels are unprecedented in the past 2,000 years. 
+      
+     \noindent (d) Adding to a wide body of literature, we find that current temperature levels are unprecedented in the past 2,000 years. 
       The twentieth century also stands out as warming more rapidly than any other
       century in the past 2,000 years. All models that include forcings (WF, Mixed) show that the man-made increase in atmospheric carbon dioxide is the leading contributor to this
       warming effect. 
-\end{itemize}
+%\end{itemize}
 
 One limitation of our analysis is the strong
 dependence of our results on the choice of the testing period. Ideally, a
@@ -810,10 +812,6 @@ efficient, it could be used to extend our studies to spatiotemporal reconstructi
 % in the best case of Model SSnF than in the best case of Model SSwF. This could be an
 % indicator that Model SSwF has a greater bias in its mean behavior, which is a
 % negative aspect in the reconstruction as a whole.
-
-
-
-
 
 
 
