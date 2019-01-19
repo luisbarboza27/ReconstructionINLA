@@ -89,7 +89,7 @@ correlation analysis \citep{smerdon2010pseudoproxy,Wang_CP2014,Evans_grl2014}, p
 \citep{Hanhijarvi2013,Gergis2016}, data assimilation \citep{Lee_CD08,Hakim2016}, and Bayesian hierarchical models (BHMs). 
 
 BHMs offer several distinct advantages for paleoclimatic reconstruction. They can (i) treat different sources of uncertainty in a natural way (ii) incorporate prior knowledge of the system in a logically-coherent manner \citep{Jaynes04} (iii) allow for both inference and prediction \citep{Tingley_QSR2012}. 
-Many studies have conducted BHMs: \cite{boli1, tingley1,tingley2,tingley2013_Ext,werner2012pseudoproxy,Barboza2014} are examples among others. Some of these studies have used space-state
+Many studies have conducted BHMs: \cite{boli1, tingley2013_Ext,werner2012pseudoproxy,Barboza2014} are examples among others. Some of these studies have used space-state
 schemes to linearly relate information that comes from paleoclimate observations (coming from trees, corals, icea cores, lake and marine sediments, and historical archives) together with information about external climatic forcings, resulting from 
 well-mixed greenhouse gases, volcanic activity, and variations in solar output.   Three problems arise in this
 case: the need to reduce dimensionality, the complexity/realism of the model, and the execution time of the numerical procedure. 
@@ -146,20 +146,21 @@ observations are expressed as anomalies relative to the monthly-mean seasonal cy
 
 \subsection{Forcing data.}
 It is well-known that climate responds to external forcings, including natural forcings. In this work we take advantage of this knowledge for statistical modeling, and use the most recent compilations from the PMIP4-CMIP6 project \citep{JungclausGMD17,Kageyama_GMD2017}. The data consist of:
-\begin{itemize}
-\item Volcanic forcing from the Easy Volcanic Aerosol (EVA) dataset (evolv2k,
+
+\noindent {\bf Volcanic forcing} from the Easy Volcanic Aerosol (EVA) dataset (evolv2k,
   \cite{Toohey2016}), which reconstructed zonal mean AOD (mid-visible, i.e., 550 nm), covering the
   500 BCE to 1900 CE time period. For 1900 (or 1850) to present, \cite{Thomason2016} is
   used to fill in the forcing table. EVA is given as a function latitude, so the data are area-weighted (multiplied by the cosine of their corresponding latitudes) and averaged to form a global estimate (Fig.~\ref{fig:forcings}, top).
   
-\item The solar forcing data is computed from the SATIRE-H
+\noindent {\bf Solar forcing} data is computed from the SATIRE-H
   (Holocene) dataset \citep{Vieira2011}. Irradiance from SATIRE-H (Holocene) is
   provided on a decadal basis from 9495BC - 1939AD and then on a daily basis
   from 1940AD onwards. Hence, the data prior to 1939AD was interpolated using BSplines and after 1940AD, at annual resolution. For consistency, daily data from 1640AD to 2000AD is also BSpline-interpolated to annual resolution (Fig.~\ref{fig:forcings}, middle). 
-\item Greenhouse-Gases concentrations: hemispheric means of mole
+  
+\noindent {\bf Greenhouse-Gases concentrations}: hemispheric means of mole
   fraction of carbon dioxide in air (ppm) with annual
   resolution \citep{Meinshausen_GMD2017} as well as ice core measurements prior to that date \citep{JungclausGMD17} (Fig.~\ref{fig:forcings}, bottom).
-\end{itemize}
+
 
 \begin{figure}
   \centering
@@ -212,8 +213,9 @@ a reliable linear model between the observed anomalies and the corresponding pro
 Table \ref{tab:distdate}, based on the data in the calibration
 period. Many different data reduction methods have been developed; we focus on five popular ones:  
 %(Description of the five methods including the basic idea, the unique feature, the pros and cons of the method)
-\begin{description}
-\item[Lasso Regression (LR)]
+%\begin{description}
+
+{\bf Lasso Regression (LR)}
   The Lasso regression penalizes the usual sum of squares with an argument
  containing the sum of the absolute values of each coefficient in the classical
  linear regression model, multiplied by an additional smoothing parameter \citep{Tibshirani1996}. Due
@@ -224,21 +226,22 @@ period. Many different data reduction methods have been developed; we focus on f
  it tends to show "false positives" in the variable selection process 
  \citep{Fan2010}. Lasso could also run into inconsistency issues when the
  variables are highly correlated \citep{Zou2005}.
- We used 10-fold cross validation to select the smoothing parameter when we carried out Lasso regression (see \cite{Tibshirani1996} and \cite{Friedman2010} for more details). 
-\item[Sparse Partial Least Squares (sPLS)] 
+ We used 10-fold cross validation to select the smoothing parameter when we carried out Lasso regression (see \cite{Tibshirani1996} for more details). 
+ 
+{\bf Sparse Partial Least Squares (sPLS)}
   Partial least squares seek to reduce the high-dimensionality issues of the
   design matrix in  
   linear regression models through a latent matrix whose columns maximize
   the product of the linear correlation between predictors and responses and the
   variance of responses. The sPLS method further introduces sparseness to the partial least squares
-  estimators by means of a $L_1$-penalty with a thresholding parameter, in order to avoid inconsistency problems when there are a
+  estimators by means of a $L_1$-penalty with a thresholding parameter, in order to avoid inconsistency problems when there is a
   substantial number of noisy covariates \citep{Chun2010,Chung2013}. However, this method is inefficient in
   measuring the statistical significance of whether the parameters associated to certain
   variables are effectively zero \citep{OlsonHunt2014}. In our implementation, the
   thresholding parameter involved in sPLS is estimated using a 10-fold cross-validation criteria.    
-\item[Sliced Inverse Regression (SIR) with CSS selection method]
-  In general, the SIR methods \citep[among
-  others]{Li1991,Duan1991,Zhong2005,Li2008,Coudret2014,Weisberg2002}  reduce the excess dimension in a non-parametric setting through the
+
+{\bf Sliced Inverse Regression (SIR) with CSS selection method}
+  In general, the SIR methods \cite{Li1991}  reduce the excess dimension in a non-parametric setting through the
   estimation of the linear space spanned by the coefficients of the covariables,
   also known as \textit{effective dimension reduction} (EDR) subspace. 
   This subspace is obtained by an approximate eigenvalue decomposition that
@@ -250,7 +253,7 @@ period. Many different data reduction methods have been developed; we focus on f
   covariates. However, the estimation of the dimension
   reduction space does not actually lead to a variable selection procedure and the
   covariance estimation relies heavily on the homogeneity of the response within
-  each slice (\cite{Wu2010}). Because of this, we opt to incorporate the CSS
+  each slice \cite{Wu2010}. Because of this, we opt to incorporate the CSS
   (\textit{Closest submodel selection}) variable 
   selection procedure into the SIR method. Furthermore, to better deal with the fact that there is a larger number of
   covariates than observations, we employed the SIR-QZ algorithm, an upgrade of the SIR method based on the generalized Shur decomposition for undermined cases \citep{Coudret2014,Coudret2017}.   
@@ -260,7 +263,8 @@ period. Many different data reduction methods have been developed; we focus on f
   %of dimension) in terms of their eigenvalue decompositions. 
   Finally, we studied the association between proxies and temperatures
   through a linear regression between the observed anomalies and a number of EDR directions, i.e., orthogonal basis of the EDR subspace, determined by marginal dimension tests \citep{Cook2004}. 
-\item[Principal Component Regression (PCR)]
+  
+{\bf Principal Component Regression (PCR)}
 PCR simply means that we replace the original covariates by their PCs. To select how many and which PCs to use, we fitted a regression model between the temperature and PCs of eight different sets of covariates selected in each of the eight different time periods based on the training data in calibration period. We then selected the number of PCs in each of
 the eight regressions as the minimum number that attains, for the first time, an adjusted
 $R^2$ of at least 70\% in each case. PCR is often used when covariates are
@@ -269,7 +273,8 @@ highly-correlated or when the number of covariates is larger than the number of
 with smaller contribution to variance are not necessarily the ones that
 associate less with the dependent variable in a linear regression model 
 \citep{Jolliffe1982,Tibshirani1996}. 
-\item[Supervised Principal Components (sPCR)]
+
+{\bf Supervised Principal Components (sPCR)}
 Because of the above-mentioned caveat of directly using PCR, \cite{Bair2006} developed a technique where PCR is applied only
 to a certain subset of covariates that exhibits a considerable amount of association
  with the dependent variable, and the threshold of ``considerable" is chosen through
@@ -277,7 +282,7 @@ cross-validation. Compared to PCR, the sPCR ensures the dimensionality
 reduction on the covariates space while taking the association between
 the covariates and the dependent variable into account. In general, its performance is quite similar to
 sPLS method \citep{Chung2013}.  
-\end{description}
+%\end{description}
 
 \begin{figure}
   \centering
@@ -338,10 +343,9 @@ RP_t^i=\alpha_0^i+\alpha_1^iT_t+\epsilon^i_t,
 where $\{\alpha^i_j\}$ are intercepts ($j=0$) and slopes ($j=1$) for $i=1,\ldots,N$,  and $\epsilon^i_t$ are normally-distributed random variables with finite variances
 $\{\sigma^2_i\}$. Note that in our case $N=8$; the time variable $t$ is defined on each nest according to the
 intervals of Table~\ref{tab:distdate}. 
-
 The second level will be defined in three different forms:
-\begin{description}
-\item[No forcing (model "NF")]
+
+\noindent {\bf No forcing (model "NF")}
 The main idea of this model is to evaluate the
 central hypothesis of this article, that is, the paleoclimate reconstruction can
 perform  well without taking into account the external forcings, as long as a
@@ -353,7 +357,8 @@ where $\beta_k$ are coefficients for B-spline bases, and
 $\eta_t$ are also normally-distributed random variables with finite variances
 $\sigma^2_{\eta}$. For simplicity, the error terms $\epsilon^i_t$ and $\eta_t$
 are assumed to be independent.  
-\item[With forcing (model "WF")]
+
+\noindent {\bf With forcing (model "WF")}
 In order to have a baseline model to evaluate Model NF, we
 define
   \begin{align}\label{eq:M2}
@@ -362,15 +367,15 @@ define
 Both first level and second level models are defined for
 $t=1,\cdots,2000$ (Common Era). It is important to add that Models NF and WF simply assume an independent error structure. This is because \cite{Barboza2014} 
 found that complex error structures make little difference when forcings are added to the reconstruction.
-\item["Mixed" Model] 
-\vskip 0.25in
+
+\noindent {\bf "Mixed" Model} 
 Finally we consider the more realistic case where temperature reflects both external forcings and internal dynamics. This model is a combination of equations \eqref{eq:M1} and \eqref{eq:M2}, as follows:
   \begin{align}\label{eq:M3}
     T_t=\beta_0+\beta_1S_t+\beta_2\tilde V_t+\beta_3\tilde C_t+\sum_{k=1}^{K(\tau)}\gamma_k B_t^{k,\tau}+\eta_t
   \end{align}
   where $\gamma_k$ are the coefficients for the B-Spline basis. %\lb{Julien: please include an explanation why this model is interesting in the climatology community.} \jeg{done}
   This last case is of most obvious relevance to climate dynamicists. Indeed, it is common knowledge that Earth's temperature varies both as a result of internal causes (NF) and forcings (WF). It is thus most natural to set up a mixed model that reflects both causes. The downside is that the model is more complex, thus making estimation more challenging. 
-\end{description}
+
 
 
 \subsection{Sampling with INLA}
@@ -417,10 +422,10 @@ Laplace Approximation (see \cite{Tierney1986}):
 where $\tilde p(\theta|\psi,y)$ is the Gaussian approximation of
 $p(\theta|\psi,y)$ and $\theta^*(\psi)$ is its mode (see \cite{Rue2009}). The
 second component can be approximated in a similar way:
-\begin{align}\label{eq:second}
-  p(\theta_i|\psi,y) & =\frac{p((\theta_i,\theta_{-i})|\psi,y)}{p(\theta_{-i}|\theta_i,\psi,y)} \notag\\ 
-  & \approx \frac{p((\theta_i,\theta_{-i})|\psi,y)}{\tilde p(\theta_{-i}|\theta_i,\psi,y)} \Biggm |_{\theta_{-i}=\theta_{-i}^*(\theta_i,\psi)}:=\tilde p(\theta_i|\psi,y),
-\end{align}
+\begin{equation}\label{eq:second}
+  p(\theta_i|\psi,y)  =\frac{p((\theta_i,\theta_{-i})|\psi,y)}{p(\theta_{-i}|\theta_i,\psi,y)} %\notag 
+   \approx \frac{p((\theta_i,\theta_{-i})|\psi,y)}{\tilde p(\theta_{-i}|\theta_i,\psi,y)} \Biggm |_{\theta_{-i}=\theta_{-i}^*(\theta_i,\psi)}:=\tilde p(\theta_i|\psi,y),
+\end{equation}
 where $\theta=(\theta_i,\theta_{-i})$, $\tilde p(\theta_{-i}|\theta_i,\psi,y)$ is the Gaussian approximation of
 $p(\theta_{-i}|\theta_i,\psi,y)$ and $\theta_{-i}^*(\theta_i,\psi)$ is its mode,  
 The approximation in \eqref{eq:second} possesses good precision, but it is very time demanding because it

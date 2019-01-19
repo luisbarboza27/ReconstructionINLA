@@ -21,6 +21,7 @@
 
 \newcommand{\lb}[1]{\color{ForestGreen}\textbf{[Luis B.: #1]}\normalcolor}
 \newcommand{\bl}[1]{\color{red}\textbf{[Bo: #1]}\normalcolor}
+\newcommand{\jeg}[1]{\color{blue}\textbf{Julien: #1]}\normalcolor}
 
 \begin{document}
 \begin{center}
@@ -43,13 +44,33 @@ points is important.
   \lb{Once we finished the revision we can address this remark, because we have
     to adjust the writing and the length of the article to 25 pages.}
   \bl{I suggest to shorten the description of the five data reduction methods. I can do that if you agree. The sampling with INLA may also has room to be shortened. Also some papers in references have very long list of names that take up a lot space. For those papers, we might just simplify the authorship to leading author et al. }
+  \jeg{I agree with the reviewer that the objective of the article is not as clear as it could be, and we can clarify that better from the outset.}
   
 \item \textit{Describe the proxy data better. Is it annually resolved tree ring
     data, pollen data at irregular resolutions, etc? Has the data been
     standardized? Are the response of the proxies to climate linear? time
     uncertain?}
 
-  \lb{Julien: Can you answer this question?}
+  The database gathers 692 records from 648 locations, including all continental regions and major ocean basins. The records are from trees, ice, marine and lake sediments, corals, speleothems, and documentary evidence. They range in length from 50 to 2000 years, with a median of 547 years, while temporal resolution ranges from biweekly to centennial.
+  The vast majority of records are annually-resolved, with minimal dating uncertainty. Here, the data used have been mapped to a standard normal using the method of \cite{vanAlbada2007}. \jeg{we should put this in the text, as other readers might be interested.}
+  
+  @article{vanAlbada2007,
+	Author = {S.J. van Albada and P.A. Robinson},
+	Date-Added = {2014-02-15 00:18:11 +0000},
+	Date-Modified = {2015-05-29 23:45:43 +0000},
+	Doi = {10.1016/j.jneumeth.2006.11.004},
+	Issn = {0165-0270},
+	Journal = {Journal of Neuroscience Methods},
+	Keywords = {Parametric statistics},
+	Number = {2},
+	Pages = {205 -- 211},
+	Title = {Transformation of arbitrary distributions to the normal distribution with application to \{EEG\} test--retest reliability},
+	Volume = {161},
+	Year = {2007},
+	Bdsk-Url-1 = {http://www.sciencedirect.com/science/article/pii/S0165027006005668},
+	Bdsk-Url-2 = {http://dx.doi.org/10.1016/j.jneumeth.2006.11.004}}
+
+
 
   
 \item \textit{On lines 44-45 of page 3, you say “to ensure reproducible
@@ -71,6 +92,7 @@ smaller $\sigma_j^2$ and unimportant proxies will have their influence reduced d
 \lb{I'm trying an unscreened version of the proxy dataset in order to answer
   this question.}
 \bl{Thanks for trying this. Let's see what the results would tell. Intuitively, I feel this might be worse, as some data that are screened out are really noisy so including them may just deterioriate the resonstruction.}
+\jeg{Important to point out that the screening was never against the global mean, but against *local* temperature (nearest grid points within a 2000km radius).}
 
 \item \textit{Why not just go fully Bayesian and reconstruct the proxy data that
     is unobserved given the observed proxies and the model? Why try to do the
@@ -82,14 +104,14 @@ smaller $\sigma_j^2$ and unimportant proxies will have their influence reduced d
 
 The intention of the article is the reconstruction of the average anomalies,
 not the reconstruction of a particular biological proxy. This is the main reason
-why we consider a hierarchical bayesian model to represent the dynamics of the temperature
+why we consider a hierarchical Bayesian model to represent the dynamics of the temperature
 process. The proxy data represents an approximation of the observed temperature
 series and the reconstructed temperatures are past estimates of the observed
 process, they are not estimates of the proxy time-series. We think that the
-usage of an state-space approach in this problem allows us to sucessfully
+usage of an state-space approach in this problem allows us to successfully
 explain the uncertainties in the system by means of a Bayesian approach. 
 \bl{We agree that fully Bayesian is another valid method to model the problem. But since our main focus is the reconstruction of the temperatures, we opt to use our model ....  }
-
+\jeg{I think that the reviewer refers to is estimating the missing proxy values as missing parameters (conditional on other proxies), which would then avoid aving the slice reconstructions together. I have done that in the RegEM context, with very mixed success. What we want is the temperature given the proxies, and estimating missing proxies values appears to bring no benefit here.}
 
 
 \item \textit{I have a hard time using Figure 4. Please rescale the correlations
@@ -126,6 +148,7 @@ comment, but due to the length restrictions of the
 article, we think that a pseudo-proxy validation can be considered in future
 work. 
 \bl{I don't quite understand this comment. we did the scores on the calibration period, so they are calculated as evaluating the reconstruction agains the true observed temperatures. Did the reviewer think we calculate the scores in the reconstruction period and evaluate the reconstruction using another reconstruction?}
+\jeg{we do not have the *true* temperature. We have an observational estimate of the true temperature, which has errors too. Perhaps the reviewer's point is that we should incorporate errors in instrumental estimates? Certainly PS04 has errors that would need to be taken into account.}
 
 
 \item \textit{What is the computational time for the MCMC model? Was it coded in
@@ -140,7 +163,7 @@ inference from MCMC? If this were a spatio-temporal problem with large data I
 would agree about INLA, but the dataset and the model are actually small.
 }
 
-We agree that the reconstruction in this paper can be performed in full MCMC and any of the R packages you mentioned. Indeed we wrote our own full MCMC sampling code using R in Barboza et al. (2014) for the reconstruction. We also agree that INLA is an approximation method and has limitations, We therefore have a particular section to investigate the effect of INLA approximations. Despite that,  there are two main reasons why we introduce INLA here. One is that INLA allows us to conduct experiments such as comparing different data reduction methods quickly, so we can implement many experiments without computation burden. The other reason is that we hope this work also plays the role of verifying that INLA can be used for climate reconstruction so later we can employ it in the space-time climate reconstruction, as you mentioned. We now have added a brief discussion about the limitation of INLA to the paper.
+We agree that the reconstruction in this paper can be performed in full MCMC and any of the R packages you mentioned. Indeed we wrote our own full MCMC sampling code using R in Barboza et al. (2014) for the reconstruction. We also agree that INLA is an approximation method and has limitations, We therefore have a particular section to investigate the effect of INLA approximations. Despite that,  there are two main reasons why we introduce INLA here. One is that paleoclimate reconstructions involve many choices that cannot be made a priori (e.g. comparing different data reduction methods) and are time-consuming to explore. INLA allows us to conduct such experiments quickly, so we can implement many experiments with a light computational burden. The other reason is that we hope this work also plays the role of verifying that INLA can be used for climate reconstruction so later we can employ it in the space-time climate reconstruction, as you mentioned. We now have added a brief discussion about the limitation of INLA to the paper.
 
 
 \item \textit{page 5 line 27 - what type of splines? In the abstract you say Bsplines - is this what you use here?}
