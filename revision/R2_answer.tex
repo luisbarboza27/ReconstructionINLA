@@ -229,7 +229,19 @@ Thanks, we changed the sentence as you suggested.
   same priors as for the MCMC run is used, so that it's possible to
   see if the two methods compute/estimate the same posteriors?}
 
-\bl{I think we used the same model. The two plots have the same calibration period?}
+Despite the fact that: (1) we used less precise priors for INLA and (2) we used
+the same model for both approaches, we think that the
+difference in terms of posterior is not due to the prior choice, on the contrary
+an
+acceptable level of mixing in the MCMC chains of the external-forcing parameters
+is hard to attain and this can be the main cause why we see differences. In
+addition, the
+dimension of the latent variable is quite large compared with the one computed
+in Barboza et al, 2014; and this fact can produce mixing issues in the
+MCMC procedure that we did not have previously.  
+
+\bl{I think we used the same model. The two plots have the same calibration
+  period?}
 
 \item \textit{The computational cost benefit of INLA seems very clear; there is
   only a small number of variance parameters in the model, and the
@@ -245,15 +257,23 @@ Thanks, we changed the sentence as you suggested.
   be large unless a very long run is made, and the relative bias in
   the posterior densities from INLA should be expected to be small.}
 
-\bl{The first part seems to suggest to run an model with AR(1) errors, and the second part still seems to suggest further investigation between INLA and full MCMC? }
+\bl{The first part seems to suggest to run an model with AR(1) errors, and the
+  second part still seems to suggest further investigation between INLA and full
+  MCMC? }\lb{There is no question throughout this comment, do we have to
+  respond?}
 
 \item \textit{I'm curious about the bimodal posterior density for the Greenhouse
   effect in Figure 9, as I wouldn't expect that from a model of this
   simple type.  How was the figure produced? If done via posterior
   sampling, how many samples? The number of samples needs to be very
   large to get stable empirical density estimates.}
+
+The figure was produced by plotting the posterior marginal of the fixed effect
+related to the Greenhouse-gas external forcing. We used the INLA's attribute
+\verb|marginals.fixed|. We did not use sampling at all during the elaboration of
+this figure.   
 \jeg{I have the same question, actually}
-...
+
 
 \item \textit{I really like that several assessment criteria are used; it's clear
   from the table that relying on only one would run the risk of

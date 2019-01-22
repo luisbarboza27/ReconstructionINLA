@@ -1,6 +1,6 @@
 \documentclass[11pt]{article}
 
-\usepackage{amsmath,amsfonts,amssymb,amsthm,verbatim,multirow,hyperref,subfig,footnote,graphicx,array,xr}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,verbatim,multirow,hyperref,subfig,footnote,graphicx,array,xr,booktabs}
 \usepackage{times}
 \usepackage[textheight=600pt]{geometry}
 \usepackage[usenames,dvipsnames]{color}
@@ -52,26 +52,10 @@ points is important.
     uncertain?}
 
   The database gathers 692 records from 648 locations, including all continental regions and major ocean basins. The records are from trees, ice, marine and lake sediments, corals, speleothems, and documentary evidence. They range in length from 50 to 2000 years, with a median of 547 years, while temporal resolution ranges from biweekly to centennial.
-  The vast majority of records are annually-resolved, with minimal dating uncertainty. Here, the data used have been mapped to a standard normal using the method of \cite{vanAlbada2007}. \jeg{we should put this in the text, as other readers might be interested.}
-  
-  @article{vanAlbada2007,
-	Author = {S.J. van Albada and P.A. Robinson},
-	Date-Added = {2014-02-15 00:18:11 +0000},
-	Date-Modified = {2015-05-29 23:45:43 +0000},
-	Doi = {10.1016/j.jneumeth.2006.11.004},
-	Issn = {0165-0270},
-	Journal = {Journal of Neuroscience Methods},
-	Keywords = {Parametric statistics},
-	Number = {2},
-	Pages = {205 -- 211},
-	Title = {Transformation of arbitrary distributions to the normal distribution with application to \{EEG\} test--retest reliability},
-	Volume = {161},
-	Year = {2007},
-	Bdsk-Url-1 = {http://www.sciencedirect.com/science/article/pii/S0165027006005668},
-	Bdsk-Url-2 = {http://dx.doi.org/10.1016/j.jneumeth.2006.11.004}}
-
-
-
+  The vast majority of records are annually-resolved, with minimal dating
+  uncertainty. Here, the data used have been mapped to a standard normal using
+  the method of \cite{vanAlbada2007}. \jeg{we should put this in the text, as
+    other readers might be interested.}
   
 \item \textit{On lines 44-45 of page 3, you say “to ensure reproducible
     workflows” I suggest you do the same and post the code as an appendix or on
@@ -88,6 +72,36 @@ points is important.
 with $\epsilon_j(t)\sim N(0,\sigma_j^2)$. Then, important proxies will have a
 smaller $\sigma_j^2$ and unimportant proxies will have their influence reduced due to a larger $\sigma_j^2$.
 }
+
+With the purpose of comparing the reduced proxies with and without the
+screening procedure we computed the five reduced-proxy sets (one for each
+method) for each case. The average coefficient of variation of $RP$ (with and
+without screening) and the
+average correlation coefficient between the two dataset versions are shown in Table \ref{tab:screening}.
+\begin{table}
+  \centering
+  \begin{tabular}{r|rr|r}
+  \toprule
+\textbf{Method} & \textbf{Screened CV} & \textbf{Unscreened CV} & \textbf{Correlation} \\ 
+  \midrule
+PCR & 0.6189 & 0.6741 & 0.9511 \\ 
+  sPCR & 0.6065 & 0.6194 & 0.9843 \\ 
+  LASSO & 0.5780 & 0.5814 & 0.9820 \\ 
+  SPLS & 0.6060 & 0.6437 & 0.9454 \\ 
+  SIR & 0.6384 & 0.8025 & 0.7591 \\ 
+   \bottomrule
+\end{tabular}
+  \caption{Comparison of $RP$'s obtained with and without screening procedure. }
+  \label{tab:screening}
+\end{table}
+The third column confirms that the signal is not missed when we
+use the screening procedure because there is a large correlation between the two
+procedures for all the reduction methods, except SIR. In general the coefficient
+of variation increases when we use the unscreened dataset, and the change is
+quite large for the SIR method, which is the main reason why the correlation is
+the smallest. We think this confirms that the screening procedure can capture
+the overall signal by means of a low-noise and low-dimensional alternative.      
+
 
 \lb{I'm trying an unscreened version of the proxy dataset in order to answer
   this question.}
@@ -180,8 +194,19 @@ Yes, we used BSplines. We clarified the sentence as you suggested.
     HadCRUT4, etc.). Make sure you define all acronyms in place.}
 
 Thanks for the suggestion, we made the corresponding corrections.
-  
+
+
 \end{itemize}
+
+\begin{thebibliography}{}
+
+\bibitem[1]{vanAlbada2007}
+van Albada, S. and Robinson, P. (2007).
+\newblock Transformation of arbitrary distributions to the normal distribution
+  with application to \{EEG\} test--retest reliability.
+\newblock {\em Journal of Neuroscience Methods}, 161(2):205 -- 211.
+
+\end{thebibliography}
 \end{document}
 
 
