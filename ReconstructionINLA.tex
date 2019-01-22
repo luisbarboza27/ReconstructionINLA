@@ -81,15 +81,15 @@ it is feasible to improve the predictive ability of traditional external forcing
 \section{Introduction.}
 \label{sec:intro}
 
-Earth's climate presents a continuum of variability, with periodic and non-periodic fluctuations ranging from 1 to $10^8$ years \citep{pelletier_power_1998,ghil2002natural,huybers_links_2006}. In particular, variability on scales of decades to centuries is of paramount importance for adaption and planning to anthropogenic climate change, yet is incompletely sampled by the relatively short historical record of wide-spread instrumental observations, going back to about 1850 CE \citep{AR5_chap5}. It is thus critical to reconstruct these variations from the paleoclimate record as quantitatively as possible.  A particular focus has been reconstructions of global or hemispheric temperature from high-resolution proxy observations \citep{Jones_Holocene09}.
+Earth's climate presents a continuum of variability, with periodic and non-periodic fluctuations ranging from 1 to $10^8$ years \citep{pelletier_power_1998}. In particular, variability on scales of decades to centuries is of paramount importance for adaption and planning to anthropogenic climate change, yet is incompletely sampled by the relatively short historical record of wide-spread instrumental observations, going back to about 1850 CE \citep{AR5_chap5}. It is thus critical to reconstruct these variations from the paleoclimate record as quantitatively as possible.  A particular focus has been reconstructions of global or hemispheric temperature from high-resolution proxy observations \citep{Jones_Holocene09}.
 
 Many methods have been developed to reconstruct past climates, particularly temperatures:  principal component regression
-\citep{MBH98,MBH99,luterbacher2004european,Wahl2012,Neukom:2014}, regularized forms of the expectation-maximization algorithm \citep{Schneider2001,bradley2005proxy,mann2005testing,mann2007robust,rutherford2003climate,steig2009,JEG10a,JEG10b,Guillot_AOAS2015}, canonical
+\citep{MBH98,luterbacher2004european,Wahl2012}, regularized forms of the expectation-maximization algorithm \citep{Schneider2001,bradley2005proxy,mann2005testing,mann2007robust,rutherford2003climate,steig2009,JEG10a,Guillot_AOAS2015}, canonical
 correlation analysis \citep{smerdon2010pseudoproxy,Wang_CP2014,Evans_grl2014}, pairwise comparison
 \citep{Hanhijarvi2013,Gergis2016}, data assimilation \citep{Lee_CD08,Hakim2016}, and Bayesian hierarchical models (BHMs). 
 
-BHMs offer several distinct advantages for paleoclimatic reconstruction. They can (i) treat different sources of uncertainty in a natural way (ii) incorporate prior knowledge of the system in a logically-coherent manner \citep{Jaynes04} (iii) allow for both inference and prediction \citep{Tingley_QSR2012}. 
-Many studies have conducted BHMs: \cite{boli1, tingley2013_Ext,werner2012pseudoproxy,Barboza2014} are examples among others. Some of these studies have used space-state
+BHMs offer several distinct advantages for paleoclimatic reconstruction. They can (i) treat different sources of uncertainty in a natural way (ii) incorporate prior knowledge of the system in a logically-coherent manner \citep{Jaynes04} and (iii) allow for both inference and prediction \citep{Tingley_QSR2012}. 
+Many studies have employed BHMs (e.g. \cite{boli1, tingley2013_Ext,Barboza2014}). Some have used space-state
 schemes to linearly relate information that comes from paleoclimate observations (coming from trees, corals, icea cores, lake and marine sediments, and historical archives) together with information about external climatic forcings, resulting from 
 well-mixed greenhouse gases, volcanic activity, and variations in solar output.   Three problems arise in this
 case: the need to reduce dimensionality, the complexity/realism of the model, and the execution time of the numerical procedure. 
@@ -101,9 +101,8 @@ The authors found that long memory error terms are necessary in absence of
 external forcing information within a BHM, but the
 presence of external forcing information substantially improves the reconstruction. The scope of the study was restricted by the computational requirements of the Monte Carlo Markov Chain (MCMC) procedure, which limited the sensitivity analysis and forced severe levels of data reduction. 
 
-In this article we leverage Integrated Nested Laplace
-Approximations (INLA) to extend the work of \cite{Barboza2014}. By lightening the computational burden, INLA allows to (a) explore new model designs inspired by the physics of the problem; (b) consider various choices for data reduction; and (c) take the non-stationary nature of the observational network into account.  In addition, this work makes use of the most up-to-date estimates of radiative forcing, as well as a state-of-the-art, open-access compilation of community-curated paleoclimate observations \citep{PAGES2kSD2017allauthors}. This ensures that our calculations are using the best available data and are completely
-reproducible.  
+In this article we extend the work of \cite{Barboza2014} by  leveraging Integrated Nested Laplace
+Approximations (INLA). Doing so lightens the computational burden, which allows to (a) explore new model designs inspired by the physics of the problem; (b) consider various choices for data reduction; and (c) take the non-stationary nature of the observational network into account.  In addition, this work makes use of the latest estimates of radiative forcing, as well as a state-of-the-art, open-access compilation of community-curated paleoclimate observations \citep{PAGES2kSD2017short}. This ensures that our calculations are using the best available data and are completely reproducible.  
 
 The article is organized as follows: we start by describing the datasets (section 2), and the methodology (section 3). Results are presented in section 4, discussed in Section 5, before concluding in section 6. 
 
@@ -114,20 +113,19 @@ The article is organized as follows: we start by describing the datasets (sectio
 Reconstructions of past climates rely on ``proxies'': indirect observations of climate, as recorded in borehole, coral, documentary, glacier
 ice, lake and marine sediment, sclerosponge, speleothem and tree-ring archives \citep{Jones_Holocene09}.
 
-The PAGES2k global multiproxy database is a ``community-driven effort to
+The PAGES2k global multiproxy database is a community-driven effort to
 synthesize all publicly-archived, temperature-sensitive proxy records of the
-past 2,000 years'' \citep{PAGES2KConsortium2013,Kaufman2014,PAGES2kSD2017allauthors}. The most recent effort \citep{PAGES2kSD2017allauthors} made all records available in a standard format (LiPD, \cite{lipd_cp}) readable in R, Python and Matlab \citep{lipd-util}, to ensure reproducible workflows.   
+past 2,000 years \cite{PAGES2kSD2017short}. The most recent effort gathers 692 records from 648 locations, including all continental regions and major ocean basins. The records are from trees, ice, marine and lake sediments, corals, speleothems, and documentary evidence. They range in length from 50 to 2000 years, with a median of 547 years, while temporal resolution ranges from biweekly to centennial.
+  The vast majority of records are annually-resolved, with minimal dating uncertainty. Here, the data used have been mapped to a standard normal using the method of \cite{vanAlbada2007}. The data are available in a standard format (LiPD) readable in R, Python and Matlab, to ensure reproducible workflows \cite{lipd_cp}.   
 
-The dataset is collected through 692
-data series from 648 locales around the world. Each of those proxies
-has different time horizons (Fig.~\ref{fig:proxy}, bottom), which creates challenges for inference. Unlike previous studies (for example \cite{Barboza2014}), we strive to take into account the information available in most proxies, despite their temporal diversity.
+ Each of those proxies has different time horizons (Fig.~\ref{fig:proxy}, bottom), which creates challenges for inference. Unlike previous studies (e.g. \cite{Barboza2014}), we strive to take into account the information available in most proxies, despite their temporal diversity.
 In order to select proxies with high predictive power, we first chose those series with large correlations with respect to
 their closest spatial temperature record in the HadCRUT4.2 dataset \citep{Morice2012}. More
-details on this ``screening'' procedure, which controls for the multiple test problem \citep{BenjaminiHochberg95}, can be found in \citep{PAGES2kSD2017allauthors}; it whittles down the database to 257 proxies (Fig.~\ref{fig:proxy}).   
+details on this ``screening'' procedure, which controls for the multiple test problem \citep{BenjaminiHochberg95}, can be found in \citet{PAGES2kSD2017short}; it whittles down the database to 257 proxies (Fig.~\ref{fig:proxy}).   
 \begin{figure}
   \centering
   \includegraphics[scale=0.40]{CombinedMap_Area}
-  \caption{Distribution and temporal availability of PAGES2k proxies, after applying the screening procedure \cite{PAGES2kSD2017allauthors}.}
+  \caption{Distribution and temporal availability of PAGES2k proxies, after applying the screening procedure \cite{PAGES2kSD2017short}.}
   \label{fig:proxy}
 \end{figure}
 %As mentioned, proxies have different temporal horizons, as it can be shown in thesecond panel of Figure~\ref{fig:proxy}. 
@@ -150,12 +148,12 @@ It is well-known that climate responds to external forcings, including natural f
 \noindent {\bf Volcanic forcing} from the Easy Volcanic Aerosol (EVA) dataset (evolv2k,
   \cite{Toohey2016}), which reconstructed zonal mean AOD (mid-visible, i.e., 550 nm), covering the
   500 BCE to 1900 CE time period. For 1900 (or 1850) to present, \cite{Thomason2016} is
-  used to fill in the forcing table. EVA is given as a function latitude, so the data are area-weighted (multiplied by the cosine of their corresponding latitudes) and averaged to form a global estimate (Fig.~\ref{fig:forcings}, top).
+  used to fill in the forcing table. EVA is given as a function of latitude, so the data are area-weighted (multiplied by the cosine of their corresponding latitudes) and averaged to form a global estimate (Fig.~\ref{fig:forcings}, top).
   
 \noindent {\bf Solar forcing} data is computed from the SATIRE-H
   (Holocene) dataset \citep{Vieira2011}. Irradiance from SATIRE-H (Holocene) is
   provided on a decadal basis from 9495BC - 1939AD and then on a daily basis
-  from 1940AD onwards. Hence, the data prior to 1939AD was interpolated using BSplines and after 1940AD, at annual resolution. For consistency, daily data from 1640AD to 2000AD is also BSpline-interpolated to annual resolution (Fig.~\ref{fig:forcings}, middle). 
+  from 1940AD onwards. The data were interpolated using BSplines  at annual resolution (Fig.~\ref{fig:forcings}, middle). 
   
 \noindent {\bf Greenhouse-Gases concentrations}: hemispheric means of mole
   fraction of carbon dioxide in air (ppm) with annual
@@ -173,8 +171,8 @@ It is well-known that climate responds to external forcings, including natural f
 \subsection{Data reduction methods}
 \label{sec:rp}
 
-The proxy data matrix is large ($p=257$) compared to the 101 yearly samples used to train the model (1900-2000). This large $p$, small $n$ problem therefore require  a data reduction of some kind. 
-Following \cite{Barboza2014}, we do so by generating a set of ``Reduced Proxy'' ($RP$) time series, which condense individual proxy time series into a single time series with larger predictive power over the GMST target. Since this is one of the major steps in temperature reconstruction, in this paper we will carefully investigate five common data reduction methods rather than adopting the simple data reduction method employed in \cite{Barboza2014}, after some initial screening of proxies series.    
+The proxy data matrix is large ($p=257$) compared to the 101 yearly samples used to train the model (1900-2000). This ``large $p$, small $n$'' problem therefore require  a data reduction of some kind. 
+Following \cite{Barboza2014}, we do so by generating a set of ``Reduced Proxy'' ($RP$) time series, which condense individual proxy time series into a single time series with larger predictive power over the GMST target. Since this is a critical choice to make, we extend \cite{Barboza2014} by carefully investigating five common data reduction methods.
 
 \begin{table}[h!]
   \centering
@@ -201,7 +199,7 @@ The 257 proxy variables are first centered and scaled. Then we remove
 proxy series whose proportion of missing annual observations is larger than 5\%
 during the calibration  period.  %\jeg{This gives me pause. Did you exclude all series lacking >5\% of data in a given 250y nest, or overall. If overall, you are missing out on a LOT of proxies!!! We should redo the calculations with aless restrictive threshold}\lb{The percentage of missing observations is computed over the calibration period (1900-2000), so we don't loose too much information.}. 
 Due to the diversity of start dates in the proxies database (Fig.~\ref{fig:proxy}), we gather proxies into non-homogeneous groups where each group has temporal availability within a 250y interval. As the reconstruction is taking place over a 2000 year
-horizon, this creates 8 groups with the distribution shown in Table \ref{tab:distdate}. 
+horizon, this creates 8 groups  (Table \ref{tab:distdate}). 
 
 An important aspect we notice from the distribution of Table
 \ref{tab:distdate} is that the number of proxies can be greater or 
