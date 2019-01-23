@@ -169,7 +169,8 @@ ambitious assumption. We prefer our simpler and more conservative assumption of 
 Thanks for the clarification. We used the direct posterior density computations
 for most of the calculations throughout the article, except when we compute the
 CRPS measure where we used Monte Carlo samples to construct the independent
-samples within its definition. We clarified this in the article. \lb{I have to do this...}  
+samples within its definition. We changed the title and include the
+clarification in the article as you suggested. 
 
 \item \textit{"Model (4) leads to conditional independence of $y$ given $\theta$ and
   $\psi$": Conditional independence between the response variables (the
@@ -182,7 +183,7 @@ samples within its definition. We clarified this in the article. \lb{I have to d
   independence within each proxy; are the model residuals really
   statistically independent over time?}
 
-Please see the answer above.
+Please see the answer above (second bullet).
 
 \item \textit{What $f(.)$ models were used for the different inputs? (see comment
   about rw2 etc, above) Linear? rw2? Other?}
@@ -190,9 +191,7 @@ Please see the answer above.
 We used an i.i.d. random effect for the latent variable $T_t$ and we made as
 many copies as necessary of $T_t$ in order to define the latent variable
 multiplied by a random variable in each proxy equation. In addition, we added an
-independent random effect to model the error term in the latent equation and
-afterwards this
-last term was changed to an AR(1) random effect following your suggestion.  
+independent random effect to model the error term in the latent equation.  
 
 \item \textit{Page 13: "(ii) the vector $\theta$ is conditionally independent given
   the hyperparameters"; this statement is unclear. The R-INLA model
@@ -279,7 +278,8 @@ this figure.
   from the table that relying on only one would run the risk of
   overinterpreting the method differences.}
 
-...
+\lb{There is no question throughout this comment, do we have to
+  respond?}
 
 \end{itemize}
 \end{document}

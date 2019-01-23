@@ -379,7 +379,7 @@ Finally we consider the more realistic case where temperature reflects both exte
 
 
 
-\subsection{Sampling with INLA}
+\subsection{Computing posteriors with INLA}
 
 The computational challenge of MCMC inference has been a concern for Bayesian paleoclimate reconstructions. It is crucial to overcome this computational bottleneck before we can move forward to a more complex space-time reconstruction. Here we introduce the INLA sampling strategy to accelerate the MCMC procedure, and we hope this experiment can serve as a template for employing INLA in more comprehensive models. 
 
@@ -484,7 +484,9 @@ verification of point forecasts in environmental sciences for example, as well a
 of paleoclimatic reconstructions (see \cite{Barboza2014} and
 \cite{Scheuerer2014}). Table~\ref{tab:comparisontot} contains the predictive
 measures using the INLA's prediction intervals and the observed
-  anomalies over 1850-1899 as an out-of-sample validation interval. The
+  anomalies over 1850-1899 as an out-of-sample validation interval. We used INLA's availability of computing direct
+posterior densities in order to compute interval scores and, in the CRPS case,
+we used Monte Carlo samples obtained from INLA.  The
   last column consists of the mean square error (MSE) between the smoothed
   reconstruction and the borehole-based
 reconstruction of \cite{Pollack2004} over 1600-1899 (PS04 dataset) as an out-of-sample
