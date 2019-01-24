@@ -619,13 +619,14 @@ balance in terms of the variance of the reconstructed series and the width of
 the confidence region approximated by INLA. The remaining 3 reconstructions show
 similar small-scale tendencies with respect to the best choice, but the width of
 their confidence regions is greater. A closer look of the reconstructions is shown in Figure
-\ref{fig:paleo19001}, where the first testing period appears between the red lines.
+\ref{fig:paleo19001}, Panel (A), where the first testing period appears between the red lines.
 \begin{figure}[h!]
   \centering
-  \includegraphics[scale=0.40]{Rec1900_Final}
-  \caption{Paleoclimate Reconstruction 1850-2000 with 95\%
-    prediction bands. Best two choices per validation method. The out-of-sample validation period is
-    located between the red lines.}
+  \subfloat[]{\includegraphics[scale=0.33]{Rec1900_Final}}
+  \subfloat[]{\includegraphics[scale=0.33]{Rec1500_Final}}
+  \caption{Panel (A): Paleoclimate Reconstruction 1850-2000 with 95\%
+    prediction bands. The out-of-sample validation period is
+    located between the red lines. Panel (B): Smoothed Reconstruction 1600-1900 vs PS04 series. Best two choices per validation method.}
   \label{fig:paleo19001}
 \end{figure}
 Note that sPCR-WF closely predicts the anomalies observed in the first testing
@@ -635,7 +636,7 @@ an almost analogous way the anomalies observed during the same period. At least
 for this validation exercise there is not a clear advantage of using a B-Spline
 basis as an additional linear term in equation \eqref{eq:M3}.
 
-Figure \ref{fig:paleo15001} shows a comparison of the smoothed reconstructions
+Figure \ref{fig:paleo19001}, Panel (B) shows a comparison of the smoothed reconstructions
 using a low-pass filter and the borehole-based reconstruction of
 \cite{Pollack2004} (PS04 dataset). In this case, the mixed versions of the sPCR
 and PCR models with external forcings provide the best adjustment in terms of
@@ -657,12 +658,12 @@ results in terms of the two previous validation exercises.
 % reconstruction that has the best results is the one obtained by sPCR-SSwF, followed
 % by the PCR-SSwF model. 
 
-\begin{figure}[h!]
-  \centering
-  \includegraphics[scale=0.40]{Rec1500_Final}
-  \caption{Smoothed Reconstruction 1600-1900 vs PS04 series. Best two choices per validation method.}
-  \label{fig:paleo15001}
-\end{figure}
+% \begin{figure}[h!]
+%   \centering
+%   \includegraphics[scale=0.40]{Rec1500_Final}
+%   \caption{Smoothed Reconstruction 1600-1900 vs PS04 series. Best two choices per validation method.}
+%   \label{fig:paleo15001}
+% \end{figure}
 
 \subsection{Impact of INLA sampling}
 
@@ -700,7 +701,7 @@ coefficients. This behavior confirms the observed details of Figure
 
 \begin{figure}
   \centering
-  \includegraphics[scale=0.40]{PlotBetas}
+  \includegraphics[scale=0.3]{PlotBetas}
   \caption{Posterior densities of $\beta_1$, $\beta_2$ and $\beta_3$ for Model
     sPCR-SSwF and MCMC using PCR single reduced proxy.}
   \label{fig:betas}
