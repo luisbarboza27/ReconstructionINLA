@@ -66,16 +66,8 @@ San Jos\'e, Costa Rica}
 \maketitle
 
 \begin{abstract}
-A Paleoclimate Reconstruction on the Common Era (1-2000AD) was performed using a
-Hierarchical Bayesian Model from three types of data: proxy data from PAGES2k
-project dataset, HadCRUT4 temperature data from the Climatic Research Unit
-at the University of East Anglia, and external forcing data from several sources.
-Five data reduction techniques were explored with the purpose of achieving a parsimoneous but sufficient set of
-proxy equations. Instead of using the MCMC approach to solve for the latent variable, we employed an
-INLA algorithm that can approximate the MCMC results and meantime is  much more computationally efficient than MCMC. The role
-of external forcings was investigated by replacing or combining them with a fixed number of
-BSplines in the latent equation. Two different validation exercises confirm that
-it is feasible to improve the predictive ability of traditional external forcing models. 
+Paleoclimate reconstruction on the Common Era (1-2000AD) provide critical context for recent warming trends. This work leverages integrated nested Laplace approximations (INLA) to conduct inference under a Bayesian Hierarchical Model using data from three sources: a state-of-the-art prox database (PAGES 2k), surface temperature data (HadCRUT4), and latest estimates of external forcing data from several sources. 
+INLA's computational efficiency allows to explore several model formulations (without forcings, with forcings, and forcings + internal variability), as well as five data reduction techniques.  Two different validation exercises find a small impact of data reduction choices, but a large impact for model choice, with best results for the two models that incorporate external forcings. These models confirm that man-made greenhouse gas emissions are the largest contributor to temperature variability over the Common Era, followed by volcanic forcing. Solar effects are indistinguishable from zero.  INLA provides estimates comparable with the much costlier Monte Carlo Markov Chain procedure, but with wider uncertainty bounds. We recommend using it for exploration of model designs, but full MCMC solutions should be used for uncertainty quantification.  
 \end{abstract}
 
 \section{Introduction.}
@@ -84,17 +76,17 @@ it is feasible to improve the predictive ability of traditional external forcing
 Earth's climate presents a continuum of variability, with periodic and non-periodic fluctuations ranging from 1 to $10^8$ years \citep{pelletier_power_1998}. In particular, variability on scales of decades to centuries is of paramount importance for adaption and planning to anthropogenic climate change, yet is incompletely sampled by the relatively short historical record of wide-spread instrumental observations, going back to about 1850 CE \citep{AR5_chap5}. It is thus critical to reconstruct these variations from the paleoclimate record as quantitatively as possible.  A particular focus has been reconstructions of global or hemispheric temperature from high-resolution proxy observations \citep{Jones_Holocene09}.
 
 Many methods have been developed to reconstruct past climates, particularly temperatures:  principal component regression
-\citep{MBH98,luterbacher2004european}, regularized forms of the expectation-maximization algorithm \citep{Schneider2001,mann2005testing,mann2007robust,steig2009,JEG10a,Guillot_AOAS2015}, canonical
-correlation analysis \citep{smerdon2010pseudoproxy,Wang_CP2014,Evans_grl2014}, pairwise comparison
+\citep{MBH98,luterbacher2004european}, regularized forms of the expectation-maximization algorithm \citep{Schneider2001,mann2007robust,JEG10a,Guillot_AOAS2015}, canonical
+correlation analysis \citep{smerdon2010pseudoproxy,Wang_CP2014}, pairwise comparison
 \citep{Hanhijarvi2013}, data assimilation \citep{Lee_CD08,Hakim2016}, and Bayesian hierarchical models (BHMs). 
 
 BHMs offer several distinct advantages for paleoclimatic reconstruction. They can (i) treat different sources of uncertainty in a natural way, (ii) incorporate prior knowledge of the system in a logically-coherent manner, and (iii) allow for both inference and prediction \citep{Tingley_QSR2012}. 
-Many studies have employed BHMs (e.g. \cite{boli1, tingley2013_Ext,Barboza2014}). Some have used space-state
+Many studies have employed BHMs \citep[e.g.][hereafter, "B14"]{boli1, tingley2013_Ext,Barboza2014}); some have used space-state
 schemes to linearly relate information that comes from paleoclimate observations together with information about external climatic forcings, resulting from 
 well-mixed greenhouse gases, volcanic activity, and variations in solar output. Three problems arise in this
 case: the need to reduce dimensionality, the complexity/realism of the model, and the execution time of the numerical procedure. 
 
-\citet[][, hereafter, "B14"]{Barboza2014} proposed a method that jointly models the variability of the
+B14 proposed a method that jointly models the variability of the
 temperature series (as a latent process) as well as the variability of those
 climatic and biological observations that serve as approximations of this process (``proxies'').
 The authors found that long memory error terms are necessary in absence of
@@ -112,11 +104,9 @@ The article is organized as follows: we start by describing the datasets (sectio
 \subsection{Proxy data.}
 Reconstructions of past climates rely on ``proxies'': indirect observations of climate, as recorded in borehole, coral, documentary, glacier
 ice, lake and marine sediment, sclerosponge, speleothem and tree-ring archives
-\citep{Jones_Holocene09}. The vast majority of records are annually-resolved, with minimal dating uncertainty. 
-
-The PAGES2k global multiproxy database is a community-driven effort to
+\citep{Jones_Holocene09}. The PAGES2k global multiproxy database is a community-driven effort to
 synthesize all publicly-archived, temperature-sensitive proxy records of the
-past 2,000 years \cite{PAGES2kSD2017short}. The most recent effort gathers 692 records from 648 locations, including all continental regions and major ocean basins. The records are from trees, ice, marine and lake sediments, corals, speleothems, and documentary evidence. They range in length from 50 to 2000 years, with a median of 547 years, while temporal resolution ranges from biweekly to centennial.
+past 2,000 years \citep{PAGES2kSD2017short}. The most recent effort gathers 692 records from 648 locations, including all continental regions and major ocean basins. The records are from trees, ice, marine and lake sediments, corals, speleothems, and documentary evidence. They range in length from 50 to 2000 years, with a median of 547 years, while temporal resolution ranges from biweekly to centennial.
   The vast majority of records are annually-resolved, with minimal dating uncertainty. Here, the data used have been mapped to a standard normal using the method of \cite{vanAlbada2007}. The data are available in a standard format (LiPD) readable in R, Python and Matlab, to ensure reproducible workflows \citep{lipd_cp}.   
 
  Each of those proxies has different time horizons (Fig.~\ref{fig:proxy}, bottom), which creates challenges for inference. Unlike previous studies (e.g. B14), we strive to take into account the information available in most proxies, despite their temporal diversity.
@@ -161,7 +151,7 @@ We estimate Global Mean Surface Temperature (GMST) from the HadCRUT4 global temp
 Centre and the Climatic Research Unit at the University of East Anglia, UK
 (version 4.4.0.0). The dataset consists of instrumental, {\it in situ}
 observations of surface temperature over land \citep{Jones2012} and ocean
-\citep{Kennedy2011, Kennedy2011a}. The
+\citep{Kennedy2011a,Kennedy2011}. The
 observations are expressed as anomalies relative to the monthly-mean seasonal cycle over the 1961-1990 period, in degrees Celsius. Though HadCRUT4 features a rather sophisticated analysis of error sources \citep{Morice2012}, we neglect these uncertainties against the much larger uncertainties affecting paleoclimate observations, and simply use the median estimate, averaged on an annual basis.
 %\jeg{Luis, are you using the GMST provided by HadCRUT4, or do you calculate your own from the spatial data?}\lb{I'm using the file  HadCRUT.4.4.0.0.ama\_ns\_avg\_1850-2015.txt that you provided me.} % thanks for the clarification. 
 
@@ -195,7 +185,7 @@ These use the most recent compilations from the PMIP4-CMIP6 project \citep{Jungc
 \subsection{Data reduction methods}
 \label{sec:rp}
 
-For most intervals in Table \ref{tab:distdate}, the proxy data matrix is large compared to the 101 yearly samples used to train the model (1900-2000). This ``large $p$, small $n$'' problem calls for some form of data reduction. Following B14, we generate a set of ``Reduced Proxy'' ($RP$) time series, which condense individual proxy time series into a single time series with larger predictive power over the GMST target. Since this is a critical choice to make, we extend B14 by carefully investigating five common data reduction methods:
+For some intervals in Table \ref{tab:distdate}, the proxy data matrix is large compared to the 101 yearly samples used to train the model (1900-2000). This ``large $p$, small $n$'' problem calls for some form of data reduction. Following B14, we generate a set of ``Reduced Proxy'' ($RP$) time series, which condense individual proxy time series into a single time series with larger predictive power over the GMST target. Since this is a critical choice to make, we extend B14 by carefully investigating five common data reduction methods:
 
 \jeg{You want to say something about screened vs unscreened here?}
 
@@ -306,10 +296,10 @@ undue weight on the forcings, and not enough on internal variability. To
 mitigate this risk, it may be preferable to model temperature fluctuations as a
 smooth function of time (say, via splines) without including forcings, then
 perform forcing attribution on the inferred temperature posterior
-\cite{Schurer2013a, Schurer2013b}, which guarantees independence: this way, if the reconstruction bears a strong resemblance to the forcings, it is only because the latter are reflected in the values of the predictors, not because they were fed to the model. In this section we explore both end-members, as well as an intermediate case. 
-
-Below we first define notation:
+\citep{Schurer2013a, Schurer2013b}, which guarantees independence: this way, if the reconstruction bears a strong resemblance to the forcings, it is only because the latter are reflected in the values of the predictors, not because they were fed to the model. In this section we explore both end-members, as well as an intermediate case. We first define:
+%Below we first define notation:
 %Our models are based on the one presented in B14. Now we define some notation, %assuming that all the variables are set at time $t$.
+\vspace{-.3cm}
 \begin{itemize}
 \item $RP_t^i$: $i$-th reduced proxy at time $t$.
   
@@ -325,20 +315,13 @@ Below we first define notation:
   sequence $\tau$ \citep{DeBoor2001,Ramsay2005}. Here we choose
   cubic B-spline bases and we denote $K(\tau)$ as the total number of basis elements.  
 \end{itemize}
-We then define the first level of BHM as
-\begin{align*}
-RP_t^i=\alpha_0^i+\alpha_1^iT_t+\epsilon^i_t,  
-\end{align*}
+We then define the first level of BHM as $RP_t^i=\alpha_0^i+\alpha_1^iT_t+\epsilon^i_t$,  
 where $\{\alpha^i_j\}$ are intercepts ($j=0$) and slopes ($j=1$) for $i=1,\ldots,N$,  and $\epsilon^i_t$ are normally-distributed random variables with finite variances
 $\{\sigma^2_i\}$. Note that in our case $N=8$; the time variable $t$ is defined on each nest according to the
-intervals of Table~\ref{tab:distdate}. 
-The second level will be defined in three different forms:
+intervals of Table~\ref{tab:distdate}. We explore three formulations of the process level:
 
 \noindent {\bf No forcing (model "NF")}
-The main idea of this model is to evaluate the
-central hypothesis of this article, that is, the paleoclimate reconstruction can
-perform  well without taking into account the external forcings, as long as a
-smoothing function has been included to approximate the dynamic behavior of the temperature series. We do so as: 
+The main idea of this model is to provide a baseline that ignores external forcings. To capture low-frequency behavior, we include a smoothing function as: 
   \begin{align}\label{eq:M1}
     T_t=\beta_0+\sum_{k=1}^{K(\tau)}\beta_k B_t^{k,\tau}+\eta_t,
   \end{align}
@@ -348,13 +331,12 @@ $\sigma^2_{\eta}$. For simplicity, the error terms $\epsilon^i_t$ and $\eta_t$
 are assumed to be independent.  
 
 \noindent {\bf With forcing (model "WF")}
-In order to have a baseline model to evaluate Model NF, we
-define
+Like B14, this model explicitly models temperature as linearly driven by radiative forcing:
   \begin{align}\label{eq:M2}
     T_t=\beta_0+\beta_1S_t+\beta_2\tilde V_t+\beta_3\tilde C_t+\eta_t.
   \end{align}
-Both first level and second level models are defined for
-$t=1,\cdots,2000$ (Common Era). It is important to add that Models NF and WF simply assume an independent error structure. This is because B14 
+%Both first level and second level models are defined for $t=1,\cdots,2000$ (Common Era). 
+Note that Models NF and WF simply assume an IID error structure. This is because B14 
 found that complex error structures make little difference when forcings are added to the reconstruction.
 
 \noindent {\bf "Mixed" Model} 
@@ -363,17 +345,17 @@ Finally we consider the more realistic case where temperature reflects both exte
     T_t=\beta_0+\beta_1S_t+\beta_2\tilde V_t+\beta_3\tilde C_t+\sum_{k=1}^{K(\tau)}\gamma_k B_t^{k,\tau}+\eta_t
   \end{align}
   where $\gamma_k$ are the coefficients for the B-Spline basis. %\lb{Julien: please include an explanation why this model is interesting in the climatology community.} \jeg{done}
-  This last case is of most obvious relevance to climate dynamicists. Indeed, it is common knowledge that Earth's temperature varies both as a result of internal causes (NF) and forcings (WF). It is thus most natural to set up a mixed model that reflects both causes. The downside is that the model is more complex, thus making estimation more challenging. 
+  This last case is of most obvious relevance to climate dynamicists. The downside is that the model is more complex, thus making estimation more challenging. \jeg{true?}
 
 
 
 \subsection{Computing posteriors with INLA}
 
-The computational challenge of MCMC inference has been a concern for Bayesian paleoclimate reconstructions. It is crucial to overcome this computational bottleneck before we can move forward to a more complex space-time reconstruction. Here we introduce the INLA sampling strategy to accelerate the MCMC procedure, and we hope this experiment can serve as a template for employing INLA in more comprehensive models. 
+The computational challenge of MCMC inference has been a concern for Bayesian paleoclimate reconstructions. It is crucial to overcome this  bottleneck before we can move forward to a more complex space-time reconstruction. Here we introduce the INLA sampling strategy to accelerate the MCMC procedure, as a proof of concept for more comprehensive models. The INLA approach is applicable to a general specification for which the mean $\eta_i$ of the observations $y_i$ follows a linear structure:
 
 %The computation is slow for even a global reconstruction, let alone a space-time reconstruction in our mind. We now introduce INLA to our reconstruction by adapting our model to the general specification of  the INLA framework. Now it is fast and we plan to extend this to space-time reconstruction. 
 
-The INLA approach is applicable to a general specification for which the mean $\eta_i$ of the observations $y_i$ follows a linear structure:
+
 \begin{align}\label{eq:meanINLA}
   \eta_i = \alpha +\sum_{m-=1}^M\beta_mx_{mi}+\sum_{l=1}^Lf_l(z_{li})
 \end{align}

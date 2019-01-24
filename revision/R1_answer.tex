@@ -77,12 +77,14 @@ method) for each case. The average coefficient of variation of $RP$ (with and
 without screening), the
 average correlation coefficient between the two dataset versions and the average
 correlation coefficient between the observed temperature and each dataset
-version are shown in Table \ref{tab:screening}.
+version are shown in Table \ref{tab:screening}.\bl{the ``average correlation" or just the ``correlation"}
 \begin{table}
   \centering
-  \begin{tabular}{l|rr|r|rr}
+  \begin{tabular}{l|cc|c|cc}
   \toprule
-\textbf{Method} & \textbf{Sc. CV} & \textbf{Unsc. CV} & \textbf{Correlation: Sc. vs Unsc.} & \textbf{Correlation: Sc. vs T} & \textbf{Correlation: Unsc. vs T}\\ 
+ &  \multicolumn{2}{c|}{CV} & \multicolumn{3}{c}{Correlation}\\
+ \hline
+\textbf{Method} & \textbf{S.c} & \textbf{Unsc.} & \textbf{Sc. vs Unsc.} & \textbf{Sc. vs T} & \textbf{Unsc. vs T}\\ 
   \midrule
 PCR & 0.6189 & 0.6741 & 0.9511 & 0.8534 & 0.8638 \\ 
   sPCR & 0.6065 & 0.6194 & 0.9843 & 0.8448 & 0.8431 \\ 
@@ -92,7 +94,7 @@ PCR & 0.6189 & 0.6741 & 0.9511 & 0.8534 & 0.8638 \\
    \bottomrule
 \end{tabular}
   \caption{Comparison of $RP$'s obtained with and without screening procedure. \textbf{Sc}: Screened dataset, \textbf{Unsc}: Unscreened dataset, \textbf{CV}: coefficient of
-    variation, \textbf{T}: observed temperature (1900-2000) }
+    variation \bl{is this the var/mean or just the variance?}, \textbf{T}: observed temperature (1900-2000) }
   \label{tab:screening}
 \end{table}
 The third column confirms that the signal is not missed when we
