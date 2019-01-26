@@ -56,21 +56,8 @@ comments in italics, and describe our response in roman.
   paper makes them much less ignorable, as they are the means through
   which everything else is estimated.}
 
-
-We really thank the reviewer for these insightful comments. We are aware that
-modeling proxies individually would reduce local estimation bias. The variance
-at a local perspective would increase considerably, and this is one reason why
-we prefer to concentrate on modeling the average temperature only. It is a fact
-that if we had considered the individual proxies, the computational difficulties
-would have increased, especially in the MCMC case. The reconstruction taking
-individual proxies at a spatio-temporal level with INLA will definitely be a
-future project, but we cannot get rid of the above problem even in this case.
-That is why we consider that the dimension reduction techniques should be
-utilized in any way.
-
-\bl{I suggest to use the following response: We thank the reviewer for these insightful comments. A major benefit of using reduced proxies is that the computation is much eased, although this is not our main reason to reduce proxies. We agree that the uncertainty of the reconstruction will be changed most likely toward the direction of shrinkage when we used reduced proxies. However, since we focus on the global temperature rather than local temperatures, reducing proxies will not deteriorate the reconstruction but only make the reconstruction less uncertain by removing the part of noise in proxies that is related to local temperatures. This can be verified by Table \ref{tab:screening2}}
-
-\begin{table}
+We thank the reviewer for these insightful comments. A major benefit of using reduced proxies is that the computation is much eased, although this is not our main reason to reduce proxies. We agree that the uncertainty of the reconstruction will be changed most likely toward the direction of shrinkage when we used reduced proxies. However, since we focus on the global temperature rather than local temperatures, reducing proxies will not deteriorate the reconstruction but only make the reconstruction less uncertain by removing the part of noise in proxies that is related to local temperatures. This can be verified by Table \ref{tab:screening2}.
+\begin{table}[htp]
   \centering
   \begin{tabular}{l|cc|c|cc}
   \toprule
@@ -89,6 +76,7 @@ PCR & 0.6189 & 0.6741 & 0.9511 & 0.8534 & 0.8638 \\
     variation, \textbf{T}: observed temperature (1900-2000) }
   \label{tab:screening2}
 \end{table}
+
 The third column confirms that the signal is not missed when we
 use the screening procedure because there is a large correlation between the two
 procedures for all the reduction methods, except SIR. In general the coefficient
@@ -100,11 +88,8 @@ by using the screening. We think all the above confirms that the screening proce
 the overall signal by means of a low-noise and low-dimensional alternative as we
 do in the article. It is important to note that the screening procedure was
 performed against the \textbf{local} (not global) temperature by means of the nearest grid points
-within a 2000km radius.     
-
-\bl
-{We now have added a brief discussion on proxy reduction in ?? 
- Add "Reducing proxies not only eases the computation, but also makes the reconstruction less uncertain by removing the part of noise in proxies that is related to local temperatures" somewhere in the text.}
+within a 2000km radius. We now have added a brief discussion on proxy reduction
+in Section 3.1.
 
 \item \textit{Are the reduced proxy model residuals temporally independent? (see
   comment above) May need to add an AR(1) random effect to the model to capture
@@ -112,16 +97,16 @@ within a 2000km radius.
   noise term that forms the response likelihood; ideally, one would
   have a joint BYM model that parametrises the joint effect).}
 
-\bl{To answer this question, we first examined the correlation structure of residuals based on the linear regression of
+To answer this question, we first examined the correlation structure of residuals based on the linear regression of
 each of the 8 reduced proxies vs the observed temperatures. We only had sufficient
 evidence to reject the hypothesis of temporal independence in 5 out of 40
 possible residuals (5 reduced-proxy methods $\times$ 8 reduced proxies). There, the assumption of temporal independence is not unreasonable. Despite these results, we implemented an AR(1) random effect to the model as you
 suggested. The results are shown in Table \ref{tab:comparisontot}. In general, 
 all measures using an AR(1) error term are slightly smaller than the measures using independent errors, but the best
-models chosen based on measures using AR(1) error remain the same, so we do not think independent errors are a very bad choice. Thank you for pointing this out. Due to the page limit, we cannot include the results with AR(1) error in the paper, but we add a comment "If we allow for a more flexible AR(1) structure for the error terms, the conclusion remain the same."}
+models chosen based on measures using AR(1) error remain the same, so we do not think independent errors are a very bad choice. Thank you for pointing this out. Due to the page limit, we cannot include the results with AR(1) error in the paper, but we add a comment ``If we allow for a more flexible AR(1) structure for the error terms, the conclusions remain the same.''
 
 
-\begin{table}
+\begin{table}[htp]
   \centering
   {\small
 \begin{tabular}{lll|rrr|r}
@@ -170,11 +155,11 @@ Mixed & 8 & SIR & 0.3735 & 0.1837 & 0.1261 & 0.1468 \\
   the weights; in INLA either a "rw2" model can be used for the
   continuous limit, or a 1D SPDE model on 2nd order B-spline bases).}
 
-\bl{We agree that the results are possibly dependent on the location of the knots. 
+We agree that the results are possibly dependent on the location of the knots. 
 In our work, we carefully chose the knots location based on the degree of linear association between the true temperatures and the BSplines. 
 We also agree that the knots spacing is another typical and challenging issue with splines. Due to the
-nature of the temperature series and its diverse spatial composition, we feel it is a bit stretchy to assume a continuous time model for the temperature process.  Hence, we prefer our simple and conservative assumption of uniformity in the distribution of nodes. However, the suggestion of random walk would be very interesting to investigate for future research. We now have added "the location and spacing of knots can possibly affect the results.  A compelling alternative to our choice is to use a properly penalized spline with a well
-defined interpretation in the limit as the number of knots approach infinity. We leave this issue for future investigation. "}
+nature of the temperature series and its diverse spatial composition, we feel it is a bit stretchy to assume a continuous time model for the temperature process.  Hence, we prefer our simple and conservative assumption of uniformity in the distribution of nodes. However, the suggestion of random walk would be very interesting to investigate for future research. We now have added ``the location and spacing of knots can possibly affect the results.  A compelling alternative to our choice is to use a properly penalized spline with a well
+defined interpretation in the limit as the number of knots approach infinity. We leave this issue for future investigation. ''
 
 
 
@@ -214,7 +199,8 @@ Please see our answer about using AR(1) error model above (second bullet).
 We used an i.i.d. random effect for the latent variable $T_t$ and we made as
 many copies as necessary of $T_t$ in order to define the latent variable
 multiplied by a random variable in each proxy equation. In addition, we added an
-independent random effect to model the error term in the latent equation.  \bl{I dont quite understand what you wrote, but did you also try the AR(1) model? If so, you should add that. }
+independent random effect to model the error term in the latent equation and we
+also tried the AR(1) error term for comparison purposes.  
 
 \item \textit{Page 13: "(ii) the vector $\theta$ is conditionally independent given
   the hyperparameters"; this statement is unclear. The R-INLA model
@@ -250,9 +236,13 @@ Thanks, we changed the sentence as you suggested.
   same priors as for the MCMC run is used, so that it's possible to
   see if the two methods compute/estimate the same posteriors?}
 
-We first would like to make it clear that  (1) we used less precise priors for INLA \bl{what do you mean by less precise?} and (2) we used
+We first would like to make it clear that  (1) we used priors with larger
+variance hyperparameter (less precise) for INLA and (2) we used
 the same model for both approaches.  But we conjecture that the difference is not caused by the prior choice. Instead, we think the level of mixing in the MCMC chains of the external-forcing parameters may be the main cause of the difference. We had experience in Barboza et al. (2014) that an acceptable level of mixing of such chains was difficult to attain. The current
-dimension of latent variables is much larger compared to that in Barboza et al, 2014, so this may exacerbate the mixing issue in the MCMC procedure and lead to the difference. \bl{can you not solve it by thinning the posterior?}
+dimension of latent variables is much larger compared to that in Barboza et al,
+2014, so this may exacerbate the mixing issue in the MCMC procedure and lead to
+the difference. \bl{can you not solve it by thinning the posterior?}\lb{Thinning
+is a possible solution, but the MCMC's computational time makes thinning challeging.}
 
 
 \item \textit{The computational cost benefit of INLA seems very clear; there is
@@ -269,7 +259,7 @@ dimension of latent variables is much larger compared to that in Barboza et al, 
   be large unless a very long run is made, and the relative bias in
   the posterior densities from INLA should be expected to be small.}
 
-\bl{You are correct that the computation has been largely reduced by using INLA. We have tried the AR(1) error model and the computation is still very manageable as you expected.  We also noticed that very long runs of MCMC are required to attain satisfactory results, and we conjecture this is the reason why the posterior density of forcing parameters from INLA is different from that from MCMC.}
+You are correct that the computation has been largely reduced by using INLA. We have tried the AR(1) error model and the computation is still very manageable as you expected.  We also noticed that very long runs of MCMC are required to attain satisfactory results, and we conjecture this is the reason why the posterior density of forcing parameters from INLA is different from that from MCMC.
 
 
 \item \textit{I'm curious about the bimodal posterior density for the Greenhouse
@@ -282,7 +272,7 @@ This indeeds looks a bit strange, but the figure was produced by plotting the po
 related to the Greenhouse-gas external forcing. We used the INLA's attribute
 \verb|marginals.fixed|, and we did not use sampling at all for making 
 this figure.   
-\jeg{I have the same question, actually}
+
 
 
 \item \textit{I really like that several assessment criteria are used; it's clear

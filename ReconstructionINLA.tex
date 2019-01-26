@@ -270,7 +270,9 @@ the covariates and the dependent variable into account. In general, its performa
 \end{figure}
 
 The data reduction allows us to fit linear regression models between
-temperatures and proxies. After we fit a linear regression model under each of
+temperatures and proxies. Reducing proxies not only eases the computation, but
+also makes the reconstruction less uncertain by removing the part of noise in
+proxies that is related to local temperatures. After we fit a linear regression model under each of
 the five data reduction methods and for each of the eight proxy groups listed in
 Table \ref{tab:distdate}, we compute a single reduced proxy series following
 B14 for each group. All reduced proxies are shown in Fig.~\ref{fig:RPs}.  These series are highly correlated, with the reduced proxies obtained by PCR standing out as least similar to the others by this metric (Fig.~\ref{fig:CorrRPs}).
@@ -337,7 +339,8 @@ Like B14, this model explicitly models temperature as linearly driven by radiati
   \end{align}
 %Both first level and second level models are defined for $t=1,\cdots,2000$ (Common Era). 
 Note that Models NF and WF simply assume an IID error structure. This is because B14 
-found that complex error structures make little difference when forcings are added to the reconstruction.
+found that complex error structures make little difference when forcings are
+added to the reconstruction and if we allow for a more flexible AR(1) structure for the error terms, the conclusions remain the same.
 
 \noindent {\bf "Mixed" Model} 
 Finally we consider the more realistic case where temperature reflects both external forcings and internal dynamics. This model is a combination of equations \eqref{eq:M1} and \eqref{eq:M2}, as follows:
@@ -345,9 +348,7 @@ Finally we consider the more realistic case where temperature reflects both exte
     T_t=\beta_0+\beta_1S_t+\beta_2\tilde V_t+\beta_3\tilde C_t+\sum_{k=1}^{K(\tau)}\gamma_k B_t^{k,\tau}+\eta_t
   \end{align}
   where $\gamma_k$ are the coefficients for the B-Spline basis. %\lb{Julien: please include an explanation why this model is interesting in the climatology community.} \jeg{done}
-  This last case is of most obvious relevance to climate dynamicists. The downside is that the model is more complex, thus making estimation more challenging. \jeg{true?}
-
-
+  This last case is of most obvious relevance to climate dynamicists. The downside is that the model is more complex, thus making estimation more challenging.
 
 \subsection{Computing posteriors with INLA}
 
@@ -557,7 +558,8 @@ BSpline functions for this period and we take $K(\tau)=120$ based on the
 assumption that the number of BSpline bases is uniform
 throughout the entire reconstruction period. Note that the high prevalence of
 annually-resolved proxy data allows to assume that a constant number of BSpline bases might be adequate to describe the temperature
-mean.%\jeg{this assumption seems strange given that the number of proxies varies drastically. Can you justify it?}\lb{I tried using the fact that practically  all the data here comes in an annual basis, so the deterministic trend of the temperature can be modelled in an uniform way}.\jeg{I supposed the RPs are annual, even if they are made of fewer and fewer observations as you go further back in time. I'll be curious to see what the reviewers say about this, but I don't want this to hold up the show.} \jeg{I am still not sure I understand, but I'll let it go}
+mean but we know that the location and spacing of knots can possibly affect the results.  A compelling alternative to our choice is to use a properly penalized spline with a well
+defined interpretation in the limit as the number of knots approach infinity. We leave this issue for future investigation..%\jeg{this assumption seems strange given that the number of proxies varies drastically. Can you justify it?}\lb{I tried using the fact that practically  all the data here comes in an annual basis, so the deterministic trend of the temperature can be modelled in an uniform way}.\jeg{I supposed the RPs are annual, even if they are made of fewer and fewer observations as you go further back in time. I'll be curious to see what the reviewers say about this, but I don't want this to hold up the show.} \jeg{I am still not sure I understand, but I'll let it go}
   
   The choice of $K(\tau)=100$ for model Mixed is
 based on the same criteria as before. Finally, we fit the models NF and Mixed
@@ -686,27 +688,27 @@ was performed on an Ubuntu 16.04 server with Intel Xeon E5-2630 (8-cores,
 2.40GHz) and 64 GB of RAM.  This large speedup allowed us to explore a far wider variety of modeling choices than MCMC alone.
 
 
-\subsection{Are we living in extraordinary times?}
+% \subsection{Are we living in extraordinary times?}
 
-% \jeg{can we use the Mixed model as baseline here?. You could put the figures for NF and WF in the Appendix, if need be.}\lb{Because of Figures 6 and 7 we can use PCR-Mixed as the baseline in this section.} \jeg{thanks!}
+% % \jeg{can we use the Mixed model as baseline here?. You could put the figures for NF and WF in the Appendix, if need be.}\lb{Because of Figures 6 and 7 we can use PCR-Mixed as the baseline in this section.} \jeg{thanks!}
 
-    Finally, we take advantage of our probabilistic output to ask whether the levels and rates of warming over the recent past are exceptional in a 2,000 year context.  Fig.~\ref{fig:compmeans} compares the temporal means of the last 10, 25, 50 and 100 years of the record compared to all similar previous intervals. That is, for the 25y case, we compare the mean over 1976-2000 to the mean over 1951-1975, 1926-1950, and all other 25-year segments back to 1 CE. It is evident that in all four cases the most recent period appears detectably warmer than any other time in the past 2,000 years, which confirms and strengthens the original conclusions of \cite{MBH99}.  
+%     Finally, we take advantage of our probabilistic output to ask whether the levels and rates of warming over the recent past are exceptional in a 2,000 year context.  Fig.~\ref{fig:compmeans} compares the temporal means of the last 10, 25, 50 and 100 years of the record compared to all similar previous intervals. That is, for the 25y case, we compare the mean over 1976-2000 to the mean over 1951-1975, 1926-1950, and all other 25-year segments back to 1 CE. It is evident that in all four cases the most recent period appears detectably warmer than any other time in the past 2,000 years, which confirms and strengthens the original conclusions of \cite{MBH99}.  
 
-\begin{figure}
-  \centering
-  \includegraphics[scale=0.35]{compMeans}
-  \caption{Comparison of the distribution of reconstructed anomalies for different time horizons. Model PCR-Mixed. }
-  \label{fig:compmeans}
-\end{figure}
+% \begin{figure}
+%   \centering
+%   \includegraphics[scale=0.35]{compMeans}
+%   \caption{Comparison of the distribution of reconstructed anomalies for different time horizons. Model PCR-Mixed. }
+%   \label{fig:compmeans}
+% \end{figure}
 
-The situation is more nuanced for warming rates: there is no discernible difference on 10 or 20y intervals, but warming rates over 1951-2000 and 1901-2000 appear highly anomalous in a 2,000 year context. This is not surprising, as transient heat exchanges between the surface and deep ocean are known to occur on scales shorter than a few decades \citep{Hansen:2005}. These transients average out over 50-100y scales, and reveal a highly anomalous warming rate, which can be unequivocally tied to the radiative forcing due to anthropogenic emissions of $CO_2$ (parameter $\beta_3$ in the WF and Mixed models).
+% The situation is more nuanced for warming rates: there is no discernible difference on 10 or 20y intervals, but warming rates over 1951-2000 and 1901-2000 appear highly anomalous in a 2,000 year context. This is not surprising, as transient heat exchanges between the surface and deep ocean are known to occur on scales shorter than a few decades \citep{Hansen:2005}. These transients average out over 50-100y scales, and reveal a highly anomalous warming rate, which can be unequivocally tied to the radiative forcing due to anthropogenic emissions of $CO_2$ (parameter $\beta_3$ in the WF and Mixed models).
 
-\begin{figure}
-  \centering
-  \includegraphics[scale=0.35]{compTrends}
-  \caption{Comparison of the distribution of trends of reconstructed anomalies for different time horizons. Model PCR-Mixed.}
-  \label{fig:comptrends}
-\end{figure}
+% \begin{figure}
+%   \centering
+%   \includegraphics[scale=0.35]{compTrends}
+%   \caption{Comparison of the distribution of trends of reconstructed anomalies for different time horizons. Model PCR-Mixed.}
+%   \label{fig:comptrends}
+% \end{figure}
 
 \section{Conclusions}
 We carried out a Bayesian inference of global mean surface temperature over
