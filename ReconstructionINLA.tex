@@ -187,7 +187,8 @@ These use the most recent compilations from the PMIP4-CMIP6 project \citep{Jungc
 
 For some intervals in Table \ref{tab:distdate}, the proxy data matrix is large compared to the 101 yearly samples used to train the model (1900-2000). This ``large $p$, small $n$'' problem calls for some form of data reduction. Following B14, we generate a set of ``Reduced Proxy'' ($RP$) time series, which condense individual proxy time series into a single time series with larger predictive power over the GMST target. Since this is a critical choice to make, we extend B14 by carefully investigating five common data reduction methods:
 
-\jeg{You want to say something about screened vs unscreened here?}
+\jeg{You want to say something about screened vs unscreened here?}\lb{I think we
+can skip that due to the 25-pages limit.}
 
 
 %An important aspect we notice from the distribution of Table \ref{tab:distdate} is that the number of proxies can be greater or  close to the number of available observations in the calibration period defined as 1900-2000CE (101 observations), which can cause overfitting issues or dimensionality problems with classical linear models. . For the above reasons, we investigated various data reduction techniques with the aim of establishing  a reliable linear model between the observed anomalies and the corresponding proxies in Table \ref{tab:distdate}, based on the data in the calibration period. Many different data reduction methods have been developed; we focus on five popular ones:  
@@ -419,8 +420,10 @@ implemented using the R package \textbf{r-inla} (www.r-inla.org). The
 implementation followed the methods provided in \cite{Ruiz-Cardenas2012} and
 \cite{Muff2015} on the use of the INLA methodology in state-space models,
 dynamic linear models, and in general models whose mean can be written
-into equation \eqref{eq:meanINLA}. These
-methods together with \cite{Martins2013} allow INLA to be applicable to a wide array of Bayesian models such as BHM that consists of several layers. \jeg{the above paragraph reads a bit too much like advertising, and does not help the paper. I recommend leaving out the last sentence, if not more.}
+into equation \eqref{eq:meanINLA}.
+
+% These
+% methods together with \cite{Martins2013} allow INLA to be applicable to a wide array of Bayesian models such as BHM that consists of several layers. \jeg{the above paragraph reads a bit too much like advertising, and does not help the paper. I recommend leaving out the last sentence, if not more.}
 
 Like all Bayesian procedures, INLA requires priors for unknown parameters, given below:
 \begin{itemize}
@@ -467,32 +470,32 @@ methods explained above.
   {\small
 \begin{tabular}{lll|rrr|r}
   \toprule
-  \textbf{Model} & $N$ & \textbf{Method} & IS$_{80}$ & IS$_{95}$ & CRPS & MSE \\ 
+  \textbf{Model} & $N$ & \textbf{Method} & IS$_{80}$ & IS$_{95}$ & CRPS & MSE \\
   \midrule
-  WF & 1 & PCR & 0.4678 & 0.1792 & 0.1641 & 0.1476 \\ 
-  WF & 1 & sPCR & 0.5821 & 0.2146 & 0.2593 & 0.2134 \\ 
-  WF & 1 & LASSO & 0.4658 & 0.1780 & 0.1655 & 0.1744 \\ 
-  WF & 1 & sPLS & 0.4749 & 0.1813 & 0.1810 & 0.1647 \\ 
-  WF & 1 & SIR & 0.4779 & 0.1819 & 0.1671 & 0.1692 \\
+  WF & 1 & PCR & 0.4678 & 0.1792 & 0.1641 & 0.1435 \\ 
+  WF & 1 & sPCR & 0.5821 & 0.2146 & 0.2593 & 0.2127 \\ 
+  WF & 1 & LASSO & 0.4658 & 0.1780 & 0.1655 & 0.1699 \\ 
+  WF & 1 & SPLS & 0.4749 & 0.1813 & 0.1810 & 0.1604 \\ 
+  WF & 1 & SIR & 0.4779 & 0.1819 & 0.1671 & 0.1648 \\
   \midrule
-  WF & 8 & PCR & 0.2493 & 0.0840 & 0.0986 & 0.0392 \\ 
-  WF & 8 & sPCR & 0.1969 & 0.0719 & 0.0745 & 0.0926 \\ 
-  WF & 8 & LASSO & 0.5044 & 0.3128 & 0.1559 & 0.1735 \\ 
-  WF & 8 & sPLS & 0.3436 & 0.1687 & 0.1177 & 0.1579 \\ 
-  WF & 8 & SIR & 0.6485 & 0.4797 & 0.1871 & 0.2124 \\
+  WF & 8 & PCR & 0.2493 & 0.0840 & 0.0986 & 0.0320 \\ 
+  WF & 8 & sPCR & 0.1969 & 0.0719 & 0.0745 & 0.0865 \\ 
+  WF & 8 & LASSO & 0.5044 & 0.3128 & 0.1559 & 0.1692 \\ 
+  WF & 8 & SPLS & 0.3436 & 0.1687 & 0.1177 & 0.1528 \\ 
+  WF & 8 & SIR & 0.6485 & 0.4797 & 0.1871 & 0.2079 \\
   \midrule
-  NF & 8 & PCR & 0.2966 & 0.0958 & 0.1249 & 0.0275 \\ 
-  NF & 8 & sPCR & 0.4275 & 0.1624 & 0.1600 & 0.0249 \\ 
-  NF & 8 & LASSO & 0.5434 & 0.3545 & 0.1644 & 0.1828 \\ 
-  NF & 8 & sPLS & 0.2617 & 0.0942 & 0.0967 & 0.1326 \\ 
-  NF & 8 & SIR & 0.5772 & 0.3955 & 0.1720 & 0.1964 \\
+  NF & 8 & PCR & 0.2966 & 0.0958 & 0.1249 & 0.0200 \\ 
+  NF & 8 & sPCR & 0.4275 & 0.1624 & 0.1600 & 0.0180 \\ 
+  NF & 8 & LASSO & 0.5434 & 0.3545 & 0.1644 & 0.1785 \\ 
+  NF & 8 & SPLS & 0.2617 & 0.0942 & 0.0967 & 0.1274 \\ 
+  NF & 8 & SIR & 0.5772 & 0.3955 & 0.1720 & 0.1920 \\
   \midrule
-  Mixed & 8 & PCR & 0.3509 & 0.1101 & 0.1579 & 0.0240 \\ 
-  Mixed & 8 & sPCR & 0.3660 & 0.1368 & 0.1357 & 0.0249 \\ 
-  Mixed & 8 & LASSO & 0.5291 & 0.3385 & 0.1613 & 0.1791 \\ 
-  Mixed & 8 & sPLS & 0.3131 & 0.1404 & 0.1101 & 0.1495 \\ 
-  Mixed & 8 & SIR & 0.5986 & 0.4209 & 0.1766 & 0.2019 \\ 
-   \bottomrule
+  Mixed & 8 & PCR & 0.3509 & 0.1101 & 0.1579 & 0.0160 \\ 
+  Mixed & 8 & sPCR & 0.3660 & 0.1368 & 0.1357 & 0.0179 \\ 
+  Mixed & 8 & LASSO & 0.5291 & 0.3385 & 0.1613 & 0.1748 \\ 
+  Mixed & 8 & SPLS & 0.3131 & 0.1404 & 0.1101 & 0.1444 \\ 
+  Mixed & 8 & SIR & 0.5986 & 0.4209 & 0.1766 & 0.1974 \\  
+  \bottomrule
 \end{tabular}
 }
 \caption{Comparison of predictive measures. The IS and CRPS measures are
