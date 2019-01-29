@@ -41,10 +41,14 @@ dropped. I think a revision that provides more focus and clarity about these
 points is important.
 }
 
-  \lb{Once we finished the revision we can address this remark, because we have
-    to adjust the writing and the length of the article to 25 pages.}
-  \bl{I suggest to shorten the description of the five data reduction methods. I can do that if you agree. The sampling with INLA may also has room to be shortened. Also some papers in references have very long list of names that take up a lot space. For those papers, we might just simplify the authorship to leading author et al. }
-  \jeg{I agree with the reviewer that the objective of the article is not as clear as it could be, and we can clarify that better from the outset.}
+We agree that the goals could have been made more clear, particularly in the abstract. The latter was substantially revised to better lay them out. In addition, the penultimate paragraph of the introduction states:  ``In this article we extend the work of B14 by leveraging Integrated Nested Laplace Approximations (INLA). Doing so lightens the computational burden, which allows to (a) explore
+ three new model designs inspired by the physics of the problem; (b) consider various choices for data reduction; and (c) take the non-stationary nature of the observational network into account. In addition, this work makes use of the latest estimates of radiative forcing, as well as a state-of-the-art, open-access compilation of community-curated paleoclimate observations (PAGES2k Consortium, 2017). This ensures that our calculations are using the best available data and are completely reproducible''.
+ 
+ %We think this is a straightforward exposition of the goals of the paper, but welcome other suggestions if the reviewer think more is necessary. 
+
+ % \lb{Once we finished the revision we can address this remark, because we have  to adjust the writing and the length of the article to 25 pages.}
+ % \bl{I suggest to shorten the description of the five data reduction methods. I can do that if you agree. The sampling with INLA may also has room to be shortened. Also some papers in references have very long list of names that take up a lot space. For those papers, we might just simplify the authorship to leading author et al. }
+ % \jeg{I agree with the reviewer that the objective of the article is not as clear as it could be, and we can clarify that better from the outset.}
   
 \item \textit{Describe the proxy data better. Is it annually resolved tree ring
     data, pollen data at irregular resolutions, etc? Has the data been
@@ -77,8 +81,7 @@ method) for each case. The average coefficient of variation of $RP$ (with and
 without screening), the
 average correlation coefficient between the two dataset versions and the average
 correlation coefficient between the observed temperature and each dataset
-version are shown in Table \ref{tab:screening}.\bl{the ``average correlation" or
-  just the ``correlation"}\lb{average correlation}
+version are shown in Table \ref{tab:screening}.\bl{it seems you just calculate the correlation between RPs or between RP and temperature. Why it is an averaged correlation?}
 \begin{table}
   \centering
   \begin{tabular}{l|cc|c|cc}
@@ -94,8 +97,7 @@ PCR & 0.6189 & 0.6741 & 0.9511 & 0.8534 & 0.8638 \\
   SIR & 0.6384 & 0.8025 & 0.7591 & 0.9029 & 0.8600 \\ 
    \bottomrule
 \end{tabular}
-  \caption{Comparison of $RP$'s obtained with and without screening procedure. \textbf{Sc}: Screened dataset, \textbf{Unsc}: Unscreened dataset, \textbf{CV}: coefficient of
-    variation \bl{is this the var/mean or just the variance?}\lb{It is sd/mean}, \textbf{T}: observed temperature (1900-2000) }
+  \caption{Comparison of $RP$'s obtained with and without screening procedure. \textbf{Sc}: Screened dataset; \textbf{Unsc}: Unscreened dataset; \textbf{CV}: coefficient of variation; \textbf{T}: observed temperature (1900-2000). }
   \label{tab:screening}
 \end{table}
 The third column confirms that the signal is not missed when we
@@ -104,7 +106,7 @@ procedures for all the reduction methods, except SIR. In general the coefficient
 of variation increases when we use the unscreened dataset, and the change is
 quite large for the SIR method, which is the main reason why the correlation is
 the smallest. In addition, the association between the observed temperatures and
-the proxies is very similar among procedures, but the SIR method can be improved
+either the screened or unscreened proxies is very similar, with SIR method can even be improved
 by using the screening. We think all the above confirms that the screening procedure can capture
 the overall signal by means of a low-noise and low-dimensional alternative as we
 do in the article. It is important to note that the screening procedure was
@@ -114,8 +116,8 @@ within a 2000km radius.
 
 \lb{I'm trying an unscreened version of the proxy dataset in order to answer
   this question.}
-\bl{Thanks for trying this. Let's see what the results would tell. Intuitively, I feel this might be worse, as some data that are screened out are really noisy so including them may just deterioriate the resonstruction.}
-\jeg{Important to point out that the screening was never against the global mean, but against *local* temperature (nearest grid points within a 2000km radius).}
+%\bl{Thanks for trying this. Let's see what the results would tell. Intuitively, I feel this might be worse, as some data that are screened out are really noisy so including them may just deterioriate the resonstruction.}
+%\jeg{Important to point out that the screening was never against the global mean, but against *local* temperature (nearest grid points within a 2000km radius).}
 
 \item \textit{Why not just go fully Bayesian and reconstruct the proxy data that
     is unobserved given the observed proxies and the model? Why try to do the
@@ -125,16 +127,10 @@ within a 2000km radius.
     Process type estimation.
 }
 
-The intention of the article is the reconstruction of the average anomalies,
-not the reconstruction of a particular biological proxy. This is the main reason
-why we consider a hierarchical Bayesian model to represent the dynamics of the temperature
-process. The proxy data represents an approximation of the observed temperature
-series and the reconstructed temperatures are past estimates of the observed
-process, they are not estimates of the proxy time-series. We think that the
-usage of an state-space approach in this problem allows us to successfully
-explain the uncertainties in the system by means of a Bayesian approach. 
-\bl{We agree that fully Bayesian is another valid method to model the problem. But since our main focus is the reconstruction of the temperatures, we opt to use our model ....  }
-\jeg{I think that the reviewer refers to is estimating the missing proxy values as missing parameters (conditional on other proxies), which would then avoid aving the slice reconstructions together. I have done that in the RegEM context, with very mixed success. What we want is the temperature given the proxies, and estimating missing proxies values appears to bring no benefit here.}
+%The intention of the article is the reconstruction of the average anomalies, not the reconstruction of a particular biological proxy. This is the main reason why we consider a hierarchical Bayesian model to represent the dynamics of the temperature process. The proxy data represents an approximation of the observed temperature series and the reconstructed temperatures are past estimates of the observed process, they are not estimates of the proxy time-series. We think that the usage of an state-space approach in this problem allows us to successfully explain the uncertainties in the system by means of a Bayesian approach. 
+We agree that fully Bayesian including the estimation of missing proxies is another valid method for our problem. One of our co-authors, Dr. Julien Emile-Geary, tried this method in the RegEM context, and they found that estimating missing proxies added no value to the temperature reconstruction. Since our main focus is the reconstruction of temperatures, we opt to use our current model choice. \bl{Julien, can you give the reference of you RegEM work?}
+
+%\jeg{I think that the reviewer refers to is estimating the missing proxy values as missing parameters (conditional on other proxies), which would then avoid aving the slice reconstructions together. I have done that in the RegEM context, with very mixed success. What we want is the temperature given the proxies, and estimating missing proxies values appears to bring no benefit here.}
 
 
 \item \textit{I have a hard time using Figure 4. Please rescale the correlations
@@ -197,12 +193,14 @@ Yes, we used BSplines. We clarified the sentence as you suggested.
     introducing this here? If this is the central thesis it needs to be front
     and center.}
 
- \bl{In the second last paragraph of Introduction, we indeed seemed to only emphasize INLA. We need to give a brief summary of the contribution of this paper to both methodology and science. Comparing ``no-forcing" to ``forcing" can be mentioned there.}
+We are sorry for the confusion. Our paper was trying to cover many aspects in both methodological and scientific investigations, but as you pointed out this made the emphases of the paper unclear. In the revision we now have focused more on the methodological component. The sentence you mentioned in the comment has been removed.  
+
+ %\bl{In the second last paragraph of Introduction, we indeed seemed to only emphasize INLA. We need to give a brief summary of the contribution of this paper to both methodology and science. Comparing ``no-forcing" to ``forcing" can be mentioned there.}
 
 \item \textit{There are many undefined acronyms in the abstract. (INLA, MCMC,
     HadCRUT4, etc.). Make sure you define all acronyms in place.}
 
-Thanks for the suggestion, we made the corresponding corrections.
+Thanks for the suggestion. We have made the corresponding corrections.
 
 
 \end{itemize}

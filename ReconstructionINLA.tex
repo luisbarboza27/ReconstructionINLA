@@ -66,8 +66,8 @@ San Jos\'e, Costa Rica}
 \maketitle
 
 \begin{abstract}
-Paleoclimate reconstruction on the Common Era (1-2000AD) provide critical context for recent warming trends. This work leverages integrated nested Laplace approximations (INLA) to conduct inference under a Bayesian Hierarchical Model using data from three sources: a state-of-the-art prox database (PAGES 2k), surface temperature data (HadCRUT4), and latest estimates of external forcing data from several sources. 
-INLA's computational efficiency allows to explore several model formulations (without forcings, with forcings, and forcings + internal variability), as well as five data reduction techniques.  Two different validation exercises find a small impact of data reduction choices, but a large impact for model choice, with best results for the two models that incorporate external forcings. These models confirm that man-made greenhouse gas emissions are the largest contributor to temperature variability over the Common Era, followed by volcanic forcing. Solar effects are indistinguishable from zero.  INLA provides a fast way to estimates the posterior mean, comparable with the much costlier Monte Carlo Markov Chain procedure, but with wider uncertainty bounds. We recommend using it for exploration of model designs, but full MCMC solutions should be used for uncertainty quantification.  
+Paleoclimate reconstruction on the Common Era (1-2000AD) provide critical context for recent warming trends. This work leverages integrated nested Laplace approximations (INLA) to conduct inference under a Bayesian hierarchical model using data from three sources: a state-of-the-art prox database (PAGES 2k), surface temperature observations (HadCRUT4), and latest estimates of external forcings. 
+INLA's computational efficiency allows to explore several model formulations (with or without forcings, explicitly modeling internal variability or not), as well as five data reduction techniques. Two different validation exercises find a small impact of data reduction choices, but a large impact for model choice, with best results for the two models that incorporate external forcings. These models confirm that man-made greenhouse gas emissions are the largest contributor to temperature variability over the Common Era, followed by volcanic forcing. Solar effects are indistinguishable from zero. INLA provide an efficient way to estimate the posterior mean, comparable with the much costlier Monte Carlo Markov Chain procedure, but with wider uncertainty bounds. We recommend using it for exploration of model designs, but full MCMC solutions should be used for proper uncertainty quantification.  
 \end{abstract}
 
 \section{Introduction.}
@@ -220,7 +220,7 @@ For some intervals in Table \ref{tab:distdate}, the proxy data matrix is large c
   thresholding parameter involved in sPLS is estimated using a 10-fold cross-validation criteria.    
 
 {\bf Sliced Inverse Regression (SIR) with CSS selection}
-  In general, SIR methods \cite{Li1991}  reduce the excess dimension in a non-parametric setting through the
+  In general, SIR methods \citep{Li1991}  reduce the excess dimension in a non-parametric setting through the
   estimation of the linear space spanned by the coefficients of the covariables,
   also known as \textit{effective dimension reduction} (EDR) subspace. 
   This subspace is obtained by an approximate eigenvalue decomposition that
@@ -232,7 +232,7 @@ For some intervals in Table \ref{tab:distdate}, the proxy data matrix is large c
   covariates. However, the estimation of the dimension
   reduction space does not actually lead to a variable selection procedure and the
   covariance estimation relies heavily on the homogeneity of the response within
-  each slice \cite{Wu2010}. Because of this, we opt to incorporate the CSS
+  each slice \citep{Wu2010}. Because of this, we opt to incorporate the CSS
   (\textit{Closest submodel selection}) variable 
   selection procedure into the SIR method. Furthermore, to better deal with the fact that there is a larger number of
   covariates than observations, we employed the SIR-QZ algorithm, an upgrade of the SIR method based on the generalized Shur decomposition for underdetermined cases \citep{Coudret2014,Coudret2017}.   
@@ -458,10 +458,7 @@ posterior densities in order to compute interval scores and, in the CRPS case,
 we used Monte Carlo samples obtained from INLA.  The
   last column consists of the mean square error (MSE) between the smoothed
   reconstruction and the borehole-based
-reconstruction of \cite{Pollack2004} over 1600-1899 (PS04 dataset) as an out-of-sample
-validation interval. \jeg{do you need me to better justify this dataset?}
-
-Smoothing was accomplished through a Butterworth low-pass filter with a 50-year cutoff and order equal to 4. We compared in this case Model WF with a single RP
+reconstruction of \cite{Pollack2004} over 1600-1899 (PS04 dataset). We chose this dataset because it uses completely independent measurements of temperature, and apply to an out-of-sample validation interval, thereby providing independent information on low-frequency behavior. Note that PS04 targets centennial trends, so we compare them to smoothed versions of our reconstructions, obtained through a Butterworth low-pass filter with a 50-year cutoff and order equal to 4. We compared in this case Model WF with a single RP
 (the longest available) with respect to model WF using the 8 available reduced
 proxies, where the comparison was made under the five dimension reduction
 methods explained above.
@@ -733,9 +730,7 @@ Below are a few take-home messages:\\
       MCMC approach for more complex models like the ones presented in Figure
       \ref{fig:paleoCE1}. 
       
-     \noindent (d) Adding to a wide body of literature, we find that current temperature levels are unprecedented in the past 2,000 years. 
-      The twentieth century also stands out as warming more rapidly than any other
-      century in the past 2,000 years. All models that include forcings (WF, Mixed) show that the man-made increase in atmospheric carbon dioxide is the leading contributor to this warming effect. 
+     \noindent (d) Adding to a wide body of literature, we find that current temperature levels are unprecedented in the past 2,000 years. Both the models that include forcings (WF, Mixed) show that the man-made increase in atmospheric carbon dioxide is the leading contributor to this warming effect. 
 %\end{itemize}
 
 One limitation of our analysis is the strong
@@ -745,7 +740,7 @@ certainty the expected prediction error of the models, but due to the restricted
 additional comparison information the cross-validation is very challenging for this problem. 
 Another way to improve our current study is to consider the space-time variability of the reduced proxies and temperatures in the model. 
 Since INLA has been proven to be computationally
-efficient, it could be used to extend this work to a spatiotemporal context.
+efficient, it could be used to extend this work to a spatiotemporal context. Another important area of application is the simultaneous inference of climate fluctuations and deposition age \citep{Sweeney:WIRES2018}.
 
 
 
