@@ -187,8 +187,7 @@ These use the most recent compilations from the PMIP4-CMIP6 project \citep{Jungc
 
 For some intervals in Table \ref{tab:distdate}, the proxy data matrix is large compared to the 101 yearly samples used to train the model (1900-2000). This ``large $p$, small $n$'' problem calls for some form of data reduction. Following B14, we generate a set of ``Reduced Proxy'' ($RP$) time series, which condense individual proxy time series into a single time series with larger predictive power over the GMST target. Since this is a critical choice to make, we extend B14 by carefully investigating five common data reduction methods:
 
-\jeg{You want to say something about screened vs unscreened here?}\lb{I think we
-can skip that due to the 25-pages limit.}
+%\jeg{You want to say something about screened vs unscreened here?}\lb{I think we can skip that due to the 25-pages limit.}
 
 
 %An important aspect we notice from the distribution of Table \ref{tab:distdate} is that the number of proxies can be greater or  close to the number of available observations in the calibration period defined as 1900-2000CE (101 observations), which can cause overfitting issues or dimensionality problems with classical linear models. . For the above reasons, we investigated various data reduction techniques with the aim of establishing  a reliable linear model between the observed anomalies and the corresponding proxies in Table \ref{tab:distdate}, based on the data in the calibration period. Many different data reduction methods have been developed; we focus on five popular ones:  
@@ -461,7 +460,7 @@ posterior densities in order to compute interval scores and, in the CRPS case,
 we used Monte Carlo samples obtained from INLA.  The
   last column consists of the mean square error (MSE) between the smoothed
   reconstruction and the borehole-based
-reconstruction of \cite{Pollack2004} over 1600-1899 (PS04 dataset). We chose this dataset because it uses completely independent measurements of temperature, and apply to an out-of-sample validation interval, thereby providing independent information on low-frequency behavior. Note that PS04 targets centennial trends, so we compare them to smoothed versions of our reconstructions, obtained through a Butterworth low-pass filter with a 50-year cutoff and order equal to 4. We compared in this case Model WF with a single RP
+reconstruction of \citet[hereafter, PS04]{Pollack2004} over 1600-1899. We chose this dataset because it uses completely independent measurements of temperature, and covers an out-of-sample interval, thereby providing independent information on low-frequency behavior. Note that PS04 targets centennial trends, so we compare them to smoothed versions of our reconstructions, obtained through a Butterworth low-pass filter with a 50-year cutoff and order equal to 4. We compared in this case Model WF with a single RP
 (the longest available) with respect to model WF using the 8 available reduced
 proxies, where the comparison was made under the five dimension reduction
 methods explained above.
@@ -746,7 +745,7 @@ certainty the expected prediction error of the models, but due to the restricted
 additional comparison information the cross-validation is very challenging for this problem. 
 Another way to improve our current study is to consider the space-time variability of the reduced proxies and temperatures in the model. 
 Since INLA has been proven to be computationally
-efficient, it could be used to extend this work to a spatiotemporal context. Another important area of application is the simultaneous inference of climate fluctuations and deposition age \citep{Sweeney:WIRES2018}.
+efficient, it could be used to extend this work to a spatiotemporal context. Yet another important area of application is the simultaneous inference of climate fluctuations and deposition age \citep{Sweeney:WIRES2018}.
 
 
 

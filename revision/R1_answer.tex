@@ -81,11 +81,7 @@ method) for each case. The average coefficient of variation of $RP$ (with and
 without screening), the
 average correlation coefficient between the two dataset versions and the average
 correlation coefficient between the observed temperature and each dataset
-version are shown in Table \ref{tab:screening}.\bl{it seems you just calculate
-  the correlation between RPs or between RP and temperature. Why it is an
-  averaged correlation?}\lb{We have eight reduced proxies in total and I
-wanted to show just a single correlation for each method, that's the reason why
-I calculated the average.}
+version are shown in Table \ref{tab:screening}. All averages are taken with respect to the eight reduced proxies.
 \begin{table}
   \centering
   \begin{tabular}{l|cc|c|cc}
@@ -104,7 +100,7 @@ PCR & 0.6189 & 0.6741 & 0.9511 & 0.8534 & 0.8638 \\
   \caption{Comparison of $RP$'s obtained with and without screening procedure. \textbf{Sc}: Screened dataset; \textbf{Unsc}: Unscreened dataset; \textbf{CV}: coefficient of variation; \textbf{T}: observed temperature (1900-2000). }
   \label{tab:screening}
 \end{table}
-The third column confirms that the signal is not missed when we
+The third column in Table \ref{tab:screening} confirms that the signal is not missed when we
 use the screening procedure because there is a large correlation between the two
 procedures for all the reduction methods, except SIR. In general the coefficient
 of variation increases when we use the unscreened dataset, and the change is
@@ -154,7 +150,7 @@ state that the scoring rules are negatively oriented - lower scores are better.
 A pseudo-proxy experiment can be useful in validating reconstructions. See Smerdon (2012) and Tipton et. al. (2016) for examples.
 }
 
-As we mentioned above the reconstruction seeks to estimate the observed mean
+As we mentioned above the reconstruction seeks to estimate the mean
 temperature during the past. That is the reason why we compare the reconstructed
 series with the observed temperature during the validation period. The
 calibration process only uses data from proxies and forcings, so we think that
@@ -171,7 +167,16 @@ comment, but due to the length restrictions of the
 article, we think that a pseudo-proxy validation can be considered in future
 work. 
 \jeg{we do not have the *true* temperature. We have an observational estimate of the true temperature, which has errors too. Perhaps the reviewer's point is that we should incorporate errors in instrumental estimates? Certainly PS04 has errors that would need to be taken into account.}
-\bl{I think we may first clarify that we did the scores for validation period where we have observed temperatures though not of high quality. We did compared our reconstruction to another reconstruction (PS04) in terms of MSE. Luis may justify the validity of using that reconsturction as reference. Then in the very end of the disucssion, we can add that pseudo-proxy validation will be considered in the future work. }
+
+\bl{I do not think we are answering all the questions. In my understanding, we can split the reviewer's comments into four questions:
+\begin{enumerate}
+\item Why use a previous reconstruction (PS04) as a reference to evaluate your reconstruction? The previous reconstruction unnecessarily represent the truth better. (This is not answered yet!)
+\item Whether the scores are proper? (Luis argued they are proper)
+\item State smaller scores mean better. (Easy and done.)
+\item Consider psuedoproxy experiments to evaluate the reconstruction. (This we can add as future research.)
+\end{enumerate}
+}
+
 
 \item \textit{What is the computational time for the MCMC model? Was it coded in
     R, Python, or c++? Was the code profiled and optimized? This model seems
