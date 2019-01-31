@@ -128,7 +128,11 @@ within a 2000km radius.
 }
 
 %The intention of the article is the reconstruction of the average anomalies, not the reconstruction of a particular biological proxy. This is the main reason why we consider a hierarchical Bayesian model to represent the dynamics of the temperature process. The proxy data represents an approximation of the observed temperature series and the reconstructed temperatures are past estimates of the observed process, they are not estimates of the proxy time-series. We think that the usage of an state-space approach in this problem allows us to successfully explain the uncertainties in the system by means of a Bayesian approach. 
-We agree that fully Bayesian including the estimation of missing proxies is another valid method for our problem. One of our co-authors, Dr. Julien Emile-Geay, tried this method in the RegEM context, and they found that estimating missing proxies added no value to the temperature reconstruction. Since our main focus is the reconstruction of temperatures, we opt to use our current model choice. \bl{Julien, can you give the reference of you RegEM work?}
+
+There appears to be some confusion here; none of what we are doing is akin to RegEM. However, in the past one of us (Emile-Geay) has attempted to infer missing values of the proxies from the observed proxies using RegEM, and obtained only noise. Since we are inferring temperature, not proxies, the value of this approach seems dubious.
+
+
+%We agree that fully Bayesian including the estimation of missing proxies is another valid method for our problem. One of our co-authors, Dr. Julien Emile-Geay, tried this method in the RegEM context, and they found that estimating missing proxies added no value to the temperature reconstruction. Since our main focus is the reconstruction of temperatures, we opt to use our current model choice. \bl{Julien, can you give the reference of you RegEM work?}
 
 %\jeg{I think that the reviewer refers to is estimating the missing proxy values as missing parameters (conditional on other proxies), which would then avoid aving the slice reconstructions together. I have done that in the RegEM context, with very mixed success. What we want is the temperature given the proxies, and estimating missing proxies values appears to bring no benefit here.}
 
@@ -164,9 +168,9 @@ and the PS04 dataset in order to validate the reconstruction in periods beyond
 the one with observed temperatures available. We stated in the article that the scoring rules
 are negatively oriented as you suggested. We thank the reviewer for the last
 comment, but due to the length restrictions of the
-article, we think that a pseudo-proxy validation can be considered in future
+article, such pseudo-proxy explorations will be considered in future
 work. 
-\jeg{we do not have the *true* temperature. We have an observational estimate of the true temperature, which has errors too. Perhaps the reviewer's point is that we should incorporate errors in instrumental estimates? Certainly PS04 has errors that would need to be taken into account.}
+%\jeg{we do not have the *true* temperature. We have an observational estimate of the true temperature, which has errors too. Perhaps the reviewer's point is that we should incorporate errors in instrumental estimates? Certainly PS04 has errors that would need to be taken into account.}
 
 \bl{I do not think we are answering all the questions. In my understanding, we can split the reviewer's comments into four questions:
 \begin{enumerate}
