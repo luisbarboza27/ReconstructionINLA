@@ -453,17 +453,14 @@ two proper scoring rules \cite{Gneiting2007a} as measures of predictive ability:
 Probability Score (CRPS). These scores have been previously employed in the
 verification of point forecasts in environmental sciences for example, as well as the area
 of paleoclimatic reconstructions (see B14 and
-\cite{Scheuerer2014}). Table~\ref{tab:comparisontot} contains the predictive
+\cite{Scheuerer2014}). Table~\ref{tab:comparisontot} reports the predictive
 measures using INLA's prediction intervals and the observed
-  anomalies over 1850-1899 as an out-of-sample validation interval. We used INLA's availability of computing direct
-posterior densities in order to compute interval scores and, in the CRPS case,
-we used Monte Carlo samples obtained from INLA.  The
-  last column consists of the mean square error (MSE) between the smoothed
-  reconstruction and the borehole-based
-reconstruction of \citet[hereafter, PS04]{Pollack2004} over 1600-1899. We chose this dataset because it uses completely independent measurements of temperature, and covers an out-of-sample interval, thereby providing independent information on low-frequency behavior. Note that PS04 targets centennial trends, so we compare them to smoothed versions of our reconstructions, obtained through a Butterworth low-pass filter with a 50-year cutoff and order equal to 4. We compared in this case Model WF with a single RP
-(the longest available) with respect to model WF using the 8 available reduced
-proxies, where the comparison was made under the five dimension reduction
-methods explained above.
+  anomalies over 1850-1899 as an out-of-sample validation interval. We used INLA's ability to compute direct
+posterior densities when computing interval scores and, in the CRPS case, we used Monte Carlo samples obtained with INLA. 
+
+Validation to the early instrumental record, important though it is, says little about a reconstruction's behavior on centennial scales, which is of primary interest to climate scientists. To constrain this behavior, we leverage the estimates of \citet[hereafter, PS04]{Pollack2004} whose borehole-based
+temperature inversions estimate surface temperature trends over 1600-1899. Because of the diffusive transfer of heat in Earth's crust, this dataset only speaks to centennial trends; we thus compare it to smoothed versions of our reconstructions, obtained through a Butterworth low-pass filter with a 100-year cutoff and order equal to 4. We compared in this case Model WF with a single RP (the longest available) with respect to model WF using the 8 available reduced proxies, where the comparison was made under the five dimension reduction methods explained above. The results of this comparison are reported as mean square error (MSE) in the rightmost column of Table~\ref{tab:comparisontot}.
+
 \begin{table}[h!]
   \centering
   {\small
@@ -497,10 +494,7 @@ methods explained above.
   \bottomrule
 \end{tabular}
 }
-\caption{Comparison of predictive measures. The IS and CRPS measures are
-  negatively oriented (lower scores are better). and computed over 1850-1899 as
-  an out-of-sample validation period.
-  Furthermore, MSE is computed over 1600-1899.}
+\caption{Comparison of predictive measures. The IS and CRPS measures are computed against HadCRUT4 temperature and computed over 1850-1899 as an out-of-sample validation period. The MSE pertains to PS04 and is computed over 1600-1899. All measures are negatively oriented, so lower scores reward better estimates.}
 \label{tab:comparisontot}
 \end{table}
 

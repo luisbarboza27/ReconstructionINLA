@@ -1,7 +1,7 @@
 \documentclass[11pt]{article}
 
 \usepackage{amsmath,amsfonts,amssymb,amsthm,verbatim,multirow,hyperref,subfig,footnote,graphicx,array,xr,booktabs}
-\usepackage{times}
+\usepackage{times,natbib}
 \usepackage[textheight=600pt]{geometry}
 \usepackage[usenames,dvipsnames]{color}
 %%%%%%%%%%%%%%
@@ -154,9 +154,17 @@ state that the scoring rules are negatively oriented - lower scores are better.
 A pseudo-proxy experiment can be useful in validating reconstructions. See Smerdon (2012) and Tipton et. al. (2016) for examples.
 }
 
-As we mentioned above the reconstruction seeks to estimate the mean
-temperature during the past. That is the reason why we compare the reconstructed
-series with the observed temperature during the validation period. The
+There are really four points here, which we address in turn:
+\begin{enumerate}
+\item Why use another reconstruction (PS04) to evaluate our own? 
+\item Are the scores proper in this case? 
+\item State that scores are negatively oriented
+\item Consider pseudoproxy experiments to evaluate the reconstruction. 
+\end{enumerate}
+\begin{enumerate}
+    \item  We acknowledge that the dual validation (instrumental and borehole temperatures was confusing. The revised text of section 4.1 should now make this clear : {\it Validation to the early instrumental record, important though it is, says little about a reconstruction's behavior on centennial scales, which is of primary interest to climate scientists. To constrain this behavior, we leverage the estimates of \citet[hereafter, PS04]{Pollack2004} whose borehole-based
+temperature inversions estimate surface temperature trends over 1600-2000. Because of the diffusive transfer of heat in Earth's crust, this dataset only speaks to centennial trends; we thus compare it to smoothed versions of our reconstructions, obtained through a Butterworth low-pass filter with a 100-year cutoff and order equal to 4.} 
+\item  The
 calibration process only uses data from proxies and forcings, so we think that
 the comparison of the reconstructed series vs the mean temperatures is not
 restricting, on the contrary it guarantees more robustness. The purpose of the
@@ -165,21 +173,23 @@ sharpness, and we think that an scoring rule can be applied without any
 restriction in our problem. We do not calibrate to a smoothed version of the
 reconstruction, instead we measure the MSE between the smoothed reconstruction
 and the PS04 dataset in order to validate the reconstruction in periods beyond
-the one with observed temperatures available. We stated in the article that the scoring rules
-are negatively oriented as you suggested. We thank the reviewer for the last
-comment, but due to the length restrictions of the
-article, such pseudo-proxy explorations will be considered in future
-work. 
+the one with observed temperatures available. 
+
+\item The caption of Table 2 now mentions the scoring rules
+are negatively oriented, as per your suggestion. In addition, it better explains the difference between validation to HadCRUT4 and PS04. 
+
+\item Pseudoproxy experiments are indeed useful, but due to the length restrictions of the article, such explorations will be considered in future work. One issue is that the usual pseudoproxy designs (temperature + Gaussian noise) are over-simplistic, and more realistic designs are necessary to make these tests more relevant to real-world reconstructions \citep{Evans_grl2014}. Properly setting these up for such a large and diverse proxy dataset would be its own study, which is currently in the works. 
+
+\end{enumerate}
+
+
+
+ 
 %\jeg{we do not have the *true* temperature. We have an observational estimate of the true temperature, which has errors too. Perhaps the reviewer's point is that we should incorporate errors in instrumental estimates? Certainly PS04 has errors that would need to be taken into account.}
 
-\bl{I do not think we are answering all the questions. In my understanding, we can split the reviewer's comments into four questions:
-\begin{enumerate}
-\item Why use a previous reconstruction (PS04) as a reference to evaluate your reconstruction? The previous reconstruction unnecessarily represent the truth better. (This is not answered yet!)
-\item Whether the scores are proper? (Luis argued they are proper)
-\item State smaller scores mean better. (Easy and done.)
-\item Consider psuedoproxy experiments to evaluate the reconstruction. (This we can add as future research.)
-\end{enumerate}
-}
+%\bl{I do not think we are answering all the questions. In my understanding, we can split the reviewer's comments into four questions:}
+
+%\bl{Suggest to add ``Although PS04 are not the actual observations, this is the best approach to validating our results in a centennial scale without resorting to pseudoproxy experiments (Smerdon, 2012), to our knowledge" }
 
 
 \item \textit{What is the computational time for the MCMC model? Was it coded in
@@ -213,20 +223,23 @@ We are sorry for the confusion. Our paper was trying to cover many aspects in bo
 \item \textit{There are many undefined acronyms in the abstract. (INLA, MCMC,
     HadCRUT4, etc.). Make sure you define all acronyms in place.}
 
-Thanks for the suggestion. We have made the corresponding corrections.
+Thank you for the suggestion. We have made the corresponding corrections.
 
 
 \end{itemize}
 
-\begin{thebibliography}{}
+\bibliographystyle{apalike}
+\bibliography{biblioteca}
 
-\bibitem[1]{vanAlbada2007}
-van Albada, S. and Robinson, P. (2007).
-\newblock Transformation of arbitrary distributions to the normal distribution
-  with application to \{EEG\} test--retest reliability.
-\newblock {\em Journal of Neuroscience Methods}, 161(2):205 -- 211.
+%\begin{thebibliography}{}
 
-\end{thebibliography}
+%\bibitem[1]{vanAlbada2007}
+%van Albada, S. and Robinson, P. (2007).
+%\newblock Transformation of arbitrary distributions to the normal distribution
+%  with application to \{EEG\} test--retest reliability.
+%\newblock {\em Journal of Neuroscience Methods}, 161(2):205 -- 211.
+
+%end{thebibliography}
 \end{document}
 
 

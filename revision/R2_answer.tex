@@ -109,10 +109,10 @@ proxies that is related to local temperatures.''
 To answer this question, we first examined the correlation structure of residuals based on the linear regression of
 each of the 8 reduced proxies vs the observed temperatures. We only had sufficient
 evidence to reject the hypothesis of temporal independence in 5 out of 40
-possible residuals (5 reduced-proxy methods $\times$ 8 reduced proxies). There, the assumption of temporal independence is not unreasonable. Despite these results, we implemented an AR(1) random effect to the model as you
+possible residuals (5 reduced-proxy methods $\times$ 8 reduced proxies). Therefore, the assumption of temporal independence is not unreasonable. Despite these results, we implemented an AR(1) random effect to the model as you
 suggested. The results are shown in Table \ref{tab:comparisontot}. In general, 
 all measures using an AR(1) error term are slightly smaller than the measures using independent errors, but the best
-models chosen based on measures using AR(1) error remain the same, so we do not think independent errors are a very bad choice. Thank you for pointing this out. Due to the page limit, we cannot include the results with AR(1) error in the paper, but we have added a comment ``If we allow for a more flexible AR(1) structure for the error terms, the conclusions remain the same.''
+models chosen based on measures using AR(1) error remain the same, so we do not think independent errors are a bad choice. Thank you for pointing this out. Due to the page limit, we cannot include the results with AR(1) error in the paper, but we have added a comment ``If we allow for a more flexible AR(1) structure for the error terms, the conclusions remain the same.''
 
 
 \begin{table}[htp]
@@ -165,7 +165,7 @@ Mixed & 8 & SIR & 0.3735 & 0.1837 & 0.1261 & 0.1468 \\
   continuous limit, or a 1D SPDE model on 2nd order B-spline bases).}
 
 We agree that the results are possibly dependent on the location of the knots. 
-In our work, we carefully chose the knots location based on the degree of linear association between the true temperatures and the BSplines. 
+In our work, we carefully chose the knots location based on the degree of linear association between HadCRUT4 temperature and the BSplines. 
 We also agree that the knots spacing is another typical and challenging issue with splines. Due to the
 nature of the temperature series and its diverse spatial composition, we feel it is a bit stretchy to assume a continuous time model for the temperature process.  Hence, we prefer our simple and conservative assumption of uniformity in the distribution of nodes. However, the suggestion of random walk would be very interesting to investigate in future research. We now have added ``the location and spacing of knots can possibly affect the results.  A compelling alternative to our choice is to use a properly penalized spline with a well
 defined interpretation in the limit as the number of knots approach infinity. We leave this issue for future investigation. ''
@@ -277,11 +277,11 @@ You are correct that the computation has been largely reduced by using INLA. We 
   sampling, how many samples? The number of samples needs to be very
   large to get stable empirical density estimates.}
 
-This indeeds looks a bit strange, but the figure was produced by plotting the posterior marginal of the fixed effect
+The figure was produced by plotting the posterior marginal of the fixed effect
 related to the Greenhouse-gas external forcing. We used the INLA's attribute
-\verb|marginals.fixed|, and we did not use sampling at all for making 
-this figure.   
-
+\verb|marginals.fixed|, which does not involve sampling for making 
+this figure.
+\bl{Luis, if there is no sampling involved, then INLA must calculate the posterior distribution directly. The calculation gives this bimodal? Would the bimodel appear because of the bins in the x-axis you choose to make the pdf?}
 
 
 \item \textit{I really like that several assessment criteria are used; it's clear
