@@ -281,7 +281,12 @@ The figure was produced by plotting the posterior marginal of the fixed effect
 related to the Greenhouse-gas external forcing. We used the INLA's attribute
 \verb|marginals.fixed|, which does not involve sampling for making 
 this figure.
-\bl{Luis, if there is no sampling involved, then INLA must calculate the posterior distribution directly. The calculation gives this bimodal? Would the bimodel appear because of the bins in the x-axis you choose to make the pdf?}
+\bl{Luis, if there is no sampling involved, then INLA must calculate the
+  posterior distribution directly. The calculation gives this bimodal? Would the
+  bimodel appear because of the bins in the x-axis you choose to make the
+  pdf?}\lb{Yes, the direct calculation gives bimodal. INLA gives the set of x-axis
+  and y-axis values to plot or evaluate the density. I don't change those values
+at all.}
 
 
 \item \textit{I really like that several assessment criteria are used; it's clear

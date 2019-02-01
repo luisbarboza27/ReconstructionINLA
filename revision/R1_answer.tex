@@ -171,7 +171,8 @@ restricting, on the contrary it guarantees more robustness. The purpose of the
 proper scoring rules is to measure nominal coverage together with prediction
 sharpness, and we think that an scoring rule can be applied without any
 restriction in our problem. We do not calibrate to a smoothed version of the
-reconstruction, instead we measure the MSE between the smoothed reconstruction
+reconstruction, instead we use the observations to calibrate the entire model by
+means of the reduced proxies. In addition, we measure the MSE between the smoothed reconstruction
 and the PS04 dataset in order to validate the reconstruction in periods beyond
 the one with observed temperatures available. 
 
@@ -231,15 +232,7 @@ Thank you for the suggestion. We have made the corresponding corrections.
 \bibliographystyle{apalike}
 \bibliography{biblioteca}
 
-%\begin{thebibliography}{}
 
-%\bibitem[1]{vanAlbada2007}
-%van Albada, S. and Robinson, P. (2007).
-%\newblock Transformation of arbitrary distributions to the normal distribution
-%  with application to \{EEG\} test--retest reliability.
-%\newblock {\em Journal of Neuroscience Methods}, 161(2):205 -- 211.
-
-%end{thebibliography}
 \end{document}
 
 
