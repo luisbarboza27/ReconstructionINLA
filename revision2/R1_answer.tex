@@ -25,7 +25,7 @@
 
 \begin{document}
 \begin{center}
-  {\Large \textbf{Response to the comments of the Referee \#1.}}
+  {\Large \textbf{Response to the comments of the Referee.}}
 \end{center}
 
 We are grateful for the reviewer's careful commentary on the paper, which has improved
@@ -34,8 +34,76 @@ comments in italics, and describe our response in roman.
 
 \begin{itemize}
   
-\item
+\item \textit{The authors have presented a thorough revision and have greatly
+    focused the scope and presentation of the paper. They explore different
+    models for reducing dimension of the proxy dataset and explore the impact of
+    different inference algorithms and the use of forcings to inform the
+    reconstruction. I appreciate the authors’ effort in fitting the different
+    models with the full and reduced proxy datasets which suggest there is only
+    a small difference in predictive skill between the screened and unscreened
+    data - I will always disagree whether this is an ideal way to proceed, but I
+    recognize compromises need to be made to analyze the data. I also applaud
+    the authors for the inclusion of code to reproduce the models presented. The
+    ideas in the revised manuscript are more focused and organized and the thesis of the paper is more clear.
+}
+
+We thank the referee for this positive feedback. 
+\item \textit{I still have some issues with the methodology and conclusions -
+    primarily the evaluation of the reconstruction relative to another
+    reconstruction - does this lead to group-think?}
+
+\lb{I don't understand what the referee is asking here. Is he asking if we
+  discussed Figure 7 further?}
   
+\item \textit{I am also concerned with the
+    difference in mean between the INLA and MCMC model in Figure (7) - are you
+    running into issues of identifiability? Would a restricted regression model
+    resolve this issue (Hanks et. al. (2015), Hughes and Haran (2013)) or is
+    this due to the INLA model being a different model than the MCMC model (e.g.
+    B14).}
+
+We think that we do not have identifiability issues relative to the parameters
+\(\beta_1,\beta_2\) and \(\beta_3\) due to the results shown in Figure 8, but
+the mean behavior of the latent variable
+\(T_t\) seems to be sensitive to the type of approximation method of the
+joint posterior distribution. We
+think that as the reconstruction period increases we would observe more
+differences among INLA and MCMC due to an expected increase in model complexity
+making the averall approximation more difficult to attain.  
+  
+\item \textit{Figure 6b shows that the suite of models have a hard time identifying
+    the mean response relative to the comparison reconstruction. Is this
+    consistent across all of the models or only an issue for the 4 you
+    presented. If this is a consistent issue, it raises questions about the
+    real-world implications on the discussion of climate change if small changes
+    in model assumptions can produce different predictions (see Schofield et.
+    al. 2016). The paper would be improved with one or two sentences along the
+    lines of ``Assumptions about the model choice have implications in the exact
+    version of the prediction produced, resulting in different reconstructions.
+    However; regardless of assumptions made in model choice, the rate of
+    temperature increase in the last century relative to the past 2000 has been unprecedented.''}
+
+\lb{Julien: Once we have the Figure 6b corrected we can answer this question.}  
+  
+\item \textit{line 17 page 1 - state-of-the-art proxy}
+
+Thanks, we corrected the typo.
+  
+\item \textit{page 3, line 14 Section vs. section}
+
+  Thanks, we corrected the typo.
+  
+\item \textit{page 7 lines 31-33}
+
+  \lb{The referee forgot to write his observation here...}
+  
+\item \textit{page 11, eq (4), what is \(m-=\) in \(\sum_{m-=1}\)?}
+
+  Thanks, we changed the formula.
+  
+\item \textit{page 12 line 56 - is precision the word you mean here, or is it
+    better described as accuracy?}
+  Yes, you are right. The correct word is ``accuracy''.
 \end{itemize}
 
 %\bibliographystyle{apalike}

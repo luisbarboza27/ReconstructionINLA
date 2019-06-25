@@ -66,7 +66,10 @@ San Jos\'e, Costa Rica}
 \maketitle
 
 \begin{abstract}
-Paleoclimate reconstruction on the Common Era (1-2000AD) provide critical context for recent warming trends. This work leverages integrated nested Laplace approximations (INLA) to conduct inference under a Bayesian hierarchical model using data from three sources: a state-of-the-art prox database (PAGES 2k), surface temperature observations (HadCRUT4), and latest estimates of external forcings. 
+Paleoclimate reconstruction on the Common Era (1-2000AD) provide critical
+context for recent warming trends. This work leverages integrated nested Laplace
+approximations (INLA) to conduct inference under a Bayesian hierarchical model
+using data from three sources: a state-of-the-art proxy database (PAGES 2k), surface temperature observations (HadCRUT4), and latest estimates of external forcings. 
 INLA's computational efficiency allows to explore several model formulations (with or without forcings, explicitly modeling internal variability or not), as well as five data reduction techniques. Two different validation exercises find a small impact of data reduction choices, but a large impact for model choice, with best results for the two models that incorporate external forcings. These models confirm that man-made greenhouse gas emissions are the largest contributor to temperature variability over the Common Era, followed by volcanic forcing. Solar effects are indistinguishable from zero. INLA provide an efficient way to estimate the posterior mean, comparable with the much costlier Monte Carlo Markov Chain procedure, but with wider uncertainty bounds. We recommend using it for exploration of model designs, but full MCMC solutions should be used for proper uncertainty quantification.  
 \end{abstract}
 
@@ -96,7 +99,7 @@ presence of external forcing information substantially improves the reconstructi
 In this article we extend the work of B14 by leveraging Integrated Nested Laplace
 Approximations (INLA). Doing so lightens the computational burden, which allows to (a) explore new model designs inspired by the physics of the problem; (b) consider various choices for data reduction; and (c) take the non-stationary nature of the observational network into account.  In addition, this work makes use of the latest estimates of radiative forcing, as well as a state-of-the-art, open-access compilation of community-curated paleoclimate observations \citep{PAGES2kSD2017short}. This ensures that our calculations are using the best available data and are completely reproducible.  
 
-The article is organized as follows: we start by describing the datasets (section 2), and the methodology (section 3). Results are then presented in section 4, discussed in Section 5, before concluding in section 6. 
+The article is organized as follows: we start by describing the datasets (section 2), and the methodology (section 3). Results are then presented in section 4, discussed in section 5, before concluding in section 6. 
 
 \section{Datasets.}
 \label{sec:data}
@@ -358,7 +361,7 @@ The computational challenge of MCMC inference has been a concern for Bayesian pa
 
 
 \begin{align}\label{eq:meanINLA}
-  \eta_i = \alpha +\sum_{m-=1}^M\beta_mx_{mi}+\sum_{l=1}^Lf_l(z_{li})
+  \eta_i = \alpha +\sum_{m=1}^M\beta_mx_{mi}+\sum_{l=1}^Lf_l(z_{li})
 \end{align}
 where $\alpha$ represents an intercept, the coefficients
 $\mathbf{\beta} = (\beta_1,\ldots,\beta_M)$ relate $M$ covariates
@@ -398,7 +401,7 @@ second component can be approximated in a similar way:
 \end{equation}
 where $\theta=(\theta_i,\theta_{-i})$, $\tilde p(\theta_{-i}|\theta_i,\psi,y)$ is the Gaussian approximation of
 $p(\theta_{-i}|\theta_i,\psi,y)$ and $\theta_{-i}^*(\theta_i,\psi)$ is its mode,  
-The approximation in \eqref{eq:second} possesses good precision, but it is very time demanding because it
+The approximation in \eqref{eq:second} possesses good accuracy, but it is very time demanding because it
 requires to recompute $\tilde p(\theta_i|\psi,y)$ for each value of $\theta$ and $\psi$. A
 more efficient approach is to use the simplified Laplace Approximation that is
 based on a Taylor's expansion of $\tilde p(\theta_i|\psi,y)$ in 
