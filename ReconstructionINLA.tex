@@ -59,6 +59,11 @@ San Jos\'e, Costa Rica}
 \email{libo@illinois.edu}
 
 \author[]{Wan He}
+\address{Khoury College of Computer Sciences \\
+  Northeastern University \\
+  Boston, Massachussetts, USA.
+}
+\email{he.wan1@husky.neu.edu}
 
 \date{\today}
 \keywords{Hierarchical Bayesian Model, INLA, Paleoclimate Reconstruction}
@@ -462,7 +467,9 @@ measures using INLA's prediction intervals and the observed
 posterior densities when computing interval scores and, in the CRPS case, we used Monte Carlo samples obtained with INLA. 
 
 Validation to the early instrumental record, important though it is, says little about a reconstruction's behavior on centennial scales, which is of primary interest to climate scientists. To constrain this behavior, we leverage the estimates of \citet[hereafter, PS04]{Pollack2004} whose borehole-based
-temperature inversions estimate surface temperature trends over 1600-1899. Because of the diffusive transfer of heat in Earth's crust, this dataset only speaks to centennial trends; we thus compare it to smoothed versions of our reconstructions, obtained through a Butterworth low-pass filter with a 100-year cutoff and order equal to 4. We compared in this case Model WF with a single RP (the longest available) with respect to model WF using the 8 available reduced proxies, where the comparison was made under the five dimension reduction methods explained above. The results of this comparison are reported as mean square error (MSE) in the rightmost column of Table~\ref{tab:comparisontot}.
+temperature inversions estimate surface temperature trends over 1600-1899.  The latter are based on direct temperature measurements made along deep boreholes, inverted to reconstruct surface temperature \citep{HuangPollackShen:2000}. They are completely independent of the PAGES 2k dataset, and largely independent of the HadCRUT4 dataset. 
+
+Because of the diffusive transfer of heat in Earth's crust, the PS04 dataset only speaks to centennial trends; we thus compare it to smoothed versions of our reconstructions, obtained through a Butterworth low-pass filter with a 100-year cutoff and order equal to 4. We compared in this case Model WF with a single RP (the longest available) with respect to model WF using the 8 available reduced proxies, where the comparison was made under the five dimension reduction methods explained above. The results of this comparison are reported as mean square error (MSE) in the rightmost column of Table~\ref{tab:comparisontot}.
 
 \begin{table}[h!]
   \centering
@@ -709,7 +716,9 @@ was performed on an Ubuntu 16.04 server with Intel Xeon E5-2630 (8-cores,
 
 \section{Conclusions}
 We carried out a Bayesian inference of global mean surface temperature over
-the past 2,000 years. By leveraging INLA to lighten the computational burden, our framework allows us to investigate a wide range of model choices and data reduction strategies.  We validated the result using instrumental data over the 1850-1899 period, and using independent borehole temperature inversions over 1600-1899. The former validates the reconstruction precisely to an interannual scale, while the latter constrains centennial trends.  
+the past 2,000 years. By leveraging INLA to lighten the computational burden, our framework allows us to investigate a wide range of model choices and data reduction strategies. We validated the result using instrumental data over the 1850-1899 period, and using borehole temperature reconstructions over 1600-1899. 
+
+The former validates the reconstruction precisely to an interannual scale, while the latter constrains centennial trends. Both datasets are completely independent of the PAGES 2k records or HadCRUT4 data used for calibration. 
 
 Below are a few take-home messages:\\
      (a) The data reduction techniques provide roughly equivalent results, with
