@@ -70,7 +70,9 @@ However, the mean behavior of the latent variable
 joint posterior distribution. \bl{the following conjecture may need more support} We
 expect that as the reconstruction period increases more
 differences among INLA and MCMC may be observed due to an increase in model complexity
-making the overall approximation more difficult to attain.   
+making the overall approximation more difficult to attain. It is known that
+complex and high dimensional MCMC schemes may suffer unfavorable convergence
+properties (see \cite{Rajaratnam2015} for example).  
   
 \item \textit{Figure 6b shows that the suite of models have a hard time identifying
     the mean response relative to the comparison reconstruction. Is this
@@ -98,19 +100,18 @@ Thanks. We have corrected the typo.
 
 We could not find any comment regarding this page. 
 
-  \lb{The referee forgot to write his observation here...}
   
 \item \textit{page 11, eq (4), what is \(m-=\) in \(\sum_{m-=1}\)?}
 
-  Thanks. That was a typo. It should be \sum+{m=1}. We have fixed that. 
+  Thanks. That was a typo. It should be \(\sum_{m=1}\). We have fixed that. 
   
 \item \textit{page 12 line 56 - is precision the word you mean here, or is it
     better described as accuracy?}
   Yes, you are right. The correct word should be ``accuracy''. Thank you. 
 \end{itemize}
 
-%\bibliographystyle{apalike}
-%\bibliography{biblioteca}
+\bibliographystyle{apalike}
+\bibliography{biblioteca}
 
 
 \end{document}
