@@ -67,12 +67,14 @@ We do not think there is identifiability issue with the parameters
 \(\beta_1,\beta_2\) and \(\beta_3\) by examining the results in Figure 8. The plot shows that the parameter estimates for both INLA and MCMC are well estimated and the two sets of estimates are indeed comparable between the two model fitting approaches.
 However, the mean behavior of the latent variable
 \(T_t\) seems to be sensitive to the approximation of the
-joint posterior distribution. \bl{the following conjecture may need more support} We
+joint posterior distribution. We
 expect that as the reconstruction period increases more
 differences among INLA and MCMC may be observed due to an increase in model complexity
 making the overall approximation more difficult to attain. It is known that
 complex and high dimensional MCMC schemes may suffer unfavorable convergence
-properties (see \cite{Rajaratnam2015} for example).  
+properties (see \cite{Rajaratnam2015} for example), and this could cause that
+MCMC differs from the real posterior distribution more than INLA does due to the
+same reason.   
   
 \item \textit{Figure 6b shows that the suite of models have a hard time identifying
     the mean response relative to the comparison reconstruction. Is this
