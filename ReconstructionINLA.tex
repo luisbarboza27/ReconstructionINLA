@@ -37,32 +37,32 @@
 \title[]{Efficient Reconstructions of Common Era Climate via Integrated Nested Laplace Approximations.}
 
 \author[]{Luis A. Barboza}
-\address{Centro de Investigacion en Matematica Pura y Aplicada (CIMPA)-Escuela
+\address{{\scriptsize Centro de Investigacion en Matematica Pura y Aplicada (CIMPA)-Escuela
   de Matematica, Universidad de Costa Rica\\
-San Jos\'e, Costa Rica}
+San Jos\'e, Costa Rica}}
 \email{luisalberto.barboza@ucr.ac.cr}
 
 
 \author[]{Julien Emile-Geay}
-\address{Department of Earth Sciences \\
+\address{{\scriptsize Department of Earth Sciences \\
   University of Southern California \\
   Los Angeles, California, USA.
-}
+}}
 \email{julieneg@usc.edu}
 
 
 \author[]{Bo Li}
-\address{Department of Statistics \\
+\address{{\scriptsize Department of Statistics \\
   University of Illinois at Urbana-Champaign \\
   Champaign, Illinois, USA.
-}
+}}
 \email{libo@illinois.edu}
 
 \author[]{Wan He}
-\address{Khoury College of Computer Sciences \\
+\address{{\scriptsize Khoury College of Computer Sciences \\
   Northeastern University \\
   Boston, Massachussetts, USA.
-}
+}}
 \email{he.wan1@husky.neu.edu}
 
 \date{\today}
@@ -646,7 +646,7 @@ results in terms of these two validation exercises.
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[scale=0.40]{RecCE_MCMC}
+  \includegraphics[scale=0.3]{RecCE_MCMC}
   \caption{Paleoclimate Reconstruction in the Common Era (CE) with 95\%
     prediction bands. Model sPCR-WF under two methods: INLA and MCMC.}
   \label{fig:paleoCE4}
@@ -720,9 +720,9 @@ was performed on an Ubuntu 16.04 server with Intel Xeon E5-2630 (8-cores,
 We carried out a Bayesian inference of global mean surface temperature over
 the past 2,000 years. By leveraging INLA to lighten the computational burden, our framework allows us to investigate a wide range of model choices and data reduction strategies. We validated the result using instrumental data over the 1850-1899 period, and using borehole temperature reconstructions over 1600-1899. 
 
-The former validates the reconstruction precisely to an interannual scale, while the latter constrains centennial trends. Both datasets are completely independent of the PAGES 2k records or HadCRUT4 data used for calibration. 
-
-Below are a few take-home messages:\\
+The former validates the reconstruction precisely to an interannual scale, while
+the latter constrains centennial trends. Both datasets are completely
+independent of the PAGES 2k records or HadCRUT4 data used for calibration. Below are a few take-home messages:\\
      (a) The data reduction techniques provide roughly equivalent results, with
       sPCR and PCR performing marginally better than other methods.
     
