@@ -29,7 +29,7 @@
 \end{center}
 
 We are grateful for the reviewer's careful commentary on the paper, which has improved
-our presentation of the article. In what follows, we state the reviewer's
+our presentation of the findings. In what follows, we state the reviewer's
 comments in italics, and describe our response in roman.
 
 \begin{itemize}
@@ -52,10 +52,8 @@ We thank the referee for this positive feedback.
     primarily the evaluation of the reconstruction relative to another
     reconstruction - does this lead to group-think?}
 
-It is true that we used the borehole reconstructions of PS04 as a reference of existing reconstructions, but it is essential to note that these data sources are completely independent of the proxy data, and largely independent of surface temperature datasets (used only as baseline). There is thus no danger of group-think here, though both reconstructions have errors. We have amended the text in the conclusion and section 4.2 to make this point clearer.
+We did compare our reconstruction to the borehole reconstructions of PS04, as an independent validation of the amplitude of the reconstruction. This was also done, e.g. by \cite{Hegerl07}. While the PS04 estimate is also imperfect, it is essential to note that the borehole data sources are completely independent of our proxy data, and largely independent of surface temperature datasets (used only as baseline). Thus there is no danger of group-think here, as we simply compared the two reconstructions rather than tuning our reconstruction to match the PS04. We have amended the text in the conclusion and section 4.2 to make this point clearer, and hope this removes any confusion.
 
-
-  
 \item \textit{I am also concerned with the
     difference in mean between the INLA and MCMC model in Figure (7) - are you
     running into issues of identifiability? Would a restricted regression model
@@ -67,7 +65,7 @@ We do not think there is identifiability issue with the parameters
 \(\beta_1,\beta_2\) and \(\beta_3\) by examining the results in Figure 8. The plot shows that the parameter estimates for both INLA and MCMC are well estimated and the two sets of estimates are indeed comparable between the two model fitting approaches.
 However, the mean behavior of the latent variable
 \(T_t\) seems to be sensitive to the approximation of the
-joint posterior distribution. We expect that as the reconstruction period increases more differences among INLA and MCMC may be observed. This is because 
+joint posterior distribution. We expect that as the reconstruction period lengthens more differences among INLA and MCMC may be observed. This is because 
  complex and high dimensional MCMC schemes will likely suffer from unfavorable
  convergence properties (see \cite{Rajaratnam2015} for example), then results
  from INLA which is trying to mimic the real posterior density of Bayesian
@@ -85,18 +83,13 @@ joint posterior distribution. We expect that as the reconstruction period increa
     However; regardless of assumptions made in model choice, the rate of
     temperature increase in the last century relative to the past 2000 has been unprecedented.''}
 
-\lb{Julien: Can you explain the change that Smerdon suggested here? Now that the fitting looks better and the MSE was almost reduced by
-  half I think that we are identifying the response better and we can ignore the
-referee's suggestion.}  
+%\lb{Julien: Can you explain the change that Smerdon suggested here? Now that the fitting looks better and the MSE was almost reduced by half I think that we are identifying the response better and we can ignore the referee's suggestion.}  
 
-We translated the reconstruction of Pollack and Smerdon in order to make both
-reconstructions comparable, because the reference values are different among
-them (according to one of the authors). Now their reconstruction is referenced
-to its 1961-1990 mean and Figure 6b looks better. Also note that the MSE values in the
-last column of Table 2 has been reduced by almost a half. This shows that our
-reconstruction identifies the mean behavior of a reconstruction based on a
-different proxy dataset. This identification is attained under the three
-modelling alternatives presented in the article.  
+We have updated the comparison to PS04, resulting in a much closer fit. The basic issue was that the PS04 reconstruction  was referenced to the year 2000, whereas our own are referenced to 1961-1990. After accounting for this offset, Figure 6b shows a much closer agreement,  and the MSE values in the
+last column of Table 2 have been reduced by almost a half. 
+This shows that the amplitude of cooling in our reconstruction of the ``Little Ice Age'' is broadly consistent with one based on a completely
+different source of information (borehole paleothermometry). This identification is attained under the three
+modelling alternatives presented in the article.  The wording of the conclusion now reflects the suggestion made by the reviewer.
 
 \item \textit{line 17 page 1 - state-of-the-art proxy}
 

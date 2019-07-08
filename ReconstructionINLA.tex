@@ -730,18 +730,19 @@ independent of the PAGES 2k records or HadCRUT4 data used for calibration. Below
       physically justifiable, and it guarantees a balance between the
       validation measures on the first and second testing periods. This models also
       appears to perform at least as well as other choices. The 
-      additional nonparametric terms in the mean component of equation \eqref{eq:M3} allows
+      additional nonparametric terms in the mean component of equation \eqref{eq:M3} allow
       to capture long-memory behavior that is not included in the external forcings, which compensates for the independent structure of the errors. 
       %besides giving an additional dependence structure to the error term.
       
      \noindent (c) In cases where both INLA and MCMC are implemented, INLA allows to approximate the MCMC
       solution at a fraction of the computational cost, but with wider
       prediction intervals. This exercise was performed only for the simplest
-      model available (1 reduced proxy), because of the prohibitive cost of the
+      model available (1 reduced proxy), because of the high cost of the
       MCMC approach for more complex models like the ones presented in Figure
       \ref{fig:paleoCE1}. 
       
-     \noindent (d) Adding to a wide body of literature, we find that current temperature levels are unprecedented in the past 2,000 years. Both the models that include forcings (WF, Mixed) show that the man-made increase in atmospheric carbon dioxide is the leading contributor to this warming effect. 
+     \noindent (d) Assumptions about the model choice  resulting in different reconstructions. However, regardless of assumptions made in model choice, the rate of
+    temperature increase in the last century relative to the past 19 centuries is unprecedented in all our reconstructions, adding to a wide body of literature. Both the models including forcings (WF, Mixed) show that the (man-made) increase in atmospheric carbon dioxide is the leading contributor to this warming.  
 %\end{itemize}
 
 One limitation of our analysis is the strong
@@ -749,7 +750,7 @@ dependence of our results on the choice of the testing period. Ideally, a
 cross-validation exercise should be carried out to determine with greater
 certainty the expected prediction error of the models, but due to the restricted access to
 additional comparison information the cross-validation is very challenging for this problem. 
-Another way to improve our current study is to consider the space-time variability of the reduced proxies and temperatures in the model. 
+Another way to improve our current study would be to consider the space-time variability of the reduced proxies and temperatures in the model. 
 Since INLA has been proven to be computationally
 efficient, it could be used to extend this work to a spatiotemporal context. Yet another important area of application is the simultaneous inference of climate fluctuations and deposition age \citep{Sweeney:WIRES2018}.
 
